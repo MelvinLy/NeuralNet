@@ -78,7 +78,7 @@ abstract class Layer {
 	}
 
 	//The next layer size must have the same outs as the nodes in this layer.
-	protected boolean addNextLayer(Layer nextLayer) {
+	protected boolean addNextLayer(Layer nextLayer) throws LayerMismatchException {
 		if(this.size() == 0) {
 			return false;
 		}

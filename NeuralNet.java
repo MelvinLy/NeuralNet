@@ -21,18 +21,18 @@ public class NeuralNet {
 		return new ReLULayer();
 	}
 	
-	public boolean addLayer(Layer layer) {
+	public void addLayer(Layer layer) throws LayerMismatchException {
 		if(this.inputLayer == null) {
 			this.inputLayer = layer;
 			this.outputLayer = layer;
-			return true;
+			return;
 		}
 		if(layer.size() != outputLayer.getNodes()[0].getNumOuts()) {
-			return false;
+			throw new LayerMismatchException("Size of output for this layer does not match input of layer to be added.");
 		}
 		this.outputLayer.addNextLayer(layer);
 		this.outputLayer = layer;
-		return true;
+		return;
 	}
 	
 	public double[] getOutput(double[] input) {
