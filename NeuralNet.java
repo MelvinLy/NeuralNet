@@ -12,9 +12,13 @@ public class NeuralNet {
 	
 	public double[] getOutput(double[] input) {
 		Layer currentLayer = this.inputLayer;
-		double[] toReturn = new double[0];
-		while(currentLayer != null) {
+		if(currentLayer == null) {
+			return null;
+		}
+		double[] toReturn = input.clone();
+		while(currentLayer.getNextLayer() != null) {
 			
 		}
+		return toReturn;
 	}
 }
