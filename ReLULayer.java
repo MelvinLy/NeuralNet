@@ -40,4 +40,9 @@ class ReLULayer extends Layer {
 		}
 		return toReturn;
 	}
+
+	public double[] modifies(double[] in) {
+
+		return null;
+	}
 }

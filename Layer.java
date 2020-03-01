@@ -1,7 +1,7 @@
 import java.security.InvalidParameterException;
 import java.util.*;
 
-abstract class Layer {
+abstract class Layer implements Modifies {
 	private ArrayList<Node> nodes;
 	private Layer parentLayer;
 	private Layer nextLayer;
