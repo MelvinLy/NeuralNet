@@ -8,7 +8,7 @@ class SigmoidLayer extends Layer {
 		this.k = k;
 	}
 	
-	double[] getOutputs(double[] input) {
+	double[] getOutput(double[] input) {
 		if(input.length != this.size()) {
 			return null;
 		}

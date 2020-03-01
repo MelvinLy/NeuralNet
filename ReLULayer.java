@@ -5,7 +5,7 @@ class ReLULayer extends Layer {
 		super();
 	}
 	
-	double[] getOutputs(double[] input) {
+	double[] getOutput(double[] input) {
 		if(input.length != this.size()) {
 			return null;
 		}
