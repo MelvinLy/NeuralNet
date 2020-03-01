@@ -13,6 +13,14 @@ public class NeuralNet {
 		this.outputLayer = inputLayer;
 	}
 	
+	public static SigmoidLayer createLayer(double k) {
+		return new SigmoidLayer(k);
+	}
+	
+	public static ReLULayer createLayer() {
+		return new ReLULayer();
+	}
+	
 	public boolean addLayer(Layer layer) {
 		if(layer.size() != outputLayer.getNodes()[0].getNumOuts()) {
 			return false;
@@ -27,7 +35,7 @@ public class NeuralNet {
 		if(currentLayer == null) {
 			return null;
 		}
-		double[] toReturn = input.clone();
+		double[] toReturn = input;
 		while(currentLayer.getNextLayer() != null) {
 			toReturn = currentLayer.getOutput(toReturn);
 			currentLayer = currentLayer.getNextLayer();
