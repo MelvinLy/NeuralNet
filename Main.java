@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Main {
 	public static void main(String[] args) {
 		NeuralNet test = new NeuralNet();
@@ -14,7 +16,7 @@ public class Main {
 		}
 		test.addLayer(input);
 		
-		System.out.println(test.getOutput(in));
+		System.out.println(Arrays.toString(test.getOutput(in)));
 		System.out.println("Done.");
 	}
 }
