@@ -7,7 +7,7 @@ abstract class Layer {
 	private double[] biasMult;
 	protected boolean bias;
 	
-	static double sigmoid(double x, double k) {
+	static double sigmoid(double x) {
 		
 		double nom = Math.pow(Math.E, x);
 		double den = Math.pow(Math.E, x) + 1;

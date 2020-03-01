@@ -22,7 +22,7 @@ class SigmoidLayer extends Layer {
 				}
 			}
 			for(int a = 0; a < toReturn.length; a++) {
-				toReturn[a] = sigmoid(toReturn[a], k);
+				toReturn[a] = sigmoid(toReturn[a]);
 			}
 			return toReturn;
 		}
@@ -39,7 +39,7 @@ class SigmoidLayer extends Layer {
 			toReturn[a] = toReturn[a] + this.getMult()[a];
 		}
 		for(int a = 0; a < toReturn.length; a++) {
-			toReturn[a] = sigmoid(toReturn[a], k);
+			toReturn[a] = sigmoid(toReturn[a]);
 		}
 		return toReturn;
 	}
