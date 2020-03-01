@@ -9,14 +9,20 @@ abstract class Layer {
 	
 	static double sigmoid(double x, double k) {
 		
-		double nom = Math.pow(Math.E, k * x);
-		double den = Math.pow(Math.E, k * x) + 1;
+		double nom = Math.pow(Math.E, x);
+		double den = Math.pow(Math.E, x) + 1;
 		return nom / den;
 		/*
 		double nom = Math.pow(Math.E, k * x) - 1;
 		double den = Math.pow(Math.E, k * x) + 1;
 		return nom / den;
 		*/
+	}
+	
+	static double sigmoidPrime(double x, double k) {
+		double nom = Math.pow(Math.E, x);
+		double den = Math.pow(Math.pow(Math.E, x) + 1, 2);
+		return nom / den;
 	}
 	
 	static double reLU(double x) {
