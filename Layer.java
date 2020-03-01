@@ -20,12 +20,12 @@ abstract class Layer {
 		return nom / den;
 	}
 	
-	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] input) {
+	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] expected, double[] input) {
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		double toReturn = 0;
 		double outBeforeAct = this.parentLayer.beforeActivator(input, parentNodeEdge);
 		for(int a = 0; a < this.nodes.size(); a++) {
-			
+			toReturn = toReturn - (NeuralNet.calculateLoss(expected[a], input[a])) * Math.pow(Math.E, outBeforeAct) * currentWeight / Math.pow(Math.pow(Math.E, outBeforeAct) + 1, 2);
 		}
 		return toReturn;
 	}
