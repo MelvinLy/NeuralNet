@@ -29,6 +29,14 @@ abstract class Layer {
 		return toReturn;
 	}
 	
+	private double beforeActivator(double[] inputs) {
+		double toReturn = 0;
+		for(int a = 0; a < inputs.length; a++) {
+			
+		}
+		return toReturn;
+	}
+	
 	static double reLU(double x) {
 		if(x >= 0) {
 			return x;
