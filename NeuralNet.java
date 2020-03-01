@@ -13,10 +13,12 @@ public class NeuralNet {
 		this.outputLayer = inputLayer;
 	}
 	
+	//Creates a sigmoid layer.
 	public static SigmoidLayer createLayer(double k) {
 		return new SigmoidLayer(k);
 	}
 	
+	//Create ReLU layer.
 	public static ReLULayer createLayer() {
 		return new ReLULayer();
 	}
