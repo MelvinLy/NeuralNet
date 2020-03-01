@@ -147,8 +147,8 @@ class Node {
 	}
 
 	void setMultiplier(int i, double m) {
-		if(m > 1 || m < -1) {
-			throw new InvalidParameterException("Value must be between 1 and -1, inclusive.");
+		if(m > 1 || m < 0) {
+			throw new InvalidParameterException("Value must be between 1 and 0, inclusive.");
 		}
 		this.multipliers[i] = m;
 	}

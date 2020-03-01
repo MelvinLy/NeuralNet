@@ -69,7 +69,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		
-		double[] in = {0.1, 1, 0.2, 0.45, -1};
+		double[] in = {0.1, 1, 0.2, 0.45, 0};
 		double[] expect = {12, 32, 53, 2, 3};
 		double[] out = test.getOutput(in);		
 		double idk = layer.dCostByDWeight(0, 0, expect, out);
