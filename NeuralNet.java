@@ -32,7 +32,7 @@ public class NeuralNet {
 		}
 		this.outputLayer.addNextLayer(layer);
 		this.outputLayer = layer;
-		return false;
+		return true;
 	}
 	
 	public double[] getOutput(double[] input) {

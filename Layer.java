@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 abstract class Layer {
 	private ArrayList<Node> nodes;
@@ -116,5 +116,9 @@ class Node {
 		}
 		this.multipliers[i] = m;
 		return true;
+	}
+	
+	public String toString() {
+		return Arrays.toString(this.multipliers);
 	}
 }
