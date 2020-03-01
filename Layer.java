@@ -57,10 +57,10 @@ abstract class Layer {
 		throw new NodeSizeMismatchException("The node being added does not match the size of the read of the nodes in the layer.");
 	}
 	
-	protected boolean setMult(int i, double k) {
+	protected void setMult(int i, double k) throws NoEdgeException {
 		if(this.biasMult != null) {
 			this.biasMult[i] = k;
-			return true;
+			return;
 		}
 		return false;
 	}
