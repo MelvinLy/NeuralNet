@@ -6,7 +6,7 @@ public class Main {
 
 		double[] in = {0.1, 1, 0.2, 0.45, -1};
 		
-		Layer input = NeuralNet.createLayer(1);
+		Layer input = NeuralNet.createSigmoidLayer();
 		int layerSize = 5;
 		int outputSize = 7;
 		for(int a = 0; a < layerSize; a++) {
@@ -18,7 +18,7 @@ public class Main {
 		}
 		test.addLayer(input);
 		/////////////////////////////////////////////////////////////////
-		Layer layer = NeuralNet.createLayer(1);
+		Layer layer = NeuralNet.createSigmoidLayer();
 		layerSize = 7;
 		outputSize = 2;
 		for(int a = 0; a < layerSize; a++) {
@@ -30,7 +30,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
-		layer = NeuralNet.createLayer(1);
+		layer = NeuralNet.createSigmoidLayer();
 		layerSize = 2;
 		outputSize = 10;
 		for(int a = 0; a < layerSize; a++) {
@@ -42,7 +42,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
-		layer = NeuralNet.createLayer(1);
+		layer = NeuralNet.createSigmoidLayer();
 		layerSize = 10;
 		outputSize = 5;
 		for(int a = 0; a < layerSize; a++) {
@@ -54,7 +54,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
-		layer = NeuralNet.createLayer(1);
+		layer = NeuralNet.createSigmoidLayer();
 		layerSize = 5;
 		outputSize = 0;
 		for(int a = 0; a < layerSize; a++) {

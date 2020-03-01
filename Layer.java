@@ -20,6 +20,15 @@ abstract class Layer {
 		return nom / den;
 	}
 	
+	protected double dCostByDWeight(int n) {
+		Node[] parentNodes = this.parentLayer.getNodes();
+		double toReturn = 0;
+		for(int a = 0; a < this.nodes.size(); a++) {
+			
+		}
+		return toReturn;
+	}
+	
 	static double reLU(double x) {
 		if(x >= 0) {
 			return x;
