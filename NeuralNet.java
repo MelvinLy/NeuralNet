@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class NeuralNet {
 	
@@ -21,6 +21,14 @@ class Node {
 		return nom / den;
 	}
 	
+	static double reLU(double x) {
+		if(x >= 0) {
+			return x;
+		}
+		return 0;
+	}
+	
+	//sum then squash
 	
 	Node(double k) {
 		this.children = new ArrayList<Node>();
@@ -28,16 +36,17 @@ class Node {
 		this.k = k;
 	}
 	
-	ArrayList<Node> getChild()  {
-		return (ArrayList<Node>) this.children.clone();
+	Node[] getChild()  {
+		return (Node[]) this.children.toArray();
 	}
 	
-	ArrayList<Double> getMultiplier() {
-		return (ArrayList<Double>) this.multiplier.clone();
+	Node[] getMultiplier() {
+		return (Node[]) this.multiplier.toArray();
 	}
 	
 	double getK() {
 		return this.k;
 	}
+	
 	
 }
