@@ -1,7 +1,7 @@
 
 public class NeuralNet {
 	private Layer inputLayer;
-	private Layer outputLayer;
+	public Layer outputLayer;
 
 	public NeuralNet() {
 		this.inputLayer = null;
@@ -44,6 +44,17 @@ public class NeuralNet {
 		while(currentLayer.getNextLayer() != null) {
 			toReturn = currentLayer.getOutput(toReturn);
 			currentLayer = currentLayer.getNextLayer();
+		}
+		return toReturn;
+	}
+	
+	//Gets you the amount of layers.
+	protected int size() {
+		int toReturn = 0;
+		Layer current = this.inputLayer;
+		while(current != null) {
+			current = current.getNextLayer();
+			toReturn++;
 		}
 		return toReturn;
 	}

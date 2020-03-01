@@ -15,9 +15,9 @@ public class Main {
 			input.addNode(node);
 		}
 		test.addLayer(input);
-		
+/////////////////////////////////////////////////////////////////
 		Layer layer = NeuralNet.createLayer();
-		for(int a = 0; a < 5; a++) {
+		for(int a = 0; a < 7; a++) {
 			Node node = Layer.createNode(7);
 			for(int b = 0; b < node.getNumOuts(); b++) {
 				node.setMultiplier(b, 0.5);
@@ -25,9 +25,9 @@ public class Main {
 			layer.addNode(node);
 		}
 		test.addLayer(layer);
-		
+/////////////////////////////////////////////////////////////////		
 		layer = NeuralNet.createLayer();
-		for(int a = 0; a < 5; a++) {
+		for(int a = 0; a < 7; a++) {
 			Node node = Layer.createNode(7);
 			for(int b = 0; b < node.getNumOuts(); b++) {
 				node.setMultiplier(b, 0.5);
@@ -35,10 +35,21 @@ public class Main {
 			layer.addNode(node);
 		}
 		test.addLayer(layer);
-		
+/////////////////////////////////////////////////////////////////		
+		layer = NeuralNet.createLayer();
+		for(int a = 0; a < 7; a++) {
+			Node node = Layer.createNode(7);
+			for(int b = 0; b < node.getNumOuts(); b++) {
+				node.setMultiplier(b, 0.5);
+			}
+			layer.addNode(node);
+		}
+		test.addLayer(layer);
+/////////////////////////////////////////////////////////////////		
 		double[] out = test.getOutput(in);
 		
 		System.out.println(Arrays.toString(out));
+		System.out.println(test.size());
 		System.out.println("Done.");
 	}
 }

@@ -82,7 +82,7 @@ abstract class Layer {
 		if(this.size() == 0) {
 			return false;
 		}
-		if(this.nextLayer.size() != this.nodes.get(0).getNumOuts()) {
+		if(nextLayer.size() != this.nodes.get(0).getNumOuts()) {
 			return false;
 		}
 		this.nextLayer = nextLayer;
