@@ -3,8 +3,9 @@
 public class NeuralNet {
 	
 	public double sigmoid(float x, float k) {
-		double nom = Math.E;
-		return ;
+		double nom = Math.pow(Math.E, k * x) - 1;
+		double den = Math.pow(Math.E, K * x) + 1;
+		return nom / den;
 	}
 	
 }
@@ -20,4 +21,27 @@ class Node {
 		this.multiplier = multiplier;
 	}
 	
+	Node getParent() {
+		return this.parent;
+	}
+	
+	Node getChild()  {
+		return this.child;
+	}
+	
+	double getMultiplier() {
+		return this.multiplier;
+	}
+	
+	void setParent(Node parent) {
+		this.parent = parent;
+	}
+	
+	void setChild(Node child) {
+		this.child = child;
+	}
+	
+	void setMultiplier(double multiplier) {
+		this.multiplier = multiplier;
+	}
 }
