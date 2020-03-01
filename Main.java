@@ -6,10 +6,10 @@ public class Main {
 		
 		NeuralNet test = new NeuralNet();
 		
-		int min = -1;
+		int min = 0;
 		int max = 1;
 		
-		Layer input = NeuralNet.createSigmoidLayer();
+		Layer input = new TestSigmoidLayer();
 		int layerSize = 5;
 		int outputSize = 7;
 		for(int a = 0; a < layerSize; a++) {
@@ -21,7 +21,7 @@ public class Main {
 		}
 		test.addLayer(input);
 		/////////////////////////////////////////////////////////////////
-		Layer layer = NeuralNet.createSigmoidLayer();
+		Layer layer = new TestSigmoidLayer();
 		layerSize = 7;
 		outputSize = 2;
 		for(int a = 0; a < layerSize; a++) {
@@ -33,7 +33,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
-		layer = NeuralNet.createSigmoidLayer();
+		layer = new TestSigmoidLayer();
 		layerSize = 2;
 		outputSize = 10;
 		for(int a = 0; a < layerSize; a++) {
@@ -45,7 +45,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
-		layer = NeuralNet.createSigmoidLayer();
+		layer = new TestSigmoidLayer();
 		layerSize = 10;
 		outputSize = 5;
 		for(int a = 0; a < layerSize; a++) {
@@ -57,7 +57,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
-		layer = NeuralNet.createSigmoidLayer();
+		layer = new TestSigmoidLayer();
 		layerSize = 5;
 		outputSize = 0;
 		for(int a = 0; a < layerSize; a++) {
@@ -69,7 +69,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		
-		double[] in = {0.1, 1, 0.2, 0.45, 0};
+		double[] in = {0.001, 1, 0.02, 0.045, 0};
 		double[] expect = {12, 32, 53, 2, 3};
 		double[] out = test.getOutput(in);		
 		double idk = layer.dCostByDWeight(0, 0, expect, out);

@@ -1,11 +1,12 @@
 
-class ReLULayer extends Layer {
+abstract class ReLULayer extends Layer {
 
 	ReLULayer() {
 		super();
 	}
 	
-	double[] getOutput(double[] input) {
+	double[] getOutput(double[] i) {
+		double[] input = modifies(i);
 		if(!this.bias) {
 			if(input.length != this.size()) {
 				return null;
@@ -39,10 +40,5 @@ class ReLULayer extends Layer {
 			toReturn[a] = reLU(toReturn[a]);
 		}
 		return toReturn;
-	}
-
-	public double[] modifies(double[] in) {
-
-		return null;
 	}
 }

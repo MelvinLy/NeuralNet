@@ -1,11 +1,12 @@
 
-class SigmoidLayer extends Layer {
+abstract class SigmoidLayer extends Layer {
 
 	SigmoidLayer() {
 		super();
 	}
 	
-	double[] getOutput(double[] input) {
+	double[] getOutput(double[] i) {
+		double[] input = modifies(i);
 		if(!this.bias) {
 			if(input.length != this.size()) {
 				return null;
@@ -39,10 +40,5 @@ class SigmoidLayer extends Layer {
 			toReturn[a] = sigmoid(toReturn[a]);
 		}
 		return toReturn;
-	}
-	
-	public double[] modifies(double[] in) {
-
-		return null;
 	}
 }

@@ -26,16 +26,6 @@ public class NeuralNet {
 		return cost;
 	}
 	
-	//Creates a sigmoid layer.
-	public static SigmoidLayer createSigmoidLayer() {
-		return new SigmoidLayer();
-	}
-	
-	//Create ReLU layer.
-	public static ReLULayer createReLULayer() {
-		return new ReLULayer();
-	}
-	
 	public void addLayer(Layer layer) throws LayerMismatchException, EmptyLayerException {
 		if(this.inputLayer == null) {
 			this.inputLayer = layer;
