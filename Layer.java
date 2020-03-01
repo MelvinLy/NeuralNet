@@ -69,8 +69,12 @@ abstract class Layer {
 		return biasMult.clone();
 	}
 	
-	protected Node[] getNodes() {
-		return (Node[]) this.nodes.toArray();
+	public Node[] getNodes() {
+		Node[] toReturn = new Node[this.nodes.size()];
+		for(int a = 0; a < toReturn.length; a++) {
+			toReturn[a] = this.nodes.get(a);
+		}
+		return toReturn;
 	}
 
 	//The next layer size must have the same outs as the nodes in this layer.

@@ -16,6 +16,18 @@ public class Main {
 		}
 		test.addLayer(input);
 		
+		Node[] lol = input.getNodes();
+		
+		Layer layer = NeuralNet.createLayer(0.05);
+		for(int a = 0; a < 5; a++) {
+			Node node = Layer.createNode(7);
+			for(int b = 0; b < node.getNumOuts(); b++) {
+				node.setMultiplier(b, 0.5);
+			}
+			layer.addNode(node);
+		}
+		test.addLayer(layer);
+		
 		System.out.println(Arrays.toString(test.getOutput(in)));
 		System.out.println("Done.");
 	}
