@@ -51,7 +51,7 @@ abstract class Layer {
 			return true;
 		}
 		if(this.nodes.get(0).getNumOuts() == node.getNumOuts()) {
-			this.addNode(node);
+			this.nodes.add(node);
 			return true;
 		}
 		return false;
