@@ -12,7 +12,7 @@ public class Main {
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 0.5);
+				node.setMultiplier(b, 1);
 			}
 			input.addNode(node);
 		}
@@ -24,7 +24,7 @@ public class Main {
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 0.5);
+				node.setMultiplier(b, 1);
 			}
 			layer.addNode(node);
 		}
@@ -36,7 +36,7 @@ public class Main {
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 0.5);
+				node.setMultiplier(b, 1);
 			}
 			layer.addNode(node);
 		}
@@ -48,7 +48,7 @@ public class Main {
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 0.5);
+				node.setMultiplier(b, 1);
 			}
 			layer.addNode(node);
 		}
@@ -60,7 +60,7 @@ public class Main {
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 0.5);
+				node.setMultiplier(b, 1);
 			}
 			layer.addNode(node);
 		}
