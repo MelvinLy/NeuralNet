@@ -2,9 +2,9 @@
 
 public class NeuralNet {
 	
-	public double sigmoid(float x, float k) {
+	public static double sigmoid(float x, float k) {
 		double nom = Math.pow(Math.E, k * x) - 1;
-		double den = Math.pow(Math.E, K * x) + 1;
+		double den = Math.pow(Math.E, k * x) + 1;
 		return nom / den;
 	}
 	
@@ -14,6 +14,12 @@ class Node {
 	private Node parent;
 	private Node child;
 	private double multiplier;
+	
+	static double sigmoid(float x, float k) {
+		double nom = Math.pow(Math.E, k * x) - 1;
+		double den = Math.pow(Math.E, k * x) + 1;
+		return nom / den;
+	}
 	
 	Node(Node parent, Node child, double multiplier) {
 		this.parent = parent;
