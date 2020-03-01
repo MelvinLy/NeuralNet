@@ -1,5 +1,6 @@
 
 public class NeuralNet {
+	//Make sure to squash your inputs!
 	private Layer inputLayer;
 	public Layer outputLayer;
 
