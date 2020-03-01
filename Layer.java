@@ -20,6 +20,7 @@ abstract class Layer {
 		return nom / den;
 	}
 	
+	//Make a function that will use this to adjust the weight!
 	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] expected, double[] input) {
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		double toReturn = 0;
