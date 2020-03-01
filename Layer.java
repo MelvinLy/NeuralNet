@@ -23,6 +23,7 @@ abstract class Layer {
 	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] input) {
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		double toReturn = 0;
+		double outBeforeAct = this.parentLayer.beforeActivator(input, parentNodeEdge);
 		for(int a = 0; a < this.nodes.size(); a++) {
 			
 		}
