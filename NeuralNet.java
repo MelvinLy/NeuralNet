@@ -26,11 +26,6 @@ public class NeuralNet {
 		return cost;
 	}
 	
-	//Differentiation of loss function.
-	public static double calculateLossDif(double expected, double output) {
-		return -(expected - output);
-	}
-	
 	//Creates a sigmoid layer.
 	public static SigmoidLayer createLayer(double k) {
 		return new SigmoidLayer(k);
