@@ -96,7 +96,6 @@ class Node {
 	
 	Node(int size) {
 		this.multipliers = new double[size];
-
 	}
 	
 	double[] getMultipliers() {
