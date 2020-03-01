@@ -78,16 +78,15 @@ abstract class Layer {
 	}
 
 	//The next layer size must have the same outs as the nodes in this layer.
-	protected boolean addNextLayer(Layer nextLayer) throws LayerMismatchException {
+	protected void addNextLayer(Layer nextLayer) throws LayerMismatchException, EmptyLayerException {
 		if(this.size() == 0) {
-			return false;
+			throw new EmptyLayerException("The current layer is empty and cannot add a new layer.");
 		}
 		if(nextLayer.size() != this.nodes.get(0).getNumOuts()) {
-			return false;
+			throw new LayerMismatchException("Size of output for this layer does not match input of layer to be added.");
 		}
 		this.nextLayer = nextLayer;
 		this.biasMult = new double[this.nextLayer.size()];
-		return true;
 	}
 	
 	protected Layer getNextLayer() {

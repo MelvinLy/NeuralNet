@@ -21,7 +21,7 @@ public class NeuralNet {
 		return new ReLULayer();
 	}
 	
-	public void addLayer(Layer layer) throws LayerMismatchException {
+	public void addLayer(Layer layer) throws LayerMismatchException, EmptyLayerException {
 		if(this.inputLayer == null) {
 			this.inputLayer = layer;
 			this.outputLayer = layer;
