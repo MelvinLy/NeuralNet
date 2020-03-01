@@ -93,6 +93,10 @@ abstract class Layer {
 	protected Layer getNextLayer() {
 		return this.nextLayer;
 	}
+	
+	protected boolean hasBias() {
+		return bias;
+	}
 }
 
 class Node {	
