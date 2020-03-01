@@ -20,7 +20,7 @@ abstract class Layer {
 		return nom / den;
 	}
 	
-	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] inputs) {
+	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] input) {
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		double toReturn = 0;
 		for(int a = 0; a < this.nodes.size(); a++) {
@@ -29,10 +29,10 @@ abstract class Layer {
 		return toReturn;
 	}
 	
-	private double beforeActivator(double[] inputs) {
+	private double beforeActivator(double[] input, int outputIndex) {
 		double toReturn = 0;
-		for(int a = 0; a < inputs.length; a++) {
-			
+		for(int a = 0; a < input.length; a++) {
+			toReturn = toReturn + input[a] * this.nodes.get(a).getMultipliers()[outputIndex];
 		}
 		return toReturn;
 	}
