@@ -4,7 +4,7 @@ public class NeuralNet {
 	
 	public double sigmoid(float x, float k) {
 		double nom = Math.pow(Math.E, k * x) - 1;
-		double den = Math.pow(Math.E, K * x) + 1;
+		double den = Math.pow(Math.E, k * x) + 1;
 		return nom / den;
 	}
 	
