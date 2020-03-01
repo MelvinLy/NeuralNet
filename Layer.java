@@ -3,7 +3,6 @@ import java.util.ArrayList;
 abstract class Layer {
 	protected ArrayList<Node> nodes;
 	protected Layer nextLayer;
-	protected int degree;
 	
 	static double sigmoid(double x, double k) {
 		double nom = Math.pow(Math.E, k * x) - 1;
@@ -18,13 +17,14 @@ abstract class Layer {
 		return 0;
 	}
 
-	abstract double[] getOutputs();
-	
 	protected Layer() {
 		this.nodes = new ArrayList<Node>();
 		this.nextLayer = null;
 	}
 	
+	abstract double[] getOutputs();
+	
+	//The amount of nodes in the neural network.
 	protected int size() {
 		return this.nodes.size();
 	}
@@ -46,7 +46,7 @@ abstract class Layer {
 		return (Node[]) this.nodes.toArray();
 	}
 
-	//
+	//The next layer size must have the same outs as the nodes in this layer.
 	protected boolean addNextLayer(Layer nextLayer) {
 		if(this.size() == 0) {
 			return false;
