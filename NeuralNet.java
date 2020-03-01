@@ -13,6 +13,18 @@ public class NeuralNet {
 		this.outputLayer = inputLayer;
 	}
 	
+	public static double calculateLoss(double expected, double output) {
+		return Math.pow(expected - output, 2) / 2;
+	}
+	
+	public static double calculateCost(double[] expected, double[] output) {
+		double cost = 0;
+		for(int a = 0; a < expected.length; a++) {
+			cost = cost + calculateLoss(expected[a], output[a]);
+		}
+		return cost;
+	}
+	
 	//Creates a sigmoid layer.
 	public static SigmoidLayer createLayer(double k) {
 		return new SigmoidLayer(k);
