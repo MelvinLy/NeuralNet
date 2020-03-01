@@ -22,7 +22,7 @@ abstract class Layer {
 		this.nextLayer = null;
 	}
 	
-	abstract double[] getOutputs();
+	abstract double[] getOutputs(double[] input);
 	
 	//The amount of nodes in the neural network.
 	protected int size() {
