@@ -8,14 +8,15 @@ abstract class Layer {
 	protected boolean bias;
 	
 	static double sigmoid(double x, double k) {
-		/*
+		
 		double nom = Math.pow(Math.E, k * x);
 		double den = Math.pow(Math.E, k * x) + 1;
 		return nom / den;
-		*/
+		/*
 		double nom = Math.pow(Math.E, k * x) - 1;
 		double den = Math.pow(Math.E, k * x) + 1;
 		return nom / den;
+		*/
 	}
 	
 	static double reLU(double x) {
