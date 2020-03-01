@@ -3,7 +3,7 @@ import java.util.ArrayList;
 abstract class Layer {
 	private ArrayList<Node> nodes;
 	private Layer nextLayer;
-	private ArrayList<Double> biasMult;
+	private double[] biasMult;
 	protected double bias;
 	
 	static double sigmoid(double x, double k) {
@@ -21,7 +21,6 @@ abstract class Layer {
 
 	protected Layer() {
 		this.nodes = new ArrayList<Node>();
-		this.biasMult = new ArrayList<Double>();
 		this.nextLayer = null;
 		this.bias = 0;
 	}
@@ -58,6 +57,18 @@ abstract class Layer {
 		return false;
 	}
 	
+	protected boolean setMult(int i, double k) {
+		if(this.biasMult != null) {
+			this.biasMult[i] = k;
+			return true;
+		}
+		return false;
+	}
+	
+	protected double[] getMult() {
+		return biasMult.clone();
+	}
+	
 	protected Node[] getNodes() {
 		return (Node[]) this.nodes.toArray();
 	}
@@ -71,6 +82,7 @@ abstract class Layer {
 			return false;
 		}
 		this.nextLayer = nextLayer;
+		this.biasMult = new double[this.nextLayer.size()];
 		return true;
 	}
 	
