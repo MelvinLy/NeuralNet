@@ -17,7 +17,8 @@ public class NeuralNet {
 		}
 		double[] toReturn = input.clone();
 		while(currentLayer.getNextLayer() != null) {
-			
+			toReturn = currentLayer.getOutput(toReturn);
+			currentLayer = currentLayer.getNextLayer();
 		}
 		return toReturn;
 	}

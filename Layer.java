@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 abstract class Layer {
-	protected ArrayList<Node> nodes;
-	protected Layer nextLayer;
+	private ArrayList<Node> nodes;
+	private Layer nextLayer;
 	
 	static double sigmoid(double x, double k) {
 		double nom = Math.pow(Math.E, k * x) - 1;
