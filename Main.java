@@ -12,7 +12,9 @@ public class Main {
 			}
 			input.addNode(node);
 		}
+		test.addLayer(input);
 		
+		System.out.println(test.getOutput(in));
 		System.out.println("Done.");
 	}
 }
