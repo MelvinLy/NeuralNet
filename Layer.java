@@ -24,6 +24,10 @@ abstract class Layer {
 	
 	abstract double[] getOutput(double[] input);
 	
+	public static Node createNode(int outs) {
+		return new Node(outs);
+	}
+	
 	//The amount of nodes in the neural network.
 	protected int size() {
 		return this.nodes.size();
@@ -64,19 +68,26 @@ abstract class Layer {
 }
 
 class Node {	
-	ArrayList<Double> multipliers;
+	double[] multipliers;
 	
-	Node() {
-		this.multipliers = new ArrayList<Double>();
+	Node(int size) {
+		this.multipliers = new double[size];
 
 	}
 	
-	Double[] getMultipliers() {
-		return (Double[]) this.multipliers.toArray();
+	double[] getMultipliers() {
+		return this.multipliers.clone();
 	}
 	
 	int getNumOuts() {
-		return multipliers.size();
+		return multipliers.length;
 	}
 
+	boolean setMultiplier(int i, double m) {
+		if(m > 1 || m < -1) {
+			return false;
+		}
+		this.multipliers[i] = m;
+		return true;
+	}
 }
