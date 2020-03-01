@@ -17,7 +17,7 @@ class SigmoidLayer extends Layer {
 		for(int a = 0; a < nodes.length; a++) {
 			Node currentNode = nodes[a];
 			for(int b = 0; b < currentNode.getNumOuts(); b++) {
-				toReturn[a] = toReturn[a];
+				toReturn[a] = toReturn[a] + input[a] * currentNode.getMultipliers()[b];
 			}
 		}
 		return null;

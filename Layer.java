@@ -68,8 +68,8 @@ class Node {
 
 	}
 	
-	Node[] getMultipliers() {
-		return (Node[]) this.multipliers.toArray();
+	Double[] getMultipliers() {
+		return (Double[]) this.multipliers.toArray();
 	}
 	
 	int getNumOuts() {
