@@ -20,7 +20,9 @@ class SigmoidLayer extends Layer {
 				toReturn[a] = toReturn[a] + input[a] * currentNode.getMultipliers()[b];
 			}
 		}
-		return null;
+		for(int a = 0; a < toReturn.length; a++) {
+			toReturn[a] = sigmoid(toReturn[a], k);
+		}
+		return toReturn;
 	}
-
 }
