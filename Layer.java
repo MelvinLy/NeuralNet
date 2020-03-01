@@ -58,6 +58,9 @@ abstract class Layer {
 		return true;
 	}
 	
+	protected Layer getNextLayer() {
+		return this.nextLayer;
+	}
 }
 
 class Node {	
