@@ -21,12 +21,18 @@ public class NeuralNet {
 		return new ReLULayer();
 	}
 	
-	public void addLayer(Layer layer) {
-		if(layer.size() != outputLayer.getNodes()[0].getNumOuts()) {
+	public boolean addLayer(Layer layer) {
+		if(this.inputLayer == null) {
 			this.inputLayer = layer;
+			this.outputLayer = layer;
+			return true;
+		}
+		if(layer.size() != outputLayer.getNodes()[0].getNumOuts()) {
+			return false;
 		}
 		this.outputLayer.addNextLayer(layer);
 		this.outputLayer = layer;
+		return false;
 	}
 	
 	public double[] getOutput(double[] input) {
