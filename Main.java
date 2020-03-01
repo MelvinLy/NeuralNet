@@ -65,9 +65,16 @@ public class Main {
 			layer.addNode(node);
 		}
 		test.addLayer(layer);
+		
+		double[] outt = {0.9998477627142086, 0.9998477627142086, 0.9998477627142086, 0.9998477627142086, 0.9998477627142086};
+		
+		double[] expect = {65, 4322, 6346, 41, 5234};
+		//double[] expect = outt;
+		
+		double idk = layer.dCostByDWeight(0, 0, expect, outt);
 
-
-
+		System.out.println(idk);
+		
 		double[] out = test.getOutput(in);		
 		System.out.println(Arrays.toString(out));
 		System.out.println(test.size());
