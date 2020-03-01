@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 public class NeuralNet {
 	
@@ -11,9 +11,8 @@ public class NeuralNet {
 }
 
 class Node {
-	private Node parent;
-	private Node child;
-	private double multiplier;
+	private ArrayList<Node> children;
+	private ArrayList<Double> multiplier;
 	private double k;
 	
 	static double sigmoid(double x, double k) {
@@ -23,49 +22,22 @@ class Node {
 	}
 	
 	
-	/**
-	 * 
-	 * @param parent Parent node.
-	 * @param child Child node.
-	 * @param multiplier A multiplier.
-	 * @param k K used in sigmoid.
-	 */
-	Node(Node parent, Node child, double multiplier, double k) {
-		this.parent = parent;
-		this.child = child;
-		this.multiplier = multiplier;
+	Node(double k) {
+		this.children = new ArrayList<Node>();
+		this.multiplier = new ArrayList<Double>();
 		this.k = k;
 	}
 	
-	Node getParent() {
-		return this.parent;
+	ArrayList<Node> getChild()  {
+		return (ArrayList<Node>) this.children.clone();
 	}
 	
-	Node getChild()  {
-		return this.child;
-	}
-	
-	double getMultiplier() {
-		return this.multiplier;
+	ArrayList<Double> getMultiplier() {
+		return (ArrayList<Double>) this.multiplier.clone();
 	}
 	
 	double getK() {
 		return this.k;
 	}
 	
-	void setParent(Node parent) {
-		this.parent = parent;
-	}
-	
-	void setChild(Node child) {
-		this.child = child;
-	}
-	
-	void setMultiplier(double multiplier) {
-		this.multiplier = multiplier;
-	}
-	
-	void setK(double k) {
-		this.k = k;
-	}
 }
