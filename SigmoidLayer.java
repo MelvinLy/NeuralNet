@@ -9,7 +9,7 @@ class SigmoidLayer extends Layer {
 	}
 	
 	double[] getOutput(double[] input) {
-		if(this.bias == 0) {
+		if(!this.bias) {
 			if(input.length != this.size()) {
 				return null;
 			}
@@ -36,7 +36,7 @@ class SigmoidLayer extends Layer {
 			for(int b = 0; b < currentNode.getNumOuts(); b++) {
 				toReturn[b] = toReturn[b] + input[a] * currentNode.getMultipliers()[b];
 			}
-			toReturn[a] = toReturn[a] + this.getMult()[a] * bias;
+			toReturn[a] = toReturn[a] + this.getMult()[a];
 		}
 		for(int a = 0; a < toReturn.length; a++) {
 			toReturn[a] = sigmoid(toReturn[a], k);

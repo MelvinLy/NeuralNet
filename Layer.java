@@ -4,7 +4,7 @@ abstract class Layer {
 	private ArrayList<Node> nodes;
 	private Layer nextLayer;
 	private double[] biasMult;
-	protected double bias;
+	protected boolean bias;
 	
 	static double sigmoid(double x, double k) {
 		double nom = Math.pow(Math.E, k * x) - 1;
@@ -22,17 +22,17 @@ abstract class Layer {
 	protected Layer() {
 		this.nodes = new ArrayList<Node>();
 		this.nextLayer = null;
-		this.bias = 0;
+		this.bias = false;
 	}
 	
 	abstract double[] getOutput(double[] input);
 	
 	void enableBias() {
-		this.bias = 1;
+		this.bias = true;
 	}
 	
 	void disableBias() {
-		this.bias = 0;
+		this.bias = false;
 	}
 	
 	public static Node createNode(int outs) {
