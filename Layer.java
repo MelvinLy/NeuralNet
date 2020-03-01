@@ -20,8 +20,8 @@ abstract class Layer {
 		return nom / den;
 	}
 	
-	protected double dCostByDWeight(int n) {
-		Node[] parentNodes = this.parentLayer.getNodes();
+	protected double dCostByDWeight(int parentNode, int parentNodeEdge) {
+		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		double toReturn = 0;
 		for(int a = 0; a < this.nodes.size(); a++) {
 			
