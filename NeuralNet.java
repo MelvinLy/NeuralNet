@@ -1,19 +1,40 @@
 import java.util.*;
 
 public class NeuralNet {
-	
-	public static double sigmoid(float x, float k) {
-		double nom = Math.pow(Math.E, k * x) - 1;
-		double den = Math.pow(Math.E, k * x) + 1;
-		return nom / den;
-	}
-	
+
+
 }
 
-class Node {
-	private ArrayList<Node> children;
-	private ArrayList<Double> multiplier;
-	private double k;
+class Node {	
+	int outs;
+	ArrayList<Double> multipliers;
+	
+	Node() {
+		this.multipliers = new ArrayList<Double>();
+		this.outs = 0;
+	}
+	
+	Node[] getMultipliers() {
+		return (Node[]) this.multipliers.toArray();
+	}
+	
+	int getOuts() {
+		return outs;
+	}
+	
+	boolean addMultiplier(double k) {
+		if(k > 1 || k < -1) {
+			return false;
+		}
+		this.multipliers.add(k);
+		this.outs++;
+		return true;
+	}
+}
+
+abstract class Layer {
+	ArrayList<Node> nodes;
+	Layer nextLayer;
 	
 	static double sigmoid(double x, double k) {
 		double nom = Math.pow(Math.E, k * x) - 1;
@@ -27,26 +48,18 @@ class Node {
 		}
 		return 0;
 	}
+
 	
-	//sum then squash
 	
-	Node(double k) {
-		this.children = new ArrayList<Node>();
-		this.multiplier = new ArrayList<Double>();
-		this.k = k;
+	abstract double[] getOutputs();
+}
+
+class ReLULayer extends Layer {
+
+
+	double[] getOutputs() {
+		
+		return null;
 	}
-	
-	Node[] getChild()  {
-		return (Node[]) this.children.toArray();
-	}
-	
-	Node[] getMultiplier() {
-		return (Node[]) this.multiplier.toArray();
-	}
-	
-	double getK() {
-		return this.k;
-	}
-	
 	
 }
