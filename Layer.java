@@ -1,3 +1,4 @@
+import java.security.InvalidParameterException;
 import java.util.*;
 
 abstract class Layer {
@@ -62,7 +63,7 @@ abstract class Layer {
 			this.biasMult[i] = k;
 			return;
 		}
-		return false;
+		throw new NoEdgeException("The corresponding edge of i does not exist.");
 	}
 	
 	protected double[] getMult() {
@@ -109,12 +110,11 @@ class Node {
 		return multipliers.length;
 	}
 
-	boolean setMultiplier(int i, double m) {
+	void setMultiplier(int i, double m) {
 		if(m > 1 || m < -1) {
-			return false;
+			throw new InvalidParameterException("Value must be between 1 and -1, inclusive.");
 		}
 		this.multipliers[i] = m;
-		return true;
 	}
 	
 	public String toString() {

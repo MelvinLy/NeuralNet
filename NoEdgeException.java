@@ -1,6 +1,6 @@
 
 public class NoEdgeException extends Exception {
-	public NoEdgeException() {
-		
+	public NoEdgeException(String e) {
+		super(e);
 	}
 }
