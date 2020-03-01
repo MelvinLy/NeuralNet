@@ -12,7 +12,7 @@ class SigmoidLayer extends Layer {
 		if(input.length != this.size()) {
 			return null;
 		}
-		Node[] nodes = super.getNodes();
+		Node[] nodes = this.getNodes();
 		double[] toReturn = new double[nodes.length];
 		for(int a = 0; a < nodes.length; a++) {
 			Node currentNode = nodes[a];
