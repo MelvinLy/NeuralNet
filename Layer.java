@@ -3,20 +3,15 @@ import java.util.*;
 
 abstract class Layer {
 	private ArrayList<Node> nodes;
+	private Layer parentLayer;
 	private Layer nextLayer;
 	private double[] biasMult;
 	protected boolean bias;
 	
 	static double sigmoid(double x) {
-		
 		double nom = Math.pow(Math.E, x);
 		double den = Math.pow(Math.E, x) + 1;
 		return nom / den;
-		/*
-		double nom = Math.pow(Math.E, k * x) - 1;
-		double den = Math.pow(Math.E, k * x) + 1;
-		return nom / den;
-		*/
 	}
 	
 	static double sigmoidPrime(double x) {
@@ -34,6 +29,7 @@ abstract class Layer {
 
 	protected Layer() {
 		this.nodes = new ArrayList<Node>();
+		this.parentLayer = null;
 		this.nextLayer = null;
 		this.bias = false;
 	}
@@ -99,11 +95,16 @@ abstract class Layer {
 			throw new LayerMismatchException("Size of output for this layer does not match input of layer to be added.");
 		}
 		this.nextLayer = nextLayer;
+		this.nextLayer.parentLayer = this;
 		this.biasMult = new double[this.nextLayer.size()];
 	}
 	
 	protected Layer getNextLayer() {
 		return this.nextLayer;
+	}
+	
+	protected Layer getParentLayer() {
+		return this.parentLayer;
 	}
 	
 	protected boolean hasBias() {

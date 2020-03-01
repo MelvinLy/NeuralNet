@@ -1,11 +1,8 @@
 
 class SigmoidLayer extends Layer {
 
-	private double k;
-	
-	SigmoidLayer(double k) {
+	SigmoidLayer() {
 		super();
-		this.k = k;
 	}
 	
 	double[] getOutput(double[] input) {

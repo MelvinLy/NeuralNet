@@ -27,12 +27,12 @@ public class NeuralNet {
 	}
 	
 	//Creates a sigmoid layer.
-	public static SigmoidLayer createLayer(double k) {
-		return new SigmoidLayer(k);
+	public static SigmoidLayer createSigmoidLayer() {
+		return new SigmoidLayer();
 	}
 	
 	//Create ReLU layer.
-	public static ReLULayer createLayer() {
+	public static ReLULayer createReLULayer() {
 		return new ReLULayer();
 	}
 	
