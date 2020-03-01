@@ -45,16 +45,16 @@ abstract class Layer {
 	}
 	
 	//Nodes must have same outs to be added.
-	protected boolean addNode(Node node) {
+	protected void addNode(Node node) throws NodeSizeMismatchException {
 		if(this.nodes.size() == 0) {
 			this.nodes.add(node);
-			return true;
+			return;
 		}
 		if(this.nodes.get(0).getNumOuts() == node.getNumOuts()) {
 			this.nodes.add(node);
-			return true;
+			return;
 		}
-		return false;
+		throw new NodeSizeMismatchException("The node being added does not match the size of the read of the nodes in the layer.");
 	}
 	
 	protected boolean setMult(int i, double k) {

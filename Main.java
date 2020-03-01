@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws LayerMismatchException, EmptyLayerException {
+	public static void main(String[] args) throws LayerMismatchException, EmptyLayerException, NodeSizeMismatchException {
 		NeuralNet test = new NeuralNet();
 		
 		double[] in = {0.1, 1, 0.2, 0.45, -1};
