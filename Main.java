@@ -71,6 +71,7 @@ public class Main {
 		double[] out = test.getOutput(in);		
 		System.out.println(Arrays.toString(out));
 		System.out.println(test.size());
+		System.out.println(Layer.sigmoidPrime(0.75136507));
 		System.out.println("Done.");
 	}
 }

@@ -19,7 +19,7 @@ abstract class Layer {
 		*/
 	}
 	
-	static double sigmoidPrime(double x, double k) {
+	static double sigmoidPrime(double x) {
 		double nom = Math.pow(Math.E, x);
 		double den = Math.pow(Math.pow(Math.E, x) + 1, 2);
 		return nom / den;
