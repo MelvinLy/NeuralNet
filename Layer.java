@@ -93,7 +93,7 @@ abstract class Layer implements Modifies {
 		throw new NoEdgeException("The corresponding edge of i does not exist.");
 	}
 	
-	protected double[] getMult() {
+	protected double[] getBiasMult() {
 		return biasMult.clone();
 	}
 	
