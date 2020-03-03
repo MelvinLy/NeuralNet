@@ -42,4 +42,11 @@ abstract class SigmoidLayer extends Layer {
 		}
 		return toReturn;
 	}
+	
+	protected double getNewWeightSig(int parentNode, int parentNodeEdge, double[] expected, double[] input, double rate) {
+		double grad = dCostByDWeightSig(parentNode, parentNodeEdge, expected, input);
+		double step = stepSize(grad, rate);
+		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
+		return currentWeight - step;
+	}
 }

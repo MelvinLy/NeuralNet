@@ -72,9 +72,9 @@ public class Main {
 		double[] in = {0.001, 1, 0.02, 0.045, 0};
 		double[] expect = {12, 32, 53, 2, 3};
 		double[] out = test.getOutput(in);		
-		double idk = layer.dCostByDWeight(0, 0, expect, out);
+		//double idk = layer.dCostByDWeightSig(0, 0, expect, out);
 		System.out.println(Arrays.toString(out));
 		System.out.println(test.size());
-		System.out.println(idk);		 
+		//System.out.println(idk);		 
 	}
 }

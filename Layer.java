@@ -2,10 +2,10 @@ import java.security.InvalidParameterException;
 import java.util.*;
 
 abstract class Layer implements Modifies {
-	private ArrayList<Node> nodes;
-	private Layer parentLayer;
-	private Layer nextLayer;
-	private double[] biasMult;
+	protected ArrayList<Node> nodes;
+	protected Layer parentLayer;
+	protected Layer nextLayer;
+	protected double[] biasMult;
 	protected boolean bias;
 	
 	static double sigmoid(double x) {
@@ -21,7 +21,7 @@ abstract class Layer implements Modifies {
 	}
 	
 	//Make a function that will use this to adjust the weight!
-	protected double dCostByDWeight(int parentNode, int parentNodeEdge, double[] expected, double[] input) {
+	protected double dCostByDWeightSig(int parentNode, int parentNodeEdge, double[] expected, double[] input) {
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		double toReturn = 0;
 		double outBeforeAct = this.parentLayer.beforeActivator(input, parentNodeEdge);
@@ -30,6 +30,13 @@ abstract class Layer implements Modifies {
 		}
 		return toReturn;
 	}
+	
+	//Learning rate is small and grad is from dCostByDWeight.
+	protected double stepSize(double grad, double rate) {
+		return grad * rate;
+	}
+	
+	
 	
 	private double beforeActivator(double[] input, int outputIndex) {
 		double toReturn = 0;
