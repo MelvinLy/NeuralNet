@@ -99,11 +99,20 @@ public class NeuralNet {
 	
 	//No such thing as weight on final layer.
 	//Layer max is size - 1.
-	public double getNewWeight(int layer, int node, int edge, double[] input, double[] expected) throws LayerMismatchException {
+	//Input layer is layer 0.
+	public double getNewWeight(int layer, int node, int edge, double[] input, double[] expected, double learningRate) throws LayerMismatchException {
 		Layer currentLayer = this.inputLayer;
 		for(int a = 1; a < layer; a++) {
 			currentLayer = currentLayer.nextLayer; 
 		}
-		return currentLayer.getNewWeight(this, layer, node, edge, expected, input, 0.01);
+		return currentLayer.getNewWeight(this, layer, node, edge, expected, input, learningRate);
+	}
+	
+	public void updateWeight(int layer, int node, int edge, double weight) {
+		Layer currentLayer = this.inputLayer;
+		for(int a = 1; a < layer; a++) {
+			currentLayer = currentLayer.nextLayer;
+		}
+		currentLayer.nodes.get(node).setMultiplier(edge, weight);
 	}
 }
