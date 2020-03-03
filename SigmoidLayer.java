@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 abstract class SigmoidLayer extends Layer {
 
@@ -5,11 +6,11 @@ abstract class SigmoidLayer extends Layer {
 		super();
 	}
 
-	double[] getOutput(double[] i) {
-		double[] input = modifies(i);
+	double[] getOutput(double[] i) throws LayerMismatchException {
+		double[] input = modifies(i.clone());
 		if(!this.bias) {
 			if(input.length != this.size()) {
-				return null;
+				throw new LayerMismatchException("Input does not match layer size.");
 			}
 			Node[] nodes = this.getNodes();
 			double[] toReturn = new double[nodes[0].getNumOuts()];
@@ -25,7 +26,7 @@ abstract class SigmoidLayer extends Layer {
 			return toReturn;
 		}
 		if(input.length != this.size()) {
-			return null;
+			throw new LayerMismatchException("Input does not match layer size.");
 		}
 		double[] biases = this.getBiasMult();
 		Node[] nodes = this.getNodes();
@@ -44,18 +45,20 @@ abstract class SigmoidLayer extends Layer {
 	}
 
 	//Make a function that will use this to adjust the weight!
-	private double dCostByDWeightSig(int parentNode, int parentNodeEdge, double[] expected, double[] input) {
-		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
+	public double dCostByDWeightSig(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs) throws LayerMismatchException {
 		double toReturn = 0;
-		double outBeforeAct = this.parentLayer.beforeActivator(input, parentNodeEdge);
-		for(int a = 0; a < this.nodes.size(); a++) {
-			toReturn = toReturn - (NeuralNet.calculateLoss(expected[a], input[a])) * Math.pow(Math.E, outBeforeAct) * currentWeight / Math.pow(Math.pow(Math.E, outBeforeAct) + 1, 2);
+		double outBeforeAct = this.parentLayer.beforeActivator(inputs, parentNodeEdge);
+		double[] output = net.getOutput(inputs, depth);
+		System.out.println("lol " + Arrays.toString(output));
+		System.out.println("lol " + Arrays.toString(inputs));
+		for(int a = 0; a < this.nodes.size(); a++) {		
+			toReturn = toReturn - (NeuralNet.calculateLoss(expected[a], output[a])) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2);
 		}
 		return toReturn;
 	}
 
-	public double getNewWeightSig(int parentNode, int parentNodeEdge, double[] expected, double[] input, double rate) {
-		double grad = dCostByDWeightSig(parentNode, parentNodeEdge, expected, input);
+	public double getNewWeightSig(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs, double rate) throws LayerMismatchException {
+		double grad = dCostByDWeightSig(net, depth, parentNode, parentNodeEdge, expected, inputs);
 		double step = stepSize(grad, rate);
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		return currentWeight - step;

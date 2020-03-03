@@ -1,7 +1,12 @@
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+
+
 public class Main {
+	public static void print(Object x) {
+		System.out.println(x);
+	}
 	public static void main(String[] args) throws LayerMismatchException, EmptyLayerException, NodeSizeMismatchException {
 		
 		NeuralNet test = new NeuralNet();
@@ -9,6 +14,7 @@ public class Main {
 		int min = 0;
 		int max = 1;
 		
+		/*
 		Layer input = new TestSigmoidLayer();
 		int layerSize = 5;
 		int outputSize = 7;
@@ -69,12 +75,70 @@ public class Main {
 		}
 		test.addLayer(layer);
 		
-		double[] in = {0.001, 1, 0.02, 0.045, 0};
-		double[] expect = {12, 32, 53, 2, 3};
-		double[] out = test.getOutput(in);		
-		//double idk = layer.dCostByDWeightSig(0, 0, expect, out);
-		System.out.println(Arrays.toString(out));
-		System.out.println(test.size());
-		//System.out.println(idk);		 
+		layer = new TestSigmoidLayer();
+		layerSize = 5;
+		outputSize = 0;
+		for(int a = 0; a < layerSize; a++) {
+			Node node = Layer.createNode(outputSize);
+			for(int b = 0; b < node.getNumOuts(); b++) {
+				node.setMultiplier(b, 1);
+			}
+			layer.addNode(node);
+		}*/
+		//test.addLayer(layer);
+		
+		SigmoidLayer input = new TestSigmoidLayer();
+		int layerSize = 5;
+		int outputSize = 2;
+		for(int a = 0; a < layerSize; a++) {
+			Node node = Layer.createNode(outputSize);
+			for(int b = 0; b < node.getNumOuts(); b++) {
+				node.setMultiplier(b, 1);
+			}
+			input.addNode(node);
+		}
+		test.addLayer(input);
+		/////////////////////////////////////////////////////////////////
+		SigmoidLayer layer = new TestSigmoidLayer();
+		layerSize = 2;
+		outputSize = 4;
+		for(int a = 0; a < layerSize; a++) {
+			Node node = Layer.createNode(outputSize);
+			for(int b = 0; b < node.getNumOuts(); b++) {
+				node.setMultiplier(b, 1);
+			}
+			layer.addNode(node);
+		}
+		test.addLayer(layer);
+		/////////////////////////////////////////////////////////////////
+		//Output layer
+		layer = new TestSigmoidLayer();
+		layerSize = 4;
+		outputSize = 1;
+		for(int a = 0; a < layerSize; a++) {
+			Node node = Layer.createNode(outputSize);
+			for(int b = 0; b < node.getNumOuts(); b++) {
+				node.setMultiplier(b, 1);
+			}
+			layer.addNode(node);
+		}
+		test.addLayer(layer);
+		
+		double[] in = {1,2,3,4,5};
+		double[] out = test.getOutput(in, 3);
+		
+		print(Arrays.toString(out));
+		
+		//print(Arrays.toString(out));
+		
+		//print(Arrays.toString(layer.parentLayer.getOutput(out)));
+		/*
+		in = out;
+		out = layer.parentLayer.getOutput(out);
+		print(Arrays.toString(in));
+		print(Arrays.toString(out));
+		*/
+		SigmoidLayer parent = (SigmoidLayer) layer.parentLayer;
+		print(parent.dCostByDWeightSig(test, 3, 0, 0, out, in));
 	}
 }

@@ -40,7 +40,7 @@ public class NeuralNet {
 		return;
 	}
 	
-	public double[] getOutput(double[] input) {
+	public double[] getOutput(double[] input) throws LayerMismatchException {
 		Layer currentLayer = this.inputLayer;
 		if(currentLayer == null) {
 			return null;
@@ -49,6 +49,21 @@ public class NeuralNet {
 		while(currentLayer.getNextLayer() != null) {
 			toReturn = currentLayer.getOutput(toReturn);
 			currentLayer = currentLayer.getNextLayer();
+		}
+		return toReturn;
+	}
+	
+	public double[] getOutput(double[] input, int depth) throws LayerMismatchException {
+		Layer currentLayer = this.inputLayer;
+		if(currentLayer == null) {
+			return null;
+		}
+		double[] toReturn = input;
+		int a = 0;
+		while(currentLayer.getNextLayer() != null && a < depth) {
+			toReturn = currentLayer.getOutput(toReturn);
+			currentLayer = currentLayer.getNextLayer();
+			a++;
 		}
 		return toReturn;
 	}

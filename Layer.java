@@ -47,7 +47,7 @@ abstract class Layer implements Modifies {
 		this.bias = false;
 	}
 	
-	abstract double[] getOutput(double[] input);
+	abstract double[] getOutput(double[] input) throws LayerMismatchException;
 	
 	void enableBias() {
 		this.bias = true;
