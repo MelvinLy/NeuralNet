@@ -44,13 +44,12 @@ abstract class SigmoidLayer extends Layer {
 		return toReturn;
 	}
 
-	//Make a function that will use this to adjust the weight!
+	//Max depth is size of net - 1;
 	public double dCostByDWeightSig(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs) throws LayerMismatchException {
 		double toReturn = 0;
-		double outBeforeAct = this.parentLayer.beforeActivator(inputs, parentNodeEdge);
 		double[] output = net.getOutput(inputs, depth);
-		System.out.println("lol " + Arrays.toString(output));
-		System.out.println("lol " + Arrays.toString(inputs));
+		double[] temp = net.getOutput(inputs, depth - 1);
+		double outBeforeAct = this.parentLayer.beforeActivator(temp, parentNodeEdge);
 		for(int a = 0; a < this.nodes.size(); a++) {		
 			toReturn = toReturn - (NeuralNet.calculateLoss(expected[a], output[a])) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2);
 		}

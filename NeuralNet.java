@@ -78,4 +78,22 @@ public class NeuralNet {
 		}
 		return toReturn;
 	}
+	
+	protected double[][] getAllOutputs(double[] input) throws LayerMismatchException {
+		double[] in = input.clone();
+		double[][] toReturn = new double[this.size()][];
+		if(this.inputLayer == null) {
+			return null;
+		}
+		Layer currentLayer = this.inputLayer;
+		int i = 0;
+		while(currentLayer != null) {
+			double[] temp = currentLayer.getOutput(in);
+			toReturn[i] = temp;
+			in = temp.clone();
+			currentLayer = currentLayer.nextLayer;
+			i++;
+		}
+		return toReturn;
+	}
 }

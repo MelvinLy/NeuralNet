@@ -114,7 +114,7 @@ public class Main {
 		//Output layer
 		layer = new TestSigmoidLayer();
 		layerSize = 4;
-		outputSize = 1;
+		outputSize = 0;
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
@@ -127,7 +127,7 @@ public class Main {
 		double[] in = {1,2,3,4,5};
 		double[] out = test.getOutput(in, 3);
 		
-		print(Arrays.toString(out));
+		//print(Arrays.toString(out));
 		
 		//print(Arrays.toString(out));
 		
@@ -139,6 +139,13 @@ public class Main {
 		print(Arrays.toString(out));
 		*/
 		SigmoidLayer parent = (SigmoidLayer) layer.parentLayer;
-		print(parent.dCostByDWeightSig(test, 3, 0, 0, out, in));
+		//print(parent.dCostByDWeightSig(test, 3, 0, 0, out, in));
+		double[][] all = test.getAllOutputs(in);
+		for(int a = 0; a < all.length; a++) {
+			//print(Arrays.toString(all[a]));
+		}
+		double[] inputs = {0.9933071490757152,0.9933071490757152};
+		double[] expected = {1765.11780465735511428, 1.11780465735511428, 1.11780465735511428, 1.1135511428};
+		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
 	}
 }
