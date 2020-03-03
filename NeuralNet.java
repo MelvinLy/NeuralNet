@@ -96,4 +96,14 @@ public class NeuralNet {
 		}
 		return toReturn;
 	}
+	
+	//No such thing as weight on final layer.
+	//Layer max is size - 1.
+	public double getNewWeight(int layer, int node, int edge, double[] input, double[] expected) throws LayerMismatchException {
+		Layer currentLayer = this.inputLayer;
+		for(int a = 1; a < layer; a++) {
+			currentLayer = currentLayer.nextLayer; 
+		}
+		return currentLayer.getNewWeight(this, layer, node, edge, expected, input, 0.01);
+	}
 }

@@ -145,7 +145,9 @@ public class Main {
 			//print(Arrays.toString(all[a]));
 		}
 		double[] inputs = {0.9933071490757152,0.9933071490757152};
-		double[] expected = {1765.11780465735511428, 1.11780465735511428, 1.11780465735511428, 1.1135511428};
+		double[] expected = {0.11780465735511428, 0.11780465735511428, 0.11780465735511428, 0.11780465735511428};
+		print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
+		print(test.getNewWeight(2, 0, 0, in, expected));
 	}
 }
