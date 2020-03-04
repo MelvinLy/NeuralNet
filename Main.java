@@ -87,7 +87,7 @@ public class Main {
 		}*/
 		//test.addLayer(layer);
 		
-		SigmoidLayer input = new TestSigmoidLayer();
+		TestReLULayer input = new TestReLULayer();
 		int layerSize = 5;
 		int outputSize = 2;
 		for(int a = 0; a < layerSize; a++) {
@@ -99,7 +99,7 @@ public class Main {
 		}
 		test.addLayer(input);
 		/////////////////////////////////////////////////////////////////
-		SigmoidLayer layer = new TestSigmoidLayer();
+		TestReLULayer layer = new TestReLULayer();
 		layerSize = 2;
 		outputSize = 4;
 		for(int a = 0; a < layerSize; a++) {
@@ -112,7 +112,7 @@ public class Main {
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
 		//Output layer
-		layer = new TestSigmoidLayer();
+		layer = new TestReLULayer();
 		layerSize = 4;
 		outputSize = 0;
 		for(int a = 0; a < layerSize; a++) {
@@ -126,26 +126,9 @@ public class Main {
 		
 		double[] in = {1, 2, 3, 4, 5};
 		double[] out = test.getOutput(in, 3);
-		
-		//print(Arrays.toString(out));
-		
-		//print(Arrays.toString(out));
-		
-		//print(Arrays.toString(layer.parentLayer.getOutput(out)));
-		/*
-		in = out;
-		out = layer.parentLayer.getOutput(out);
-		print(Arrays.toString(in));
-		print(Arrays.toString(out));
-		*/
-		SigmoidLayer parent = (SigmoidLayer) layer.parentLayer;
-		//print(parent.dCostByDWeightSig(test, 3, 0, 0, out, in));
-		//double[][] all = test.getAllOutputs(in);
-		//for(int a = 0; a < all.length; a++) {
-			//print(Arrays.toString(all[a]));
-		//}
+	
 		double[] inputs = {0.9933071490757152,0.9933071490757152};
-		double[] expected = {0.11780465735511428, 0.11780465735511428, 0.11780465735511428, 0.11780465735511428};
+		double[] expected = {043142, 4423423, 4223423, 42345};
 		print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
 		print(test.getNewWeight(2, 0, 0, in, expected, 0.001));

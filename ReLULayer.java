@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 abstract class ReLULayer extends Layer {
 
 	ReLULayer() {
@@ -46,6 +48,7 @@ abstract class ReLULayer extends Layer {
 		public double dCostByDWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs) throws LayerMismatchException {
 			double toReturn = 0;
 			double[] output = net.getOutput(inputs, depth);
+			System.out.println(Arrays.toString(output));
 			for(int a = 0; a < this.nodes.size(); a++) {
 				if(output[a] != 0) {
 					toReturn = toReturn - ((expected[a] - output[a]) * inputs[parentNode]);
