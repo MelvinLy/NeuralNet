@@ -87,7 +87,7 @@ public class Main {
 		}*/
 		//test.addLayer(layer);
 		
-		TestReLULayer input = new TestReLULayer();
+		Layer input = new TestReLULayer();
 		int layerSize = 5;
 		int outputSize = 2;
 		for(int a = 0; a < layerSize; a++) {
@@ -99,7 +99,7 @@ public class Main {
 		}
 		test.addLayer(input);
 		/////////////////////////////////////////////////////////////////
-		TestReLULayer layer = new TestReLULayer();
+		TestSigmoidLayer layer = new TestSigmoidLayer();
 		layerSize = 2;
 		outputSize = 4;
 		for(int a = 0; a < layerSize; a++) {
@@ -112,7 +112,7 @@ public class Main {
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
 		//Output layer
-		layer = new TestReLULayer();
+		layer = new TestSigmoidLayer();
 		layerSize = 4;
 		outputSize = 0;
 		for(int a = 0; a < layerSize; a++) {
