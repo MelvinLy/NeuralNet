@@ -7,7 +7,7 @@ public class Main {
 	public static void print(Object x) {
 		System.out.println(x);
 	}
-	public static void main(String[] args) throws LayerMismatchException, EmptyLayerException, NodeSizeMismatchException {
+	public static void main(String[] args) throws LayerMismatchException, EmptyLayerException, NodeSizeMismatchException, NoEdgeException {
 		
 		NeuralNet test = new NeuralNet();
 		
@@ -87,7 +87,7 @@ public class Main {
 		}*/
 		//test.addLayer(layer);
 		
-		Layer input = new TestReLULayer();
+		Layer input = new TestSigmoidLayer();
 		int layerSize = 5;
 		int outputSize = 2;
 		for(int a = 0; a < layerSize; a++) {
@@ -99,16 +99,17 @@ public class Main {
 		}
 		test.addLayer(input);
 		/////////////////////////////////////////////////////////////////
-		TestSigmoidLayer layer = new TestSigmoidLayer();
+		Layer layer = new TestSigmoidLayer();
 		layerSize = 2;
 		outputSize = 4;
 		for(int a = 0; a < layerSize; a++) {
 			Node node = Layer.createNode(outputSize);
 			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 1);
+				node.setMultiplier(b, 0.9986955822839676);
 			}
 			layer.addNode(node);
 		}
+		//layer.setMult(0, 0, 1.0040600585138353);
 		test.addLayer(layer);
 		/////////////////////////////////////////////////////////////////
 		//Output layer
@@ -125,11 +126,16 @@ public class Main {
 		test.addLayer(layer);
 		
 		
-		double[] in = {1, 2, 3, 4, 5};
-		double[] expected = {300, 300, 300, 300};
-		print(Arrays.toString(test.getOutput(in)));
+		double[] in = {.3,.1,.2,.4,.8};
+		double[] expected = {0.5, .5};
+		//print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
-		print(test.getNewWeight(2, 0, 0, in, expected, 0.1));
+		print("Input: " + Arrays.toString(in));
+		print("Expected: " + Arrays.toString(expected));
+		print("Output: " + Arrays.toString(test.getOutput(in)));
+		
+		
+		print(test.getNewWeight(1, 0, 0, in, expected, 0.1));
 		print("End of test.");
 	}
 }

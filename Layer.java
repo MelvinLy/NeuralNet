@@ -81,9 +81,11 @@ abstract class Layer implements Modifies {
 		throw new NodeSizeMismatchException("The node being added does not match the size of the read of the nodes in the layer.");
 	}
 	
-	protected void setMult(int i, double k) throws NoEdgeException {
-		if(this.biasMult != null) {
-			this.biasMult[i] = k;
+	protected void setMult(int node, int edge, double k) throws NoEdgeException {
+		if(this.getNodes() != null) {
+			Node temp = this.nodes.get(node);
+			temp.setMultiplier(edge, k);
+			this.nodes.set(node, temp);
 			return;
 		}
 		throw new NoEdgeException("The corresponding edge of i does not exist.");
@@ -143,9 +145,6 @@ class Node {
 	}
 
 	void setMultiplier(int i, double m) {
-		if(m > 1 || m < 0) {
-			throw new InvalidParameterException("Value must be between 1 and 0, inclusive.");
-		}
 		this.multipliers[i] = m;
 	}
 	

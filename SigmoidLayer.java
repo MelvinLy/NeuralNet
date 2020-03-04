@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 abstract class SigmoidLayer extends Layer {
 
 	SigmoidLayer() {
@@ -48,15 +50,24 @@ abstract class SigmoidLayer extends Layer {
 		double[] output = net.getOutput(inputs, depth);
 		double[] temp = net.getOutput(inputs, depth - 1);
 		double outBeforeAct = this.parentLayer.beforeActivator(temp, parentNodeEdge);
-		for(int a = 0; a < this.nodes.size(); a++) {		
-			toReturn = toReturn - ((expected[a] - output[a]) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2));
+		if(this.parentLayer instanceof SigmoidLayer) {
+			for(int a = 0; a < this.nodes.size(); a++) {		
+				toReturn = toReturn - ((expected[a] - output[a]) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2));
+			}
+		}
+		else {
+			for(int a = 0; a < this.nodes.size(); a++) {
+				if(output[a] != 0) {
+					toReturn = toReturn - ((expected[a] - output[a]) * inputs[parentNode]);
+				}
+			}
 		}
 		return toReturn;
 	}
 
 	public double getNewWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs, double rate) throws LayerMismatchException {
-		double grad = dCostByDWeight(net, depth, parentNode, parentNodeEdge, expected, inputs);
-		double step = stepSize(grad, rate);
+		double grad = this.dCostByDWeight(net, depth, parentNode, parentNodeEdge, expected, inputs);
+		double step = this.stepSize(grad, rate);
 		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
 		return currentWeight - step * rate;
 	}
