@@ -126,9 +126,6 @@ public class Main {
 		
 		
 		double[] in = {1, 2, 3, 4, 5};
-		double[] out = test.getOutput(in, 3);
-	
-		double[] inputs = {0.9933071490757152,0.9933071490757152};
 		double[] expected = {300, 300, 300, 300};
 		print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));

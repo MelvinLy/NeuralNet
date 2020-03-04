@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 abstract class ReLULayer extends Layer {
 
 	ReLULayer() {
