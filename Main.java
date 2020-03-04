@@ -124,13 +124,14 @@ public class Main {
 		}
 		test.addLayer(layer);
 		
+		
 		double[] in = {1, 2, 3, 4, 5};
 		double[] out = test.getOutput(in, 3);
 	
 		double[] inputs = {0.9933071490757152,0.9933071490757152};
-		double[] expected = {043142, 4423423, 4223423, 42345};
+		double[] expected = {300, 300, 300, 300};
 		print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
-		print(test.getNewWeight(2, 0, 0, in, expected, 0.001));
+		print(test.getNewWeight(2, 0, 0, in, expected, 0.1));
 	}
 }
