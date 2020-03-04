@@ -133,5 +133,6 @@ public class Main {
 		print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
 		print(test.getNewWeight(2, 0, 0, in, expected, 0.1));
+		print("End of test.");
 	}
 }
