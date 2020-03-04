@@ -49,7 +49,7 @@ abstract class SigmoidLayer extends Layer {
 		double[] temp = net.getOutput(inputs, depth - 1);
 		double outBeforeAct = this.parentLayer.beforeActivator(temp, parentNodeEdge);
 		for(int a = 0; a < this.nodes.size(); a++) {		
-			toReturn = toReturn - (NeuralNet.calculateLoss(expected[a], output[a])) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2);
+			toReturn = toReturn - ((expected[a] - output[a]) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2));
 		}
 		return toReturn;
 	}

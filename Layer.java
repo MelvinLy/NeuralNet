@@ -49,7 +49,7 @@ abstract class Layer implements Modifies {
 	
 	abstract double[] getOutput(double[] input) throws LayerMismatchException;
 	abstract double dCostByDWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs) throws LayerMismatchException;
-	public abstract double getNewWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs, double rate) throws LayerMismatchException;
+	abstract double getNewWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs, double rate) throws LayerMismatchException;
 	
 	void enableBias() {
 		this.bias = true;

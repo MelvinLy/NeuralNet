@@ -124,7 +124,7 @@ public class Main {
 		}
 		test.addLayer(layer);
 		
-		double[] in = {1,2,3,4,5};
+		double[] in = {1, 2, 3, 4, 5};
 		double[] out = test.getOutput(in, 3);
 		
 		//print(Arrays.toString(out));
@@ -140,14 +140,14 @@ public class Main {
 		*/
 		SigmoidLayer parent = (SigmoidLayer) layer.parentLayer;
 		//print(parent.dCostByDWeightSig(test, 3, 0, 0, out, in));
-		double[][] all = test.getAllOutputs(in);
-		for(int a = 0; a < all.length; a++) {
+		//double[][] all = test.getAllOutputs(in);
+		//for(int a = 0; a < all.length; a++) {
 			//print(Arrays.toString(all[a]));
-		}
+		//}
 		double[] inputs = {0.9933071490757152,0.9933071490757152};
-		double[] expected = {5435.165461780465735511428, 543.1281780465735511428,5.8911780465735511428, 534.911780465735511428};
+		double[] expected = {0.11780465735511428, 0.11780465735511428, 0.11780465735511428, 0.11780465735511428};
 		print(Arrays.toString(test.getOutput(in)));
 		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
-		print(test.getNewWeight(2, 0, 0, in, expected, 0.0001));
+		print(test.getNewWeight(2, 0, 0, in, expected, 0.001));
 	}
 }
