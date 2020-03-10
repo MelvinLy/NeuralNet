@@ -1,63 +1,33 @@
-abstract class SigmoidLayer extends Layer {
+import java.util.Arrays;
 
-	SigmoidLayer() {
-		super();
+public class SigmoidLayer extends Layer {
+
+	public SigmoidLayer(int size, int outputSize) {
+		super(size, outputSize);
 	}
-
-	double[] getOutput(double[] i) throws LayerMismatchException {
-		double[] input = modifies(i.clone());
-		if(!this.bias) {
-			if(input.length != this.size()) {
-				throw new LayerMismatchException("Input does not match layer size.");
-			}
-			Node[] nodes = this.getNodes();
-			double[] toReturn = new double[nodes[0].getNumOuts()];
-			for(int a = 0; a < nodes.length; a++) {
-				Node currentNode = nodes[a];
-				for(int b = 0; b < currentNode.getNumOuts(); b++) {
-					toReturn[b] = toReturn[b] + input[a] * currentNode.getMultipliers()[b];
-				}
-			}
-			for(int a = 0; a < toReturn.length; a++) {
-				toReturn[a] = sigmoid(toReturn[a]);
-			}
-			return toReturn;
-		}
-		if(input.length != this.size()) {
-			throw new LayerMismatchException("Input does not match layer size.");
-		}
-		double[] biases = this.getBiasMult();
-		Node[] nodes = this.getNodes();
-		double[] toReturn = new double[nodes[0].getNumOuts()];
-		for(int a = 0; a < nodes.length; a++) {
-			Node currentNode = nodes[a];
-			for(int b = 0; b < currentNode.getNumOuts(); b++) {
-				toReturn[b] = toReturn[b] + input[a] * currentNode.getMultipliers()[b];
-			}
-			toReturn[a] = toReturn[a] + biases[a];
-		}
-		for(int a = 0; a < toReturn.length; a++) {
-			toReturn[a] = sigmoid(toReturn[a]);
-		}
-		return toReturn;
-	}
-
-	//Max depth is size of net - 1;
-	public double dCostByDWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs) throws LayerMismatchException {
+	
+	//Take input before activation.
+	//Edge defines the output node also.
+	public double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException {
 		double toReturn = 0;
-		double[] output = net.getOutput(inputs, depth);
-		double[] temp = net.getOutput(inputs, depth - 1);
-		double outBeforeAct = this.parentLayer.beforeActivator(temp, parentNodeEdge);
-		for(int a = 0; a < this.nodes.size(); a++) {		
-			toReturn = toReturn - ((expected[a] - output[a]) * Math.pow(Math.E, outBeforeAct) * inputs[parentNode] / Math.pow(Math.pow(Math.E, outBeforeAct), 2));
+		double[] outBeforeAct = this.getOutputBeforeAct(input);
+		double[] out = this.activate(outBeforeAct);
+		for(int a = 0; a < out.length; a++) {
+				toReturn = toReturn - (expected[a] - out[a]) * Math.pow(Math.E, outBeforeAct[edge]) * input[node] / Math.pow(Math.pow(Math.E, outBeforeAct[edge]) + 1, 2);
 		}
 		return toReturn;
 	}
 
-	public double getNewWeight(NeuralNet net, int depth, int parentNode, int parentNodeEdge, double[] expected, double[] inputs, double rate) throws LayerMismatchException {
-		double grad = dCostByDWeight(net, depth, parentNode, parentNodeEdge, expected, inputs);
-		double step = stepSize(grad, rate);
-		double currentWeight = this.parentLayer.nodes.get(parentNode).multipliers[parentNodeEdge];
-		return currentWeight - step * rate;
+	//Take the input before activation.
+	public double[] activate(double[] input) {
+		double[] toReturn = new double[input.length];
+		for(int a = 0; a < input.length; a++) {
+			toReturn[a] = sigmoid(input[a]);
+		}
+		return toReturn;
+	}
+	
+	public double sigmoid(double x) {
+		return Math.pow(Math.E, x) / (Math.pow(Math.E, x) + 1);
 	}
 }
