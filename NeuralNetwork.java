@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class NeuralNetwork {
 	private Layer inputLayer;
 	private Layer lastLayer;

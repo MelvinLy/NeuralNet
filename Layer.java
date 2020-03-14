@@ -1,5 +1,3 @@
-import java.util.*;
-
 public abstract class Layer {
 	protected Node[] nodes;
 	protected Layer parentLayer;
@@ -16,12 +14,13 @@ public abstract class Layer {
 		this.outputSize = outputSize;
 	}
 	
+	//Also known as get output.
+	public abstract double[] activate(double[] input);
+	
 	//Take input before activation.
 	//Edge defines the output node also.
 	public abstract double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException;
 	
-	//Also known as get output.
-	public abstract double[] activate(double[] input);
 	
 	public double[] getOutputBeforeAct(double[] input) throws NullNodeException {
 		double[] toReturn = new double[this.getOutputSize()];

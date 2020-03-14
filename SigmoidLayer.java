@@ -1,9 +1,16 @@
-import java.util.Arrays;
-
 public class SigmoidLayer extends Layer {
 
 	public SigmoidLayer(int size, int outputSize) {
 		super(size, outputSize);
+	}
+	
+	//Take the input before activation.
+	public double[] activate(double[] input) {
+		double[] toReturn = new double[input.length];
+		for(int a = 0; a < input.length; a++) {
+			toReturn[a] = sigmoid(input[a]);
+		}
+		return toReturn;
 	}
 	
 	//Take input before activation.
@@ -18,14 +25,6 @@ public class SigmoidLayer extends Layer {
 		return toReturn;
 	}
 
-	//Take the input before activation.
-	public double[] activate(double[] input) {
-		double[] toReturn = new double[input.length];
-		for(int a = 0; a < input.length; a++) {
-			toReturn[a] = sigmoid(input[a]);
-		}
-		return toReturn;
-	}
 	
 	public double sigmoid(double x) {
 		return Math.pow(Math.E, x) / (Math.pow(Math.E, x) + 1);
