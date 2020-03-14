@@ -1,141 +1,31 @@
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-
+import java.util.Arrays;
 
 public class Main {
-	public static void print(Object x) {
-		System.out.println(x);
+	
+	public static void print(Object a) {
+		System.out.println(a);
 	}
-	public static void main(String[] args) throws LayerMismatchException, EmptyLayerException, NodeSizeMismatchException, NoEdgeException {
+	
+	public static void main(String args[]) throws LayerSizeMismatchException, NullNodeException, NodeSizeMismatchException {
 		
-		NeuralNet test = new NeuralNet();
+		SigmoidLayer layer = new SigmoidLayer(5, 3);
+		SigmoidLayer layer2 = new SigmoidLayer(3, 3);
 		
-		int min = 0;
-		int max = 1;
-		
-		/*
-		Layer input = new TestSigmoidLayer();
-		int layerSize = 5;
-		int outputSize = 7;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, ThreadLocalRandom.current().nextDouble(min, max));
-			}
-			input.addNode(node);
+		for(int a = 0; a < layer.size(); a++) {
+			layer.setNode(a, new Node(3));
 		}
-		test.addLayer(input);
-		/////////////////////////////////////////////////////////////////
-		Layer layer = new TestSigmoidLayer();
-		layerSize = 7;
-		outputSize = 2;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, ThreadLocalRandom.current().nextDouble(min, max));
-			}
-			layer.addNode(node);
-		}
-		test.addLayer(layer);
-		/////////////////////////////////////////////////////////////////
-		layer = new TestSigmoidLayer();
-		layerSize = 2;
-		outputSize = 10;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, ThreadLocalRandom.current().nextDouble(min, max));
-			}
-			layer.addNode(node);
-		}
-		test.addLayer(layer);
-		/////////////////////////////////////////////////////////////////
-		layer = new TestSigmoidLayer();
-		layerSize = 10;
-		outputSize = 5;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, ThreadLocalRandom.current().nextDouble(min, max));
-			}
-			layer.addNode(node);
-		}
-		test.addLayer(layer);
-		/////////////////////////////////////////////////////////////////
-		layer = new TestSigmoidLayer();
-		layerSize = 5;
-		outputSize = 0;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, ThreadLocalRandom.current().nextDouble(min, max));
-			}
-			layer.addNode(node);
-		}
-		test.addLayer(layer);
 		
-		layer = new TestSigmoidLayer();
-		layerSize = 5;
-		outputSize = 0;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 1);
-			}
-			layer.addNode(node);
-		}*/
-		//test.addLayer(layer);
-		
-		Layer input = new TestSigmoidLayer();
-		int layerSize = 5;
-		int outputSize = 2;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 1);
-			}
-			input.addNode(node);
+		for(int a = 0; a < layer2.size(); a++) {
+			layer2.setNode(a, new Node(3));
 		}
-		test.addLayer(input);
-		/////////////////////////////////////////////////////////////////
-		Layer layer = new TestSigmoidLayer();
-		layerSize = 2;
-		outputSize = 4;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 0.9986955822839676);
-			}
-			layer.addNode(node);
-		}
-		//layer.setMult(0, 0, 1.0040600585138353);
-		test.addLayer(layer);
-		/////////////////////////////////////////////////////////////////
-		//Output layer
-		layer = new TestSigmoidLayer();
-		layerSize = 4;
-		outputSize = 0;
-		for(int a = 0; a < layerSize; a++) {
-			Node node = Layer.createNode(outputSize);
-			for(int b = 0; b < node.getNumOuts(); b++) {
-				node.setMultiplier(b, 1);
-			}
-			layer.addNode(node);
-		}
-		test.addLayer(layer);
 		
+		NeuralNetwork net = new NeuralNetwork(layer, layer2);
 		
-		double[] in = {.3,.1,.2,.4,.8};
-		double[] expected = {0.5, .5};
-		//print(Arrays.toString(test.getOutput(in)));
-		//print(layer.dCostByDWeightSig(test, 2, 0, 0, expected, in));
-		print("Input: " + Arrays.toString(in));
-		print("Expected: " + Arrays.toString(expected));
-		print("Output: " + Arrays.toString(test.getOutput(in)));
+		double[] input = {1,2,3,4,5};
+		double[] output = net.getOutput(input);
+		double[] expected = {0.9525740853634935, 0.9525740853634935, 0.9525740853634935};
 		
-		
-		print(test.getNewWeight(1, 0, 0, in, expected, 0.1));
-		print("End of test.");
+		print(Arrays.toString(output) + "\n");
+		print(net.getNewWeight(1, 0, 0, input, expected, 0.1));
 	}
 }
