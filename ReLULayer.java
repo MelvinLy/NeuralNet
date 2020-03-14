@@ -14,8 +14,15 @@ public class ReLULayer extends Layer {
 	}
 	
 	public double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException {
-
-		return 0;
+		double toReturn = 0;
+		double[] outBeforeAct = this.getOutputBeforeAct(input);
+		double[] out = this.activate(outBeforeAct);
+		for(int a = 0; a < out.length; a++) {
+				if(out[a] > 0) {
+					toReturn = toReturn + (expected[a] - out[a]) *  input[node];
+				}
+		}
+		return toReturn;
 	}
 	
 	public double reLU(double x) {
