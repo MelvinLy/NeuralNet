@@ -23,7 +23,7 @@ public class Main {
 		
 		double[] input = {1,2,3,4,5};
 		double[] output = net.getOutput(input);
-		double[] expected = {0.9525740853634935, 0.9525740853634935, 0.9525740853634935};
+		double[] expected = {5345, 53, 543};
 		
 		print(Arrays.toString(output) + "\n");
 		print(net.getNewWeight(1, 0, 0, input, expected, 0.1));
