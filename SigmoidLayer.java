@@ -25,7 +25,7 @@ public class SigmoidLayer extends Layer {
 		return toReturn;
 	}
 
-	
+	//Squash function.
 	public double sigmoid(double x) {
 		return Math.pow(Math.E, x) / (Math.pow(Math.E, x) + 1);
 	}
