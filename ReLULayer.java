@@ -3,9 +3,8 @@ public class ReLULayer extends Layer {
 	public ReLULayer(int size, int outputSize) {
 		super(size, outputSize);
 	}
-
+	
 	public double[] activate(double[] input) {
-		
 		double[] toReturn = new double[input.length];
 		for(int a = 0; a < input.length; a++) {
 			toReturn[a] = reLU(input[a]);

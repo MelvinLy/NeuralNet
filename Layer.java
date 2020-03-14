@@ -21,7 +21,7 @@ public abstract class Layer {
 	//Edge defines the output node also.
 	public abstract double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException;
 	
-	
+	//Gets the output before applying the activation function
 	public double[] getOutputBeforeAct(double[] input) throws NullNodeException {
 		double[] toReturn = new double[this.getOutputSize()];
 		//Nodes
@@ -35,6 +35,7 @@ public abstract class Layer {
 		return toReturn;
 	}
 	
+	//Calculate the new weights
 	public double getNewWeight(int node, int edge, double[] input, double[] expected, double rate) throws NullNodeException {
 		double[][] allOutput = this.parentNetwork.getAllOutputs(input);
 		double[] output = allOutput[this.layerNumber - 1];
@@ -52,6 +53,7 @@ public abstract class Layer {
 		return this.outputSize;
 	}
 	
+	//Returns the array of nodes in the layer.
 	public Node[] getNodes() throws NullNodeException {
 		for(int a = 0; a < this.nodes.length; a++) {
 			if(this.nodes[a] == null) {
@@ -61,19 +63,24 @@ public abstract class Layer {
 		return this.nodes.clone();
 	}
 	
+	//Returns a pointer to the previous layer.
 	public Layer getParentLayer() {
 		return this.parentLayer;
 	}
 	
+	//Returns a pointer to the next layer.
 	public Layer getNextLayer() {
 		return this.nextLayer;
 	}
 	
+	//Gets the bias for this layer.
 	public double getBias() {
 		return this.bias;
 	}
 	
+	//Sets an individual node for the layer.
 	public void setNode(int a, Node node) throws NodeSizeMismatchException {
+		//Each node has edges coming out of it, they must match the next layer size.
 		if(node.size() != this.getOutputSize()) {
 			throw new NodeSizeMismatchException("The node being set does not match the output size of the layer.");
 		}
