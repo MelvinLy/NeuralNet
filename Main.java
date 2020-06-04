@@ -1,4 +1,9 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.awt.image.DataBufferByte;
+import javax.imageio.ImageIO;
 
 public class Main {
 	
@@ -8,8 +13,15 @@ public class Main {
 	
 	public static void main(String args[]) throws LayerSizeMismatchException, NullNodeException, NodeSizeMismatchException {
 		
-		
-		
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("one.png"));
+		}
+		catch(IOException e) {
+			
+		}
+		byte[] pixels = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+		println(Arrays.toString(pixels));
 		/*
 		SigmoidLayer layer = new SigmoidLayer(5, 3);
 		SigmoidLayer layer2 = new SigmoidLayer(3, 3);
