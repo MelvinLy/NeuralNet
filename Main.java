@@ -2,7 +2,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.awt.image.DataBufferByte;
 import javax.imageio.ImageIO;
 
 public class Main {
@@ -20,14 +19,15 @@ public class Main {
 		catch(IOException e) {
 			
 		}
-		int[][] pixels = new int[32][32];
+		int[] pixels = new int[32 * 32];
+		int pPointer = 0;
 		for(int a = 0; a < 32; a++) {
 			for(int b = 0; b < 32; b++) {
-				pixels[a][b] = img.getRGB(a, b);
+				pixels[pPointer++] = img.getRGB(a, b);
 			}
 		}
 		
-		
+		println(Arrays.toString(pixels));
 
 	}
 }
