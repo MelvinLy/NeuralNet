@@ -128,11 +128,12 @@ public class Main {
 		for(int time = 0; time < 1000; time++) {
 			for(int a = 0; a < out.size(); a++) {
 				for(int b = 0; b < out.getOutputSize(); b++) {
-					double newWeight = network.getNewWeight(1, a, b, imgArr[0], expected, 0.1);
-					network.setWeight(1, a, b, newWeight);
+					double newWeight = network.getNewWeight(0, a, b, imgArr[0], expected, 0.1);
+					network.setWeight(0, a, b, newWeight);
 				}
 			}
 		}
+		
 		print("\n" + Arrays.deepToString(network.getAllOutputs(imgArr[0])));
 		//for(int a = 0; a < 2;) {
 		//	
