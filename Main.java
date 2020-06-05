@@ -42,34 +42,70 @@ public class Main {
 	
 	public static void main(String args[]) throws LayerSizeMismatchException, NullNodeException, NodeSizeMismatchException {
 		
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File("one.jpg"));
-		}
-		catch(IOException e) {
-			
-		}
-		int[] pixels = new int[32 * 32];
+		double[][] imgArr = new double[24][1024];
+		int imgP = 0;
+		for(int c = 1; c <= 12; c++) {
+			BufferedImage img = null;
+			try {
+				img = ImageIO.read(new File("one" + c + ".jpg"));
+			}
+			catch(IOException e) {
+				
+			}
+			int[] pixels = new int[32 * 32];
 		
 		//Extract pixels
-		int pPointer = 0;
-		for(int a = 0; a < 32; a++) {
-			for(int b = 0; b < 32; b++) {
-				pixels[pPointer++] = img.getRGB(b, a);
+			int pPointer = 0;
+			for(int a = 0; a < 32; a++) {
+				for(int b = 0; b < 32; b++) {
+					pixels[pPointer++] = img.getRGB(b, a);
+				}
 			}
+			invert(pixels);
+			double[] normalizedPixels = normalize(pixels);
+			for(int a = 0; a < normalizedPixels.length; a++) {
+				normalizedPixels[a] = round(normalizedPixels[a], 2);
+			}
+			for(int a = 0; a < normalizedPixels.length; a++) {
+				if(a % 32 == 0) {
+					System.out.println();
+				}
+				System.out.printf("%.1f ", normalizedPixels[a]);
+			}
+			imgArr[imgP++] = normalizedPixels;
 		}
-		invert(pixels);
-		double[] normalizedPixels = normalize(pixels);
-		for(int a = 0; a < normalizedPixels.length; a++) {
-			normalizedPixels[a] = round(normalizedPixels[a], 2);
-		}
+		for(int c = 1; c <= 12; c++) {
+			BufferedImage img = null;
+			try {
+				img = ImageIO.read(new File("zero" + c + ".jpg"));
+			}
+			catch(IOException e) {
+				
+			}
+			int[] pixels = new int[32 * 32];
 		
-		for(int a = 0; a < normalizedPixels.length; a++) {
-			if(a % 32 == 0) {
-				System.out.println();
+		//Extract pixels
+			int pPointer = 0;
+			for(int a = 0; a < 32; a++) {
+				for(int b = 0; b < 32; b++) {
+					pixels[pPointer++] = img.getRGB(b, a);
+				}
 			}
-			System.out.printf("%.1f ", normalizedPixels[a]);
+			invert(pixels);
+			double[] normalizedPixels = normalize(pixels);
+			for(int a = 0; a < normalizedPixels.length; a++) {
+				normalizedPixels[a] = round(normalizedPixels[a], 2);
+			}
+			for(int a = 0; a < normalizedPixels.length; a++) {
+				if(a % 32 == 0) {
+					System.out.println();
+				}
+				System.out.printf("%.1f ", normalizedPixels[a]);
+			}
+			imgArr[imgP++] = normalizedPixels;
 		}
+		print(Arrays.deepToString(imgArr));
+		
 		
 	}
 }
