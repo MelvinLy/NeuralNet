@@ -38,6 +38,7 @@ public class NeuralNetwork {
 		return toReturn;
 	}
 	
+	//Input of the entire network.
 	public double getNewWeight(int layerNumber, int node, int edge, double[] input, double[] expected, double rate) throws NullNodeException {
 		Layer currentLayer = this.inputLayer;
 		while(currentLayer.layerNumber != layerNumber) {

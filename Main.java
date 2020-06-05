@@ -113,17 +113,23 @@ public class Main {
 		//print(Arrays.deepToString(imgArr));
 		
 		SigmoidLayer in = new SigmoidLayer(32 * 32, 2);
-		SigmoidLayer out = new SigmoidLayer(2, 2);
+		ReLULayer out = new ReLULayer(2, 2);
 		for(int a = 0; a < in.size(); a++) {
 			in.setNode(a, new Node(2));
 		}
 		for(int a = 0; a < out.size(); a++) {
 			out.setNode(a, new Node(2));
 		}
+		
 		NeuralNetwork network = new NeuralNetwork(in, out);
-		print(Arrays.toString(network.getOutput(imgArr[0])));
-		
-		
+		print(Arrays.deepToString(network.getAllOutputs(imgArr[0])));
+		//network.getNewWeight(layerNumber, node, edge, input, expected, rate);
+		double[] given = {2,2};
+		double[] expected = {0,1};
+		network.getNewWeight(1, 0, 0, imgArr[0], expected, 0.001);
+		//for(int a = 0; a < 2;) {
+		//	
+		//}
 	}
 }
 
