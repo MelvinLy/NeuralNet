@@ -66,12 +66,14 @@ public class Main {
 			for(int a = 0; a < normalizedPixels.length; a++) {
 				normalizedPixels[a] = round(normalizedPixels[a], 2);
 			}
+			/*
 			for(int a = 0; a < normalizedPixels.length; a++) {
 				if(a % 32 == 0) {
 					System.out.println();
 				}
 				System.out.printf("%.1f ", normalizedPixels[a]);
 			}
+			*/
 			imgArr[imgP++] = normalizedPixels;
 		}
 		for(int c = 1; c <= 12; c++) {
@@ -96,17 +98,30 @@ public class Main {
 			for(int a = 0; a < normalizedPixels.length; a++) {
 				normalizedPixels[a] = round(normalizedPixels[a], 2);
 			}
+			/*
 			for(int a = 0; a < normalizedPixels.length; a++) {
 				if(a % 32 == 0) {
 					System.out.println();
 				}
 				System.out.printf("%.1f ", normalizedPixels[a]);
 			}
+			*/
 			imgArr[imgP++] = normalizedPixels;
 		}
-		print(Arrays.deepToString(imgArr));
+		//print('\n');
+		//print('\n');
+		//print(Arrays.deepToString(imgArr));
 		
-		
+		SigmoidLayer in = new SigmoidLayer(32 * 32, 2);
+		SigmoidLayer out = new SigmoidLayer(2, 2);
+		for(int a = 0; a < in.size(); a++) {
+			in.setNode(a, new Node(2));
+		}
+		for(int a = 0; a < out.size(); a++) {
+			out.setNode(a, new Node(2));
+		}
+		NeuralNetwork network = new NeuralNetwork(in, out);
+		print(Arrays.toString(network.getOutput(imgArr[0])));
 	}
 }
 
