@@ -1,7 +1,7 @@
 
 public class ConvolutionalLayer extends Layer {
 
-	//Some methods may not be compatible with other layers.
+	//Some methods may not be compatible with this type of layer.
 	
 	public ConvolutionalLayer(int size, int outputSize) {
 		super(size, outputSize);
