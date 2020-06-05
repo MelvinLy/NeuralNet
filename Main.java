@@ -10,6 +10,36 @@ public class Main {
 		System.out.println(a);
 	}
 	
+	public static int getMax(int[] arr) {
+		int max = arr[0];
+		for(int a = 1; a < arr.length; a++) {
+			if(arr[a] > max) {
+				max = arr[a];
+			}
+		}
+		return max;
+	}
+	
+	public static void invert(int[] arr) {
+		for(int a = 0; a < arr.length; a++) {
+			arr[a] = -arr[a];
+		}
+	}
+	
+	public static double[] normalize(int[] arr) {
+		double[] out = new double[arr.length];
+		int max = getMax(arr);
+		for(int a = 0; a < out.length; a++) {
+			out[a] = (double) arr[a] / max;
+		}
+		return out;
+	}
+	
+	public static double round(double val, int places) {
+		long mult = (long) Math.pow(10, places);
+		return (double) Math.round(val * mult) / mult;
+	}
+	
 	public static void main(String args[]) throws LayerSizeMismatchException, NullNodeException, NodeSizeMismatchException {
 		
 		BufferedImage img = null;
@@ -20,15 +50,21 @@ public class Main {
 			
 		}
 		int[] pixels = new int[32 * 32];
+		
+		//Extract pixels
 		int pPointer = 0;
 		for(int a = 0; a < 32; a++) {
 			for(int b = 0; b < 32; b++) {
 				pixels[pPointer++] = img.getRGB(a, b);
 			}
 		}
+		invert(pixels);
+		double[] normalizedPixels = normalize(pixels);
+		for(int a = 0; a < normalizedPixels.length; a++) {
+			normalizedPixels[a] = round(normalizedPixels[a], 2);
+		}
+		println(Arrays.toString(normalizedPixels));
 		
-		println(Arrays.toString(pixels));
-
 	}
 }
 
