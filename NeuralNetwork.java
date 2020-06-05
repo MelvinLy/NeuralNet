@@ -48,7 +48,7 @@ public class NeuralNetwork {
 	}
 	
 	public int size() {
-		return size;
+		return this.size;
 	}
 	
 	public double[] getOutput(double[] input) throws NullNodeException {

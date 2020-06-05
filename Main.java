@@ -124,9 +124,10 @@ public class Main {
 		NeuralNetwork network = new NeuralNetwork(in, out);
 		print(Arrays.deepToString(network.getAllOutputs(imgArr[0])));
 		//network.getNewWeight(layerNumber, node, edge, input, expected, rate);
-		double[] given = {2,2};
 		double[] expected = {0,1};
-		network.getNewWeight(1, 0, 0, imgArr[0], expected, 0.001);
+		double newWeight = network.getNewWeight(1, 0, 0, imgArr[0], expected, 0.01);
+		print("\n" + newWeight);
+		
 		//for(int a = 0; a < 2;) {
 		//	
 		//}
