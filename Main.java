@@ -113,7 +113,7 @@ public class Main {
 		//print(Arrays.deepToString(imgArr));
 		
 		SigmoidLayer in = new SigmoidLayer(32 * 32, 2);
-		ReLULayer out = new ReLULayer(2, 2);
+		SigmoidLayer out = new SigmoidLayer(2, 2);
 		for(int a = 0; a < in.size(); a++) {
 			in.setNode(a, new Node(2));
 		}
@@ -125,9 +125,15 @@ public class Main {
 		print(Arrays.deepToString(network.getAllOutputs(imgArr[0])));
 		//network.getNewWeight(layerNumber, node, edge, input, expected, rate);
 		double[] expected = {0,1};
-		double newWeight = network.getNewWeight(1, 0, 0, imgArr[0], expected, 0.01);
-		print("\n" + newWeight);
-		
+		for(int time = 0; time < 1000; time++) {
+			for(int a = 0; a < out.size(); a++) {
+				for(int b = 0; b < out.getOutputSize(); b++) {
+					double newWeight = network.getNewWeight(1, a, b, imgArr[0], expected, 0.1);
+					network.setWeight(1, a, b, newWeight);
+				}
+			}
+		}
+		print("\n" + Arrays.deepToString(network.getAllOutputs(imgArr[0])));
 		//for(int a = 0; a < 2;) {
 		//	
 		//}

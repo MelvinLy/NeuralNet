@@ -47,6 +47,14 @@ public class NeuralNetwork {
 		return currentLayer.getNewWeight(node, edge, input, expected, rate);
 	}
 	
+	public void setWeight(int layerNumber, int node, int edge, double newWeight) throws NullNodeException {
+		Layer currentLayer = this.inputLayer;
+		while(currentLayer.layerNumber != layerNumber) {
+			currentLayer = currentLayer.nextLayer;
+		}
+		currentLayer.setWeight(node, edge, newWeight);
+	}
+	
 	public int size() {
 		return this.size;
 	}
