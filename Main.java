@@ -6,8 +6,8 @@ import javax.imageio.ImageIO;
 
 public class Main {
 	
-	public static void println(Object a) {
-		System.out.println(a);
+	public static void print(Object a) {
+		System.out.print(a);
 	}
 	
 	public static int getMax(int[] arr) {
@@ -55,7 +55,7 @@ public class Main {
 		int pPointer = 0;
 		for(int a = 0; a < 32; a++) {
 			for(int b = 0; b < 32; b++) {
-				pixels[pPointer++] = img.getRGB(a, b);
+				pixels[pPointer++] = img.getRGB(b, a);
 			}
 		}
 		invert(pixels);
@@ -63,7 +63,13 @@ public class Main {
 		for(int a = 0; a < normalizedPixels.length; a++) {
 			normalizedPixels[a] = round(normalizedPixels[a], 2);
 		}
-		println(Arrays.toString(normalizedPixels));
+		
+		for(int a = 0; a < normalizedPixels.length; a++) {
+			if(a % 32 == 0) {
+				System.out.println();
+			}
+			System.out.printf("%.1f ", normalizedPixels[a]);
+		}
 		
 	}
 }

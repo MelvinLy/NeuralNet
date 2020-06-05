@@ -3,9 +3,15 @@ public class ConvolutionalLayer extends Layer {
 
 	//Some methods may not be compatible with this type of layer.
 	
-	public ConvolutionalLayer(int size, int outputSize) {
+	int width;
+	int height;
+	double[] layer;
+	
+	//Width and height are width and height of the image.
+	public ConvolutionalLayer(int size, int outputSize, int width, int height) {
 		super(size, outputSize);
-		// TODO Auto-generated constructor stub
+		this.width = width;
+		this.height = height;
 	}
 
 	public double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException {
