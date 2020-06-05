@@ -122,6 +122,8 @@ public class Main {
 		}
 		NeuralNetwork network = new NeuralNetwork(in, out);
 		print(Arrays.toString(network.getOutput(imgArr[0])));
+		
+		
 	}
 }
 
