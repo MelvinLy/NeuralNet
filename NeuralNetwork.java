@@ -5,15 +5,12 @@ public class NeuralNetwork {
 	private Layer lastLayer;
 	private int size;
 	
-	public NeuralNetwork(Layer inputLayer, Layer lastLayer) throws LayerSizeMismatchException {
-		this.inputLayer = inputLayer;
-		this.lastLayer = lastLayer;
-		this.inputLayer.addNextLayer(lastLayer);
+	public NeuralNetwork(Layer layer) {
+		this.inputLayer = layer;
+		this.lastLayer = layer;
 		this.inputLayer.parentNetwork = this;
-		this.lastLayer.parentNetwork = this;
 		this.inputLayer.layerNumber = 0;
-		this.lastLayer.layerNumber = 1;
-		this.size = 2;
+		this.size = 1;
 	}
 	
 	public void addLayer(Layer layer) throws LayerSizeMismatchException {

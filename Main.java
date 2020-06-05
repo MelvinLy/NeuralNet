@@ -121,7 +121,7 @@ public class Main {
 			out.setNode(a, new Node(2));
 		}
 		
-		NeuralNetwork network = new NeuralNetwork(in, out);
+		NeuralNetwork network = new NeuralNetwork(in);
 		print(Arrays.deepToString(network.getAllOutputs(imgArr[0])));
 		//network.getNewWeight(layerNumber, node, edge, input, expected, rate);
 		double[] expected = {0,1};
