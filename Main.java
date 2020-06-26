@@ -20,10 +20,10 @@ public class Main {
 		double[][] outputs = new double[][] {new double[] {1, 0, 0}, {0, 0, 1}};
 		//network.fit(new double[] {1, 3, 4, 0, 0}, new double[] {1, 0, 0}, 100000, 0.001);
 		//network.fit(new double[] {0, 0, 0, 1, 1}, new double[] {0, 0, 1}, 100000, 0.001);
-		println(Arrays.deepToString(network.firstLayer.weights));
+		//println(Arrays.deepToString(network.firstLayer.weights));
 		network.fit(inputs[0], outputs[0], 100000, 0.01);
 
-		println(Arrays.deepToString(network.firstLayer.weights));
+		//println(Arrays.deepToString(network.firstLayer.weights));
 		println(Arrays.toString(network.getOutput(new double[] {10, 0})));
 		println(Arrays.toString(network.getOutput(new double[] {0, 10})));
 		
