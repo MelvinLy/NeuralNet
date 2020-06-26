@@ -49,6 +49,20 @@ public class NeuralNetwork {
 				allOutputs[index + 1] = activatedOut;
 			}
 		}
+		current = s.pop();
+		int index = s.size();
+		double[] cInput = allOutputs[index];
+		double[] currentExpectedOutput = allOutputs[index];
+		if(index == allOutputs.length - 2) {
+			currentExpectedOutput = output;
+		}
+		for(int a = 0; a < trainAmount; a++) {
+			double[] rawOut = current.getRawOutput(cInput);
+			double[] activatedOut = current.getActivatedOutput(cInput);
+			current.trainLayer(activatedOut, currentExpectedOutput, learningRate, rawOut);
+			activatedOut = current.getActivatedOutput(cInput);
+			allOutputs[index + 1] = activatedOut;
+		}
 	}
 
 
