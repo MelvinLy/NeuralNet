@@ -12,7 +12,7 @@ public class Layer {
 		this.weights = new double[outputSize][inputSize];
 		for(int a = 0; a < this.weights.length; a++) {
 			for(int b = 0; b < this.weights[a].length; b++) {
-				this.weights[a][b] = 1;
+				this.weights[a][b] = Math.random();
 			}
 		}
 		this.bias = 0;

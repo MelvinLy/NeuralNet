@@ -2,7 +2,7 @@ import java.util.Stack;
 
 public class NeuralNetwork {
 
-	private Layer firstLayer;
+	public Layer firstLayer;
 	private Layer lastLayer;
 	int size;
 
@@ -13,7 +13,15 @@ public class NeuralNetwork {
 		this.lastLayer = firstLayer;
 		this.size = 1;
 	}
-
+	
+	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
+		for(int a = 0; a < trainAmount; a++) {
+			for(int b = 0; b < inputs.length; b++) {
+				fit(inputs[b], outputs[b], 1, learningRate);
+			}
+		}
+	}
+	
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
 			return;

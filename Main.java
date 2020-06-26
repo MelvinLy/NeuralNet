@@ -6,26 +6,24 @@ public class Main {
 		System.out.println(a);
 	}
 	
-	
-	
 	public static void main(String[] args) throws LayerSizeMismatchException, UnsupportedMethodException {
-		SigmoidLayer test = new SigmoidLayer(5, 2);
-		double[] input = {1, 2, 3, 4, 5};
-		double[] out = test.getRawOutput(input);
-		
-		SigmoidLayer test2 = new SigmoidLayer(2, 2);
-		
+		Layer test = new SigmoidLayer(2, 16);
 		NeuralNetwork network = new NeuralNetwork(test);
-		network.addLayer(test2);
+		for(int a = 0; a < 100; a++) {
+			Layer tmp = new SigmoidLayer(16, 16);
+			network.addLayer(tmp);
+		}
+		Layer tmp = new SigmoidLayer(16, 3);
+		network.addLayer(tmp);
+
+		double[][] inputs = new double[][] {new double[] {10, 0}, new double[] {0, 10}};
+		double[][] outputs = new double[][] {new double[] {1, 0, 0}, {0, 0, 1}};
+		//network.fit(new double[] {1, 3, 4, 0, 0}, new double[] {1, 0, 0}, 100000, 0.001);
+		//network.fit(new double[] {0, 0, 0, 1, 1}, new double[] {0, 0, 1}, 100000, 0.001);
+		network.fit(inputs, outputs, 10000, 0.01);
+		println(Arrays.toString(network.getOutput(new double[] {10, 0})));
+		//println(Arrays.deepToString(network.firstLayer.nextLayer.nextLayer.weights));
+		println(Arrays.toString(network.getOutput(new double[] {0, 10})));
 		
-		println(Arrays.toString(network.getOutput(input)));
-		double[][] allOutputs = network.getAllOutputs(input);
-		println(Arrays.deepToString(allOutputs));
-		
-		double[] raw = test2.getRawOutput(new double[]{0.9999996940977731, 0.9999996940977731});
-		double newWeight = test2.getNewWeight(0.8807970137423242, 1, test2.getWeight(0, 0), 0.01, raw[0]);
-		println(newWeight);
-		network.fit(input, new double[] {1,0}, 100000, 0.1);
-		println(Arrays.toString(network.getOutput(input)));
 	}
 }
