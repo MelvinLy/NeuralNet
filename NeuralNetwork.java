@@ -1,61 +1,78 @@
-public class NeuralNetwork {
-	private Layer inputLayer;
-	private Layer lastLayer;
-	private int size;
+import java.util.Stack;
 
-	//Creating the network requires two layers.
-	public NeuralNetwork(Layer inputLayer, Layer lastLayer) throws LayerSizeMismatchException {
-		this.inputLayer = inputLayer;
-		this.lastLayer = lastLayer;
-		this.inputLayer.addNextLayer(lastLayer);
-		this.inputLayer.parentNetwork = this;
-		this.lastLayer.parentNetwork = this;
-		this.inputLayer.layerNumber = 0;
-		this.lastLayer.layerNumber = 1;
-		this.size = 2;
+public class NeuralNetwork {
+
+	private Layer firstLayer;
+	private Layer lastLayer;
+	int size;
+
+	//Network can have a single layer as input can be omitted;
+	//The output layer is just the output of the last layer;
+	public NeuralNetwork(Layer firstLayer) {
+		this.firstLayer = firstLayer;
+		this.lastLayer = firstLayer;
+		this.size = 1;
 	}
-	
-	//Adds layer to the network.
-	public void addLayer(Layer layer) throws LayerSizeMismatchException {
-		this.lastLayer.addNextLayer(layer);
-		this.lastLayer = layer;
-		this.lastLayer.parentNetwork = this;
-		this.size++;
-		this.lastLayer.layerNumber = size - 1;
+
+	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
+		if(trainAmount == 0) {
+			return;
+		}
+		double[][] allOutputs = getAllOutputs(input);
+		Stack<Layer> s = new Stack<Layer>();
+		Layer current = firstLayer;
+		while(current!= null) {
+			s.push(current);
+			current = current.nextLayer;
+		}
+		while(s.size() > 1) {
+			current = s.pop();
+			int index = s.size() - 1;
+			double[] cInput = allOutputs[index];
+			double[] currentExpectedOutput = allOutputs[index];
+			if(index == allOutputs.length - 2) {
+				currentExpectedOutput = output;
+			}
+			for(int a = 0; a < trainAmount; a++) {
+				double[] rawOut = current.getRawOutput(cInput);
+				double[] activatedOut = current.getActivatedOutput(cInput);
+				current.trainLayer(activatedOut, currentExpectedOutput, learningRate, rawOut);
+				activatedOut = current.getActivatedOutput(cInput);
+				allOutputs[index + 1] = activatedOut;
+			}
+		}
 	}
-	//Get outputs for each layer, useful when performing back propagation.
-	public double[][] getAllOutputs(double[] input) throws NullNodeException {
-		double[][] toReturn = new double[this.size()][];
-		double[] carry = input.clone();
-		Layer currentLayer = this.inputLayer;
-		//Compute at each layer.
-		for(int a = 0; a < this.size(); a++) {
-			double[] temp = currentLayer.getOutputBeforeAct(carry);
-			temp = currentLayer.activate(temp);
-			toReturn[a] = temp;
-			carry = temp;
+
+
+	public double[] getOutput(double[] input) {
+		double[] out = input;
+		Layer currentLayer = firstLayer;
+		for(int a = 0; a < size; a++) {
+			out = currentLayer.getActivatedOutput(out);
 			currentLayer = currentLayer.nextLayer;
+		}
+		return out;
+	}
+
+	//Returns output at each layer
+	public double[][] getAllOutputs(double[] input) {
+		double[] out = input;
+		double[][] toReturn = new double[size][];
+		Layer currentLayer = firstLayer;
+		for(int a = 0; a < size; a++) {
+			out = currentLayer.getActivatedOutput(out);
+			currentLayer = currentLayer.nextLayer;
+			toReturn[a] = out;
 		}
 		return toReturn;
 	}
-	
-	//Calculate the new weights at a given layer.
-	public double getNewWeight(int layerNumber, int node, int edge, double[] input, double[] expected, double rate) throws NullNodeException {
-		Layer currentLayer = this.inputLayer;
-		while(currentLayer.layerNumber != layerNumber) {
-			currentLayer = currentLayer.nextLayer;
-		}
-		return currentLayer.getNewWeight(node, edge, input, expected, rate);
-	}
-	
-	//Size of the network.
-	public int size() {
-		return size;
-	}
 
-	//Get the output of the final layer.
-	public double[] getOutput(double[] input) throws NullNodeException {
-		double[][] temp = this.getAllOutputs(input);
-		return temp[this.size - 1];
+	public void addLayer(Layer layer) throws LayerSizeMismatchException {
+		if(layer.inputSize != lastLayer.outputSize) {
+			throw new LayerSizeMismatchException("The current last layer's output size is not equal to the given layer's input size.");
+		}
+		this.lastLayer.nextLayer = layer;
+		this.lastLayer = lastLayer.nextLayer;
+		this.size = this.size + 1;
 	}
 }

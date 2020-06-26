@@ -1,31 +1,31 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
 	
-	public static void print(Object a) {
+	public static void println(Object a) {
 		System.out.println(a);
 	}
 	
-	public static void main(String args[]) throws LayerSizeMismatchException, NullNodeException, NodeSizeMismatchException {
+	
+	
+	public static void main(String[] args) throws LayerSizeMismatchException, UnsupportedMethodException {
+		SigmoidLayer test = new SigmoidLayer(5, 2);
+		double[] input = {1, 2, 3, 4, 5};
+		double[] out = test.getRawOutput(input);
 		
-		SigmoidLayer layer = new SigmoidLayer(5, 3);
-		SigmoidLayer layer2 = new SigmoidLayer(3, 3);
+		SigmoidLayer test2 = new SigmoidLayer(2, 2);
 		
-		for(int a = 0; a < layer.size(); a++) {
-			layer.setNode(a, new Node(3));
-		}
+		NeuralNetwork network = new NeuralNetwork(test);
+		network.addLayer(test2);
 		
-		for(int a = 0; a < layer2.size(); a++) {
-			layer2.setNode(a, new Node(3));
-		}
+		println(Arrays.toString(network.getOutput(input)));
+		double[][] allOutputs = network.getAllOutputs(input);
+		println(Arrays.deepToString(allOutputs));
 		
-		NeuralNetwork net = new NeuralNetwork(layer, layer2);
-		
-		double[] input = {1,2,3,4,5};
-		double[] output = net.getOutput(input);
-		double[] expected = {5345, 53, 543};
-		
-		print(Arrays.toString(output) + "\n");
-		print(net.getNewWeight(1, 0, 0, input, expected, 0.1));
+		double[] raw = test2.getRawOutput(new double[]{0.9999996940977731, 0.9999996940977731});
+		double newWeight = test2.getNewWeight(0.8807970137423242, 1, test2.getWeight(0, 0), 0.01, raw[0]);
+		println(newWeight);
+		network.fit(input, new double[] {1,0}, 100000, 0.1);
+		println(Arrays.toString(network.getOutput(input)));
 	}
 }

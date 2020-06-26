@@ -1,32 +1,61 @@
+
 public class SigmoidLayer extends Layer {
 
-	public SigmoidLayer(int size, int outputSize) {
-		super(size, outputSize);
-	}
-	
-	//Take the input before activation.
-	public double[] activate(double[] input) {
-		double[] toReturn = new double[input.length];
-		for(int a = 0; a < input.length; a++) {
-			toReturn[a] = sigmoid(input[a]);
-		}
-		return toReturn;
-	}
-	
-	//Take input before activation.
-	//Edge defines the output node also.
-	public double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException {
-		double toReturn = 0;
-		double[] outBeforeAct = this.getOutputBeforeAct(input);
-		double[] out = this.activate(outBeforeAct);
-		for(int a = 0; a < out.length; a++) {
-				toReturn = toReturn - (expected[a] - out[a]) * Math.pow(Math.E, outBeforeAct[edge]) * input[node] / Math.pow(Math.pow(Math.E, outBeforeAct[edge]) + 1, 2);
-		}
-		return toReturn;
+	public SigmoidLayer(int inputSize, int outputSize) {
+		super(inputSize, outputSize);
 	}
 
-	//Squash function.
-	public double sigmoid(double x) {
-		return Math.pow(Math.E, x) / (Math.pow(Math.E, x) + 1);
+	private static double sigmoidDerivative(double x) {
+		double numerator = Math.exp(x);
+		double denominator = Math.pow((numerator + 1), 2);
+		return numerator / denominator;
 	}
+	
+	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) {
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
+		double step = stepSize(slope, learningRate);
+		return currentWeight - step;
+	}
+	
+	//May need this again
+	/*
+	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate) throws UnsupportedMethodException {
+		throw new UnsupportedMethodException("This method is not available for this layer.");
+	}
+	*/
+	
+	/*
+	 public double stepSize(double slopeFromDerivative, double learningRate) {
+		return slopeFromDerivative * learningRate;
+	}
+	
+	public double getNewWeight(double weight, double stepSize) {
+		return weight - stepSize;
+	}
+	*/
+	
+	private static double sigmoid(double x) {
+		double numerator = Math.exp(x);
+		double denominator = numerator + 1;
+		return numerator / denominator;
+	}
+	
+	public double partialDerivative(double predictedValue, double expectedValue) throws UnsupportedMethodException {
+		throw new UnsupportedMethodException("This method is not available for this layer.");
+	}
+	
+	//Predicted and expected values are value of node after applying the activation function.
+	//Raw output is the value before applying the activation function. 
+	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput) {
+		return -(expectedValue - predictedValue) * sigmoidDerivative(rawExpectedOutput) * (predictedValue);
+	}
+	
+	public double[] getActivatedOutput(double[] input) {
+		double[] out = getRawOutput(input);
+		for(int a = 0; a < out.length; a++) {
+			out[a] = sigmoid(out[a]);
+		}
+		return out;
+	}
+	
 }

@@ -1,106 +1,108 @@
-public abstract class Layer {
-	protected Node[] nodes;
-	protected Layer parentLayer;
-	protected Layer nextLayer;
-	protected NeuralNetwork parentNetwork;
-	protected int outputSize;
-	protected int layerNumber;
+
+public class Layer {
 	private double bias;
+	protected Layer previousLayer;
+	protected Layer nextLayer;
+	protected NeuralNetwork parentNeuralNetwork;
+	protected int outputSize;
+	protected int inputSize;
+	protected double[][] weights; //A row of weight values are designated as weights used to calculate the next respective output node.
 	
-	public Layer(int size, int outputSize) {
-		this.nodes = new Node[size];
-		this.nextLayer = null;
-		this.bias = 0;
-		this.outputSize = outputSize;
-	}
-	
-	//Also known as get output.
-	public abstract double[] activate(double[] input);
-	
-	//Take input before activation.
-	//Edge defines the output node also.
-	public abstract double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException;
-	
-	//Gets the output before applying the activation function
-	public double[] getOutputBeforeAct(double[] input) throws NullNodeException {
-		double[] toReturn = new double[this.getOutputSize()];
-		//Nodes
-		for(int a = 0; a < this.size(); a++) {
-			Node currentNode = this.getNodes()[a];
-			//Edge
-			for(int b = 0; b < this.getOutputSize(); b++) {
-				toReturn[b] = toReturn[b] + input[a] * currentNode.getWeights()[b];
+	public Layer(int inputSize, int outputSize) {
+		this.weights = new double[outputSize][inputSize];
+		for(int a = 0; a < this.weights.length; a++) {
+			for(int b = 0; b < this.weights[a].length; b++) {
+				this.weights[a][b] = 1;
 			}
 		}
-		return toReturn;
-	}
-	
-	//Calculate the new weights
-	public double getNewWeight(int node, int edge, double[] input, double[] expected, double rate) throws NullNodeException {
-		double[][] allOutput = this.parentNetwork.getAllOutputs(input);
-		double[] output = allOutput[this.layerNumber - 1];
-		double grad = dCostbyDWeight(node, edge, output, expected);
-		double step = grad * rate;
-		double previousWeight = this.getNodes()[node].getWeights()[edge];
-		return previousWeight - step;
-	}
-	
-	public int size() {
-		return this.nodes.length;
+		this.bias = 0;
+		this.inputSize = inputSize;
+		this.outputSize = outputSize;
+		this.nextLayer = null;
 	}
 	
 	public int getOutputSize() {
 		return this.outputSize;
 	}
 	
-	//Returns the array of nodes in the layer.
-	public Node[] getNodes() throws NullNodeException {
-		for(int a = 0; a < this.nodes.length; a++) {
-			if(this.nodes[a] == null) {
-				throw new NullNodeException("Not all node(s) in the layer are initialized.");
+	public double getWeight(int outputNode, int weightNumber) {
+		return weights[outputNode][weightNumber];
+	}
+	
+	//Chain of order: Get partialDerivative, pass result to stepSize, pass to getNewWeight.
+	
+	//rawExpectedOutput can be anything for the generic layer
+	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
+		double slope = partialDerivative(predictedValue, expectedValue);
+		double step = stepSize(slope, learningRate);
+		return currentWeight - step;
+	}
+	
+	public void trainLayer(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
+		double tmp[][] = new double[weights.length][weights[0].length];
+		for(int a = 0; a < weights.length; a++) {
+			for(int b = 0; b < weights[a].length; b++) {
+				double nWeight = getNewWeight(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a]);
+				tmp[a][b] = nWeight;
 			}
 		}
-		return this.nodes.clone();
+		weights = tmp;
 	}
 	
-	//Returns a pointer to the previous layer.
-	public Layer getParentLayer() {
-		return this.parentLayer;
-	}
-
-	//Returns a pointer to the next layer.
-	public Layer getNextLayer() {
-		return this.nextLayer;
+	public double cost(double observed, double predicted) {
+		return Math.pow(observed - predicted, 2) / 2;
 	}
 	
+	public double stepSize(double slopeFromDerivative, double learningRate) {
+		return slopeFromDerivative * learningRate;
+	}
+	
+	public double getNewWeight(double currentWeight, double stepSize) {
+		return currentWeight - stepSize;
+	}
+	
+	public double sumOfSquaredResiduals(double[] observed, double[] predicted) {
+		double sum = 0;
+		for(int a = 0; a < observed.length; a++) {
+			sum = sum + cost(observed[a], predicted[a]);
+		}
+		return sum;
+	}
+	
+	//Need differentiation of ErrorAtWeight by Weight in question. The derivative is partial therefore some of the other weights are treated as constants.
+	//(1/2)(Observed - Output) ^ 2
+	//Ouput = activation function
+	//Activation function = function that contains the output at the node
+	//Output at node is a dot product of weights and the inputs
+	
+	//Should override
+	public double partialDerivative(double predictedValue, double expectedValue) throws UnsupportedMethodException {
+		return -(expectedValue - predictedValue) * (predictedValue);
+	}
 
-	//Gets the bias for this layer.
+	//Should override
+	public double[] getActivatedOutput(double[] input) {
+		return getRawOutput(input);
+	}
+	
+	public int getInputSize() {
+		return this.inputSize;
+	}
+	
 	public double getBias() {
 		return this.bias;
 	}
-
-	//Sets an individual node for the layer.
-	public void setNode(int a, Node node) throws NodeSizeMismatchException {
-		//Each node has edges coming out of it, they must match the next layer size.
-		if(node.size() != this.getOutputSize()) {
-			throw new NodeSizeMismatchException("The node being set does not match the output size of the layer.");
-		}
-		this.nodes[a] = node;
-	}
 	
-	public void setWeight(int node, int edge, double weight) {
-		Node temp = this.nodes[node];
-		temp.setWeight(edge, weight);
-		this.nodes[node] = temp;
-	}
-	
-	public void addNextLayer(Layer layer) throws LayerSizeMismatchException {
-		if(layer.size() != this.getOutputSize()) {
-			throw new LayerSizeMismatchException("The output size of this current layer is not the same as the next layer.");
+	public double[] getRawOutput(double[] input) {
+		double[] out = new double[outputSize];
+		for(int a = 0; a < weights.length; a++) {
+			double innerProduct = 0;
+			for(int b = 0; b < weights[a].length; b++) {
+				innerProduct = innerProduct + weights[a][b] * input[b];
+			}
+			out[a] = innerProduct;
 		}
-		layer.parentLayer = this;
-		layer.parentNetwork = this.parentNetwork;
-		this.nextLayer = layer;
+		return out;
 	}
 	
 }
