@@ -14,6 +14,7 @@ public class NeuralNetwork {
 		this.size = 1;
 	}
 	
+	/*
 	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
@@ -21,7 +22,15 @@ public class NeuralNetwork {
 			}
 		}
 	}
+	*/
 	
+	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
+		for(int a = 0; a < inputs.length; a++) {
+			
+		}
+	}
+	
+	/*
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
 			return;
@@ -61,7 +70,7 @@ public class NeuralNetwork {
 			allOutputs[index + 1] = activatedOut;
 		}
 	}
-
+	*/
 
 	public double[] getOutput(double[] input) {
 		double[] out = input;

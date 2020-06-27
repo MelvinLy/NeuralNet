@@ -15,13 +15,15 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws LayerSizeMismatchException, UnsupportedMethodException {
-		Layer test = new SigmoidLayer(20, 5);
+		Layer test = new SigmoidLayer(20, 2);
 		NeuralNetwork network = new NeuralNetwork(test);
+		/*
 		for(int a = 0; a < 5; a++) {
 			Layer tmp = new SigmoidLayer(5, 5);
 			network.addLayer(tmp);
 		}
-		network.addLayer(new SigmoidLayer(5, 2));
+		*/
+		network.addLayer(new SigmoidLayer(2, 2));
 
 		double[][] inputs = new double[100][20];
 		double[][] outputs = new double[100][2];
@@ -60,8 +62,9 @@ public class Main {
 		*/
 		//println(inputs.length);
 		//println(outputs.length);
-		network.fit(inputs, outputs, 100000, 0.01);
+		network.fit(inputs, outputs, 10000, 0.01);
 		//println(Arrays.deepToString(network.firstLayer.weights));
+		println(Arrays.toString(inputs[0]));
 		println(Arrays.toString(network.getOutput(inputs[0])));
 		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
