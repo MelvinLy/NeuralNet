@@ -48,7 +48,7 @@ public class Main {
 		List<double[]> a2 = Arrays.asList(outputs);
 		
 		int s = 3534;
-		int i = 1;
+		int i = 98;
 		//println(Arrays.toString(inputs[i]));
 		Collections.shuffle(a1, new Random(s));
 		Collections.shuffle(a2, new Random(s));
@@ -71,7 +71,7 @@ public class Main {
 		//println(inputs.length);
 		//println(outputs.length);
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
-		network.fit(inputs, outputs, 1000, 0.01);
+		network.fit(inputs, outputs, 10000, 0.01);
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
 		println(Arrays.toString(network.getOutput(inputs[i])));
 		println(Arrays.toString(outputs[i]));
