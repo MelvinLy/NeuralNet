@@ -4,8 +4,9 @@ public class NeuralNetwork {
 
 	public Layer firstLayer;
 	private Layer lastLayer;
-	int size;
-
+	private int size;
+	private int inputSize;
+	
 	//Network can have a single layer as input can be omitted;
 	//The output layer is just the output of the last layer;
 	public NeuralNetwork(Layer firstLayer) {
@@ -24,8 +25,14 @@ public class NeuralNetwork {
 	}
 	*/
 	
+	public int getInputSize() {
+		return this.inputSize;
+	}
+	
 	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
+		this.inputSize = inputs.length;
 		for(int a = 0; a < inputs.length; a++) {
+			double[][] allOutputs = this.getAllOutputs(inputs[a]);
 			
 		}
 	}

@@ -7,9 +7,11 @@ public class Layer {
 	protected int outputSize;
 	protected int inputSize;
 	protected double[][] weights; //A row of weight values are designated as weights used to calculate the next respective output node.
+	protected double[][] nextSteps;
 	
 	public Layer(int inputSize, int outputSize) {
 		this.weights = new double[outputSize][inputSize];
+		this.nextSteps = new double[outputSize][inputSize];
 		for(int a = 0; a < this.weights.length; a++) {
 			for(int b = 0; b < this.weights[a].length; b++) {
 				this.weights[a][b] = Math.random();
@@ -38,15 +40,27 @@ public class Layer {
 		return currentWeight - step;
 	}
 	
-	public void trainLayer(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
-		double tmp[][] = new double[weights.length][weights[0].length];
+	public double getNextStep(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
+		double slope = partialDerivative(predictedValue, expectedValue);
+		double step = stepSize(slope, learningRate);
+		return step;
+	}
+	
+	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
 		for(int a = 0; a < weights.length; a++) {
 			for(int b = 0; b < weights[a].length; b++) {
-				double nWeight = getNewWeight(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a]);
-				tmp[a][b] = nWeight;
+				double nWeight = getNextStep(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a]);
+				nextSteps[a][b] = nextSteps[a][b] + nWeight;
 			}
 		}
-		weights = tmp;
+	}
+	
+	public void setNewWeight() {
+		for(int a = 0; a < nextSteps.length; a++) {
+			for(int b = 0; b < nextSteps[a].length; b++) {
+				nextSteps[a][b] = nextSteps[a][b] / this.parentNeuralNetwork.getInputSize();
+			}
+		}
 	}
 	
 	public double cost(double observed, double predicted) {
