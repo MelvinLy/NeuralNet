@@ -17,10 +17,10 @@ public class SigmoidLayer extends Layer {
 		return currentWeight - step;
 	}
 	
-	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs, double prev) throws UnsupportedMethodException {
+	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs, double prev[]) throws UnsupportedMethodException {
 		for(int a = 0; a < weights.length; a++) {
 			for(int b = 0; b < weights[a].length; b++) {
-				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a], prev);
+				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a], prev[b]);
 				nextSteps[a][b] = nextSteps[a][b] + nWeight;
 			}
 		}
