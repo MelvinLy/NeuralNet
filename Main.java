@@ -46,14 +46,22 @@ public class Main {
 	
 		List<double[]> a1 = Arrays.asList(inputs);
 		List<double[]> a2 = Arrays.asList(outputs);
-		Collections.shuffle(a1, new Random(12345));
-		Collections.shuffle(a2, new Random(12345));
+		
+		int s = 3;
+		int i = 0;
+		//println(Arrays.toString(inputs[i]));
+		Collections.shuffle(a1, new Random(s));
+		Collections.shuffle(a2, new Random(s));
 		for(int a = 0; a < 100; a++) {
 			inputs[a] = a1.get(a);
 		}
 		for(int a = 0; a < 100; a++) {
 			outputs[a] = a2.get(a);
 		}
+		
+		
+		//println(Arrays.toString(inputs[i]));
+		//println(Arrays.toString(outputs[i]));
 		/*
 		for(int a = 0; a < 100; a++) {
 			println(Arrays.toString(inputs[a]));
@@ -62,11 +70,14 @@ public class Main {
 		*/
 		//println(inputs.length);
 		//println(outputs.length);
-		println(Arrays.deepToString(network.firstLayer.weights));
+		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
 		network.fit(inputs, outputs, 1000, 0.1);
-		println(Arrays.deepToString(network.firstLayer.weights));
-		println(Arrays.toString(inputs[54]));
-		println(Arrays.toString(network.getOutput(inputs[0])));
+		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
+		println(Arrays.toString(network.getOutput(inputs[i])));
+		println(Arrays.toString(outputs[i]));
+		for(int a = 0; a < inputs.length; a++) {
+			println(Arrays.toString(network.getOutput(inputs[a])));
+		}
 		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
 	}

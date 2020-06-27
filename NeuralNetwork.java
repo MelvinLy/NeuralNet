@@ -70,7 +70,7 @@ public class NeuralNetwork {
 			current = s.pop();
 			for(int a = 0; a < trainAmount; a++) {
 				for(int b = 0; b < inputs.length; b++) {
-					double[][] allOutputs = this.getAllOutputs(inputs[s.size() - 1]);
+					double[][] allOutputs = this.getAllOutputs(inputs[b]);
 					int index = s.size() - 1;
 					double[] cInput = allOutputs[index];
 					double[] currentExpectedOutput = allOutputs[index];
@@ -87,10 +87,9 @@ public class NeuralNetwork {
 		current = s.pop();
 		for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
-				double[][] allOutputs = this.getAllOutputs(inputs[0]);
-				int index = s.size() - 1;
+				double[][] allOutputs = this.getAllOutputs(inputs[b]);
 				double[] cInput = inputs[0];
-				double[] currentExpectedOutput = inputs[1];
+				double[] currentExpectedOutput = allOutputs[0];
 				double[] rawOut = current.getRawOutput(cInput);
 				double[] activatedOut = current.getActivatedOutput(cInput);
 				current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut);
