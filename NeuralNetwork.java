@@ -14,6 +14,7 @@ public class NeuralNetwork {
 		this.firstLayer = firstLayer;
 		this.lastLayer = firstLayer;
 		this.size = 1;
+		firstLayer.parentNeuralNetwork = this;
 	}
 
 	/*
@@ -53,27 +54,39 @@ public class NeuralNetwork {
 		}
 	}
 	 */
-	/*
+	
 	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
+		this.inputSize = inputs.length;
 		if(trainAmount == 0) {
 			return;
 		}
-		for(int a = 0; a < inputs.length; a++) {
-			double[][] allOutputs = getAllOutputs(inputs[a]);
-			Stack<Layer> s = new Stack<Layer>();
-			Layer current = firstLayer;
-			while(current!= null) {
-				s.push(current);
-				current = current.nextLayer;
-			}
-			while(s.size() > 1) {
-				current = s.pop();
-				int index = s.size() - 1;
+		Stack<Layer> s = new Stack<Layer>();
+		Layer current = firstLayer;
+		while(current!= null) {
+			s.push(current);
+			current = current.nextLayer;
+		}
+		while(s.size() > 1) {
+			current = s.pop();
+			for(int a = 0; a < trainAmount; a++) {
+				for(int b = 0; b < inputs.length; b++) {
+					double[][] allOutputs = this.getAllOutputs(inputs[s.size() - 1]);
+					int index = s.size() - 1;
+					double[] cInput = allOutputs[index];
+					double[] currentExpectedOutput = allOutputs[index];
+					if(index == allOutputs.length - 2) {
+						currentExpectedOutput = expected[s.size() - 1];
+					}
+					double[] rawOut = current.getRawOutput(cInput);
+					double[] activatedOut = current.getActivatedOutput(cInput);
+					current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut);
+				}
+				current.setNewWeight();
 			}
 		}
 	}
-	*/
 	
+	/*
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
 			return;
@@ -112,7 +125,7 @@ public class NeuralNetwork {
 			//allOutputs[1] = activatedOut;
 		}
 	}
-	
+	*/
 
 	public double[] getOutput(double[] input) {
 		double[] out = input;
@@ -141,6 +154,7 @@ public class NeuralNetwork {
 		if(layer.inputSize != lastLayer.outputSize) {
 			throw new LayerSizeMismatchException("The current last layer's output size is not equal to the given layer's input size.");
 		}
+		layer.parentNeuralNetwork = this;
 		this.lastLayer.nextLayer = layer;
 		this.lastLayer = lastLayer.nextLayer;
 		this.size = this.size + 1;

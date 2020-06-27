@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Layer {
 	private double bias;
@@ -23,6 +24,10 @@ public class Layer {
 		this.nextLayer = null;
 	}
 	
+	public void setParentNeuralNetwork(NeuralNetwork parentNeuralNetwork) {
+		this.parentNeuralNetwork = parentNeuralNetwork;
+	}
+	
 	public int getOutputSize() {
 		return this.outputSize;
 	}
@@ -35,13 +40,13 @@ public class Layer {
 	
 	//rawExpectedOutput can be anything for the generic layer
 	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
-		double slope = partialDerivative(predictedValue, expectedValue);
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
 		double step = stepSize(slope, learningRate);
 		return currentWeight - step;
 	}
 	
 	public double getNextStep(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
-		double slope = partialDerivative(predictedValue, expectedValue);
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
 		double step = stepSize(slope, learningRate);
 		return step;
 	}
@@ -69,7 +74,7 @@ public class Layer {
 	public void setNewWeight() {
 		for(int a = 0; a < nextSteps.length; a++) {
 			for(int b = 0; b < nextSteps[a].length; b++) {
-				weights[a][b] = nextSteps[a][b] / this.parentNeuralNetwork.getInputSize();
+				weights[a][b] = weights[a][b] - nextSteps[a][b] / this.parentNeuralNetwork.getInputSize();
 				nextSteps[a][b] = 0;
 			}
 		}
@@ -102,7 +107,7 @@ public class Layer {
 	//Output at node is a dot product of weights and the inputs
 	
 	//Should override
-	public double partialDerivative(double predictedValue, double expectedValue) throws UnsupportedMethodException {
+	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput) throws UnsupportedMethodException {
 		return -(expectedValue - predictedValue) * (predictedValue);
 	}
 
