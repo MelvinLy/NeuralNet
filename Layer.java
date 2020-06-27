@@ -39,32 +39,32 @@ public class Layer {
 	//Chain of order: Get partialDerivative, pass result to stepSize, pass to getNewWeight.
 	
 	//rawExpectedOutput can be anything for the generic layer
-	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
-		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
+	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput, prev);
 		double step = stepSize(slope, learningRate);
 		return currentWeight - step;
 	}
 	
-	public double getNextStep(double predictedValue, double expectedValue, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
-		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
+	public double getNextStep(double predictedValue, double expectedValue, double learningRate, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput, prev);
 		double step = stepSize(slope, learningRate);
 		return step;
 	}
 	
-	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
+	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs, double prev) throws UnsupportedMethodException {
 		for(int a = 0; a < weights.length; a++) {
 			for(int b = 0; b < weights[a].length; b++) {
-				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a]);
+				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a], prev);
 				nextSteps[a][b] = nextSteps[a][b] + nWeight;
 			}
 		}
 	}
 	
-	public void trainLayer(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
+	public void trainLayer(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs, double prev) throws UnsupportedMethodException {
 		double tmp[][] = new double[weights.length][weights[0].length];
 		for(int a = 0; a < weights.length; a++) {
 			for(int b = 0; b < weights[a].length; b++) {
-				double nWeight = getNewWeight(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a]);
+				double nWeight = getNewWeight(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a], prev);
 				tmp[a][b] = nWeight;
 			}
 		}
@@ -107,8 +107,8 @@ public class Layer {
 	//Output at node is a dot product of weights and the inputs
 	
 	//Should override
-	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput) throws UnsupportedMethodException {
-		return -(expectedValue - predictedValue) * (predictedValue);
+	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		return -(expectedValue - predictedValue) * (prev);
 	}
 
 	//Should override

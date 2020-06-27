@@ -25,7 +25,7 @@ public class NeuralNetwork {
 			}
 		}
 	}
-	*/
+	 */
 
 	public int getInputSize() {
 		return this.inputSize;
@@ -49,12 +49,12 @@ public class NeuralNetwork {
 				if(index == allOutputs.length - 2) {
 					currentExpectedOutput = expected[a];
 				}
-				
+
 			}
 		}
 	}
 	 */
-	
+
 	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		this.inputSize = inputs.length;
 		if(trainAmount == 0) {
@@ -79,7 +79,9 @@ public class NeuralNetwork {
 					}
 					double[] rawOut = current.getRawOutput(cInput);
 					double[] activatedOut = current.getActivatedOutput(cInput);
-					current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut);
+					for(int c = 0; c < inputs[b].length; c++) {
+						current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, inputs[b][c]);
+					}
 				}
 				current.setNewWeight();
 			}
@@ -92,12 +94,14 @@ public class NeuralNetwork {
 				double[] currentExpectedOutput = allOutputs[0];
 				double[] rawOut = current.getRawOutput(cInput);
 				double[] activatedOut = current.getActivatedOutput(cInput);
-				current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut);
+				for(int c = 0; c < inputs[b].length; c++) {
+					current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, inputs[b][c]);
+				}
 			}
 			current.setNewWeight();
 		}
 	}
-	
+
 	/*
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
@@ -137,7 +141,7 @@ public class NeuralNetwork {
 			//allOutputs[1] = activatedOut;
 		}
 	}
-	*/
+	 */
 
 	public double[] getOutput(double[] input) {
 		double[] out = input;

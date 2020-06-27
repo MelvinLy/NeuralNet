@@ -11,23 +11,23 @@ public class SigmoidLayer extends Layer {
 		return numerator / denominator;
 	}
 	
-	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) {
-		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
+	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput, double prev) {
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput, prev);
 		double step = stepSize(slope, learningRate);
 		return currentWeight - step;
 	}
 	
-	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
+	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs, double prev) throws UnsupportedMethodException {
 		for(int a = 0; a < weights.length; a++) {
 			for(int b = 0; b < weights[a].length; b++) {
-				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a]);
+				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a], prev);
 				nextSteps[a][b] = nextSteps[a][b] + nWeight;
 			}
 		}
 	}
 	
-	public double getNextStep(double predictedValue, double expectedValue, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
-		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
+	public double getNextStep(double predictedValue, double expectedValue, double learningRate, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput, prev);
 		double step = stepSize(slope, learningRate);
 		return step;
 	}
@@ -61,8 +61,8 @@ public class SigmoidLayer extends Layer {
 	
 	//Predicted and expected values are value of node after applying the activation function.
 	//Raw output is the value before applying the activation function. 
-	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput) {
-		return -(expectedValue - predictedValue) * sigmoidDerivative(rawExpectedOutput) * (predictedValue);
+	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput, double prev) {
+		return -(expectedValue - predictedValue) * sigmoidDerivative(rawExpectedOutput) * (prev);
 	}
 	
 	public double[] getActivatedOutput(double[] input) {
