@@ -61,15 +61,15 @@ public class NeuralNetwork {
 			return;
 		}
 		for(int i = 0; i < trainAmount; i++) {
-		Stack<Layer> s = new Stack<Layer>();
-		Layer current = firstLayer;
-		while(current!= null) {
-			s.push(current);
-			current = current.nextLayer;
-		}
-		while(s.size() > 1) {
-			current = s.pop();
-			//for(int a = 0; a < trainAmount; a++) {
+			Stack<Layer> s = new Stack<Layer>();
+			Layer current = firstLayer;
+			while(current!= null) {
+				s.push(current);
+				current = current.nextLayer;
+			}
+			while(s.size() > 1) {
+				current = s.pop();
+				//for(int a = 0; a < trainAmount; a++) {
 				for(int b = 0; b < inputs.length; b++) {
 					double[][] allOutputs = this.getAllOutputs(inputs[b]);
 					int index = s.size() - 1;
@@ -83,11 +83,11 @@ public class NeuralNetwork {
 					current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, cInput);
 					//System.out.println(Arrays.deepToString(current.nextSteps));
 				}
-				current.setNewWeight();
-			//}
-		}
-		current = s.pop();
-		//for(int a = 0; a < trainAmount; a++) {
+				//current.setNewWeight();
+				//}
+			}
+			current = s.pop();
+			//for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
 				double[][] allOutputs = this.getAllOutputs(inputs[b]);
 				double[] cInput = inputs[b];
@@ -96,8 +96,13 @@ public class NeuralNetwork {
 				double[] activatedOut = current.getActivatedOutput(cInput);
 				current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, cInput);
 			}
-			current.setNewWeight();
-		//}
+			//current.setNewWeight();
+			current = firstLayer;
+			while(current!= null) {
+				current.setNewWeight();
+				current = current.nextLayer;
+			}
+			//}
 		}
 	}
 
