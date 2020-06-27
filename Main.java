@@ -60,10 +60,10 @@ public class Main {
 		*/
 		//println(inputs.length);
 		//println(outputs.length);
-		network.fit(inputs[0], outputs[0], 1, 0.01);
+		network.fit(inputs, outputs, 100000, 0.01);
 		//println(Arrays.deepToString(network.firstLayer.weights));
-		//println(Arrays.toString(network.getOutput(inputs[0])));
-		//println(Arrays.toString(network.getOutput(new double[] {0, 1})));
+		println(Arrays.toString(network.getOutput(inputs[0])));
+		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
 	}
 }
