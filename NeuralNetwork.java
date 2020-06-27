@@ -90,7 +90,7 @@ public class NeuralNetwork {
 		//for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
 				double[][] allOutputs = this.getAllOutputs(inputs[b]);
-				double[] cInput = inputs[0];
+				double[] cInput = inputs[b];
 				double[] currentExpectedOutput = allOutputs[0];
 				double[] rawOut = current.getRawOutput(cInput);
 				double[] activatedOut = current.getActivatedOutput(cInput);

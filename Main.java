@@ -48,7 +48,7 @@ public class Main {
 		List<double[]> a2 = Arrays.asList(outputs);
 		
 		int s = 3534;
-		int i = 98;
+		int i = 1;
 		//println(Arrays.toString(inputs[i]));
 		Collections.shuffle(a1, new Random(s));
 		Collections.shuffle(a2, new Random(s));
