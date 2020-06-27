@@ -65,7 +65,7 @@ public class Main {
 		println(Arrays.deepToString(network.firstLayer.weights));
 		network.fit(inputs, outputs, 1000, 0.1);
 		println(Arrays.deepToString(network.firstLayer.weights));
-		println(Arrays.toString(inputs[0]));
+		println(Arrays.toString(inputs[54]));
 		println(Arrays.toString(network.getOutput(inputs[0])));
 		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
