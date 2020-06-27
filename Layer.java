@@ -55,6 +55,17 @@ public class Layer {
 		}
 	}
 	
+	public void trainLayer(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
+		double tmp[][] = new double[weights.length][weights[0].length];
+		for(int a = 0; a < weights.length; a++) {
+			for(int b = 0; b < weights[a].length; b++) {
+				double nWeight = getNewWeight(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a]);
+				tmp[a][b] = nWeight;
+			}
+		}
+		weights = tmp;
+	}
+	
 	public void setNewWeight() {
 		for(int a = 0; a < nextSteps.length; a++) {
 			for(int b = 0; b < nextSteps[a].length; b++) {

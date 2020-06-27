@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Stack;
 
 public class NeuralNetwork {
@@ -15,7 +16,7 @@ public class NeuralNetwork {
 		this.size = 1;
 	}
 
-	/*
+	
 	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
@@ -23,12 +24,12 @@ public class NeuralNetwork {
 			}
 		}
 	}
-	 */
+	
 
 	public int getInputSize() {
 		return this.inputSize;
 	}
-
+	/*
 	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		this.inputSize = inputs.length;
 		for(int a = 0; a < inputs.length; a++) {
@@ -51,8 +52,8 @@ public class NeuralNetwork {
 			}
 		}
 	}
-
-	/*
+	 */
+	
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
 			return;
@@ -81,18 +82,17 @@ public class NeuralNetwork {
 			}
 		}
 		current = s.pop();
-		int index = s.size();
 		double[] cInput = input;
-		double[] currentExpectedOutput = allOutputs[index];
+		double[] currentExpectedOutput = input;
 		for(int a = 0; a < trainAmount; a++) {
 			double[] rawOut = current.getRawOutput(cInput);
 			double[] activatedOut = current.getActivatedOutput(cInput);
 			current.trainLayer(activatedOut, currentExpectedOutput, learningRate, rawOut);
 			activatedOut = current.getActivatedOutput(cInput);
-			allOutputs[index + 1] = activatedOut;
+			allOutputs[1] = activatedOut;
 		}
 	}
-	 */
+	
 
 	public double[] getOutput(double[] input) {
 		double[] out = input;
