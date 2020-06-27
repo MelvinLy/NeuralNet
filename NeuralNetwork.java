@@ -6,7 +6,7 @@ public class NeuralNetwork {
 	private Layer lastLayer;
 	private int size;
 	private int inputSize;
-	
+
 	//Network can have a single layer as input can be omitted;
 	//The output layer is just the output of the last layer;
 	public NeuralNetwork(Layer firstLayer) {
@@ -14,7 +14,7 @@ public class NeuralNetwork {
 		this.lastLayer = firstLayer;
 		this.size = 1;
 	}
-	
+
 	/*
 	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		for(int a = 0; a < trainAmount; a++) {
@@ -23,20 +23,35 @@ public class NeuralNetwork {
 			}
 		}
 	}
-	*/
-	
+	 */
+
 	public int getInputSize() {
 		return this.inputSize;
 	}
-	
+
 	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		this.inputSize = inputs.length;
 		for(int a = 0; a < inputs.length; a++) {
 			double[][] allOutputs = this.getAllOutputs(inputs[a]);
-			
+			Stack<Layer> stack = new Stack<Layer>();
+			Layer current = firstLayer;
+			while(current!= null) {
+				stack.push(current);
+				current = current.nextLayer;
+			}
+			while(stack.size() > 1) {
+				current = stack.pop();
+				int index = stack.size() - 1;
+				double[] cInput = allOutputs[index - 1];
+				double[] currentExpectedOutput = allOutputs[index];
+				if(index == allOutputs.length - 2) {
+					currentExpectedOutput = expected[a];
+				}
+				
+			}
 		}
 	}
-	
+
 	/*
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
@@ -77,7 +92,7 @@ public class NeuralNetwork {
 			allOutputs[index + 1] = activatedOut;
 		}
 	}
-	*/
+	 */
 
 	public double[] getOutput(double[] input) {
 		double[] out = input;

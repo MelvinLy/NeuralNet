@@ -58,7 +58,8 @@ public class Layer {
 	public void setNewWeight() {
 		for(int a = 0; a < nextSteps.length; a++) {
 			for(int b = 0; b < nextSteps[a].length; b++) {
-				nextSteps[a][b] = nextSteps[a][b] / this.parentNeuralNetwork.getInputSize();
+				weights[a][b] = nextSteps[a][b] / this.parentNeuralNetwork.getInputSize();
+				nextSteps[a][b] = 0;
 			}
 		}
 	}
