@@ -6,26 +6,64 @@ public class Main {
 		System.out.println(a);
 	}
 	
+	public static double zeroOne() {
+		double t = Math.random();
+		if(t > 0.5) {
+			return 1;
+		}
+		else return 0;
+	}
+	
 	public static void main(String[] args) throws LayerSizeMismatchException, UnsupportedMethodException {
-		Layer test = new SigmoidLayer(2, 5);
+		Layer test = new SigmoidLayer(20, 5);
 		NeuralNetwork network = new NeuralNetwork(test);
 		for(int a = 0; a < 5; a++) {
 			Layer tmp = new SigmoidLayer(5, 5);
 			network.addLayer(tmp);
 		}
-		Layer tmp = new SigmoidLayer(5, 2);
-		network.addLayer(tmp);
+		network.addLayer(new SigmoidLayer(5, 2));
 
-		double[][] inputs = new double[][] {new double[] {10, 0}, new double[] {0, 10}};
-		double[][] outputs = new double[][] {new double[] {1, 0}, {0, 1}};
-		//network.fit(new double[] {1, 3, 4, 0, 0}, new double[] {1, 0, 0}, 100000, 0.001);
-		//network.fit(new double[] {0, 0, 0, 1, 1}, new double[] {0, 0, 1}, 100000, 0.001);
+		double[][] inputs = new double[100][20];
+		double[][] outputs = new double[100][2];
+		for(int a = 0; a < 50; a++) {
+			double[] tmp = new double[20];
+			for(int b = 0; b < 10; b++) {
+				tmp[b] = zeroOne();
+			}
+			inputs[a] = tmp;
+			outputs[a] = new double[] {1, 0};
+		}
+		for(int a = 50; a < 100; a++) {
+			double[] tmp = new double[20];
+			for(int b = 10; b < 20; b++) {
+				tmp[b] = zeroOne();
+			}
+			inputs[a] = tmp;
+			outputs[a] = new double[] {0, 1};
+		}
+		
+		List<double[]> a1 = Arrays.asList(inputs);
+		List<double[]> a2 = Arrays.asList(outputs);
+		Collections.shuffle(a1, new Random(123));
+		Collections.shuffle(a2, new Random(123));
+		for(int a = 0; a < 100; a++) {
+			inputs[a] = a1.get(a);
+		}
+		for(int a = 0; a < 100; a++) {
+			outputs[a] = a2.get(a);
+		}
+		/*
+		for(int a = 0; a < 100; a++) {
+			println(Arrays.toString(inputs[a]));
+			println(Arrays.toString(outputs[a]));
+		}
+		*/
+		//println(inputs.length);
+		//println(outputs.length);
+		network.fit(inputs[0], outputs[0], 1, 0.01);
 		//println(Arrays.deepToString(network.firstLayer.weights));
-		network.fit(inputs, outputs, 1000000, 0.01);
-
-		//println(Arrays.deepToString(network.firstLayer.weights));
-		println(Arrays.toString(network.getOutput(new double[] {10, 0})));
-		println(Arrays.toString(network.getOutput(new double[] {0, 10})));
+		//println(Arrays.toString(network.getOutput(inputs[0])));
+		//println(Arrays.toString(network.getOutput(new double[] {0, 1})));
 		
 	}
 }

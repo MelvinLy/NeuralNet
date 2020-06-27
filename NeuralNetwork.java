@@ -51,11 +51,8 @@ public class NeuralNetwork {
 		}
 		current = s.pop();
 		int index = s.size();
-		double[] cInput = allOutputs[index];
+		double[] cInput = input;
 		double[] currentExpectedOutput = allOutputs[index];
-		if(index == allOutputs.length - 2) {
-			currentExpectedOutput = output;
-		}
 		for(int a = 0; a < trainAmount; a++) {
 			double[] rawOut = current.getRawOutput(cInput);
 			double[] activatedOut = current.getActivatedOutput(cInput);
