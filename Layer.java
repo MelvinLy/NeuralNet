@@ -45,7 +45,7 @@ public class Layer {
 		return currentWeight - step;
 	}
 	
-	public double getNextStep(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
+	public double getNextStep(double predictedValue, double expectedValue, double learningRate, double rawExpectedOutput) throws UnsupportedMethodException {
 		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
 		double step = stepSize(slope, learningRate);
 		return step;
@@ -54,7 +54,7 @@ public class Layer {
 	public void getPreAverageSteps(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs) throws UnsupportedMethodException {
 		for(int a = 0; a < weights.length; a++) {
 			for(int b = 0; b < weights[a].length; b++) {
-				double nWeight = getNextStep(predicted[a], expected[a], weights[a][b], learningRate, rawExpectedOutputs[a]);
+				double nWeight = getNextStep(predicted[a], expected[a], learningRate, rawExpectedOutputs[a]);
 				nextSteps[a][b] = nextSteps[a][b] + nWeight;
 			}
 		}

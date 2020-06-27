@@ -30,7 +30,7 @@ public class Main {
 		for(int a = 0; a < 50; a++) {
 			double[] tmp = new double[20];
 			for(int b = 0; b < 10; b++) {
-				tmp[b] = zeroOne();
+				tmp[b] = 1;
 			}
 			inputs[a] = tmp;
 			outputs[a] = new double[] {1, 0};
@@ -38,7 +38,7 @@ public class Main {
 		for(int a = 50; a < 100; a++) {
 			double[] tmp = new double[20];
 			for(int b = 10; b < 20; b++) {
-				tmp[b] = zeroOne();
+				tmp[b] = 1;
 			}
 			inputs[a] = tmp;
 			outputs[a] = new double[] {0, 1};
@@ -47,8 +47,8 @@ public class Main {
 		List<double[]> a1 = Arrays.asList(inputs);
 		List<double[]> a2 = Arrays.asList(outputs);
 		
-		int s = 3;
-		int i = 0;
+		int s = 3534;
+		int i = 34;
 		//println(Arrays.toString(inputs[i]));
 		Collections.shuffle(a1, new Random(s));
 		Collections.shuffle(a2, new Random(s));
@@ -60,7 +60,7 @@ public class Main {
 		}
 		
 		
-		//println(Arrays.toString(inputs[i]));
+		println(Arrays.toString(inputs[i]));
 		//println(Arrays.toString(outputs[i]));
 		/*
 		for(int a = 0; a < 100; a++) {
@@ -71,13 +71,13 @@ public class Main {
 		//println(inputs.length);
 		//println(outputs.length);
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
-		network.fit(inputs, outputs, 1000, 0.1);
+		network.fit(inputs, outputs, 1000, 0.01);
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
 		println(Arrays.toString(network.getOutput(inputs[i])));
 		println(Arrays.toString(outputs[i]));
-		for(int a = 0; a < inputs.length; a++) {
-			println(Arrays.toString(network.getOutput(inputs[a])));
-		}
+		//for(int a = 0; a < inputs.length; a++) {
+		//	println(Arrays.toString(network.getOutput(inputs[a])));
+		//}
 		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
 	}
