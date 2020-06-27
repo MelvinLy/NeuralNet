@@ -80,7 +80,7 @@ public class Main {
 			println(Arrays.toString(network.getOutput(inputs[a])));
 			println(Arrays.toString(outputs[a]));
 		}
-		//println(Arrays.toString(network.getOutput(inputs[1])));
+		println(Arrays.toString(network.getOutput(new double[] {1,1,1,0,0,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0})));
 		
 	}
 }
