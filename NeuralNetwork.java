@@ -71,14 +71,11 @@ public class NeuralNetwork {
 				current = s.pop();
 				//for(int a = 0; a < trainAmount; a++) {
 				for(int b = 0; b < inputs.length; b++) {
-					if(s.size() == this.size - 1) {
-						System.out.println();
-					}
 					double[][] allOutputs = this.getAllOutputs(inputs[b]);
 					int index = s.size() - 1;
 					double[] cInput = allOutputs[index];
 					double[] currentExpectedOutput = allOutputs[index + 1];
-					System.out.println(Arrays.toString(allOutputs[index]));
+					//System.out.println(Arrays.toString(allOutputs[index]));
 					if(index == allOutputs.length - 2) {
 						currentExpectedOutput = expected[b];
 					}
