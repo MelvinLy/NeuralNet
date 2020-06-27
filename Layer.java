@@ -60,6 +60,25 @@ public class Layer {
 		}
 	}
 	
+	public void getPreAverageSteps(double error, double learningRate, double[] rawExpectedOutputs, double prev[]) throws UnsupportedMethodException {
+		for(int a = 0; a < weights.length; a++) {
+			for(int b = 0; b < weights[a].length; b++) {
+				double nWeight = getNextStep(error, learningRate, rawExpectedOutputs[a], prev[b]);
+				nextSteps[a][b] = nextSteps[a][b] + nWeight;
+			}
+		}
+	}
+	
+	public double getNextStep(double error, double learningRate, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		double slope = partialDerivative(error, rawExpectedOutput, prev);
+		double step = stepSize(slope, learningRate);
+		return step;
+	}
+	
+	public double partialDerivative(double error, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		return -(error) * (prev);
+	}
+	
 	public void trainLayer(double[] predicted, double[] expected, double learningRate, double[] rawExpectedOutputs, double prev) throws UnsupportedMethodException {
 		double tmp[][] = new double[weights.length][weights[0].length];
 		for(int a = 0; a < weights.length; a++) {

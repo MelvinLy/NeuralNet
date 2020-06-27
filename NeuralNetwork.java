@@ -17,15 +17,14 @@ public class NeuralNetwork {
 		firstLayer.parentNeuralNetwork = this;
 	}
 
-	/*
-	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
-		for(int a = 0; a < trainAmount; a++) {
-			for(int b = 0; b < inputs.length; b++) {
-				fit(inputs[b], outputs[b], 1, learningRate);
-			}
+	public double totalError(double[] input, double[] expectedOut) {
+		double[] output = this.getOutput(input);
+		double out = 0;
+		for(int a = 0; a < input.length; a++) {
+			out = out + 0.5 * Math.pow((expectedOut[a] - output[a]), 2);
 		}
+		return out / input.length;
 	}
-	 */
 
 	public int getInputSize() {
 		return this.inputSize;

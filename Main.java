@@ -72,7 +72,7 @@ public class Main {
 		//println(inputs.length);
 		//println(outputs.length);
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
-		network.fit(inputs, outputs, 10000, 0.1);
+		network.fit(inputs, outputs, 100000, 0.1);
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
 		println(Arrays.toString(network.getOutput(inputs[i])));
 		println(Arrays.toString(outputs[i]));

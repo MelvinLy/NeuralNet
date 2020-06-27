@@ -72,5 +72,9 @@ public class SigmoidLayer extends Layer {
 		}
 		return out;
 	}
-	
+
+	public double partialDerivative(double error, double rawExpectedOutput, double prev) throws UnsupportedMethodException {
+		return -(error) * sigmoidDerivative(rawExpectedOutput) * (prev);
+	}
+
 }
