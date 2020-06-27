@@ -43,11 +43,11 @@ public class Main {
 			inputs[a] = tmp;
 			outputs[a] = new double[] {0, 1};
 		}
-		
+	
 		List<double[]> a1 = Arrays.asList(inputs);
 		List<double[]> a2 = Arrays.asList(outputs);
-		Collections.shuffle(a1, new Random(123));
-		Collections.shuffle(a2, new Random(123));
+		Collections.shuffle(a1, new Random(12345));
+		Collections.shuffle(a2, new Random(12345));
 		for(int a = 0; a < 100; a++) {
 			inputs[a] = a1.get(a);
 		}

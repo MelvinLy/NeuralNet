@@ -16,7 +16,7 @@ public class NeuralNetwork {
 		this.size = 1;
 	}
 
-	
+	/*
 	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
@@ -24,7 +24,7 @@ public class NeuralNetwork {
 			}
 		}
 	}
-	
+	*/
 
 	public int getInputSize() {
 		return this.inputSize;
@@ -53,6 +53,26 @@ public class NeuralNetwork {
 		}
 	}
 	 */
+	/*
+	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
+		if(trainAmount == 0) {
+			return;
+		}
+		for(int a = 0; a < inputs.length; a++) {
+			double[][] allOutputs = getAllOutputs(inputs[a]);
+			Stack<Layer> s = new Stack<Layer>();
+			Layer current = firstLayer;
+			while(current!= null) {
+				s.push(current);
+				current = current.nextLayer;
+			}
+			while(s.size() > 1) {
+				current = s.pop();
+				int index = s.size() - 1;
+			}
+		}
+	}
+	*/
 	
 	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		if(trainAmount == 0) {
@@ -78,7 +98,7 @@ public class NeuralNetwork {
 				double[] activatedOut = current.getActivatedOutput(cInput);
 				current.trainLayer(activatedOut, currentExpectedOutput, learningRate, rawOut);
 				activatedOut = current.getActivatedOutput(cInput);
-				allOutputs[index + 1] = activatedOut;
+				//allOutputs[index + 1] = activatedOut;
 			}
 		}
 		current = s.pop();
@@ -89,7 +109,7 @@ public class NeuralNetwork {
 			double[] activatedOut = current.getActivatedOutput(cInput);
 			current.trainLayer(activatedOut, currentExpectedOutput, learningRate, rawOut);
 			activatedOut = current.getActivatedOutput(cInput);
-			allOutputs[1] = activatedOut;
+			//allOutputs[1] = activatedOut;
 		}
 	}
 	
