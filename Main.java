@@ -18,12 +18,12 @@ public class Main {
 		Layer test = new SigmoidLayer(20, 5);
 		NeuralNetwork network = new NeuralNetwork(test);
 		
-		for(int a = 0; a < 5; a++) {
-			Layer tmp = new SigmoidLayer(5, 5);
+		for(int a = 0; a < 1; a++) {
+			Layer tmp = new SigmoidLayer(5, 6);
 			network.addLayer(tmp);
 		}
 		
-		network.addLayer(new SigmoidLayer(5, 2));
+		network.addLayer(new SigmoidLayer(6, 2));
 
 		double[][] inputs = new double[100][20];
 		double[][] outputs = new double[100][2];
@@ -35,6 +35,7 @@ public class Main {
 			inputs[a] = tmp;
 			outputs[a] = new double[] {1, 0};
 		}
+		
 		for(int a = 50; a < 100; a++) {
 			double[] tmp = new double[20];
 			for(int b = 10; b < 20; b++) {
