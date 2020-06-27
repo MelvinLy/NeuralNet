@@ -76,9 +76,10 @@ public class Main {
 		//println(Arrays.deepToString(network.firstLayer.nextLayer.weights));
 		println(Arrays.toString(network.getOutput(inputs[i])));
 		println(Arrays.toString(outputs[i]));
-		//for(int a = 0; a < inputs.length; a++) {
-		//	println(Arrays.toString(network.getOutput(inputs[a])));
-		//}
+		for(int a = 0; a < inputs.length; a++) {
+			println(Arrays.toString(network.getOutput(inputs[a])));
+			println(Arrays.toString(outputs[a]));
+		}
 		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
 	}
