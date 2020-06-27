@@ -19,7 +19,7 @@ public class Main {
 		NeuralNetwork network = new NeuralNetwork(test);
 		
 		//for(int a = 0; a < 1; a++) {
-		//	Layer tmp = new SigmoidLayer(2, 6);
+		//	Layer tmp = new SigmoidLayer(5, 6);
 		//	network.addLayer(tmp);
 		//}
 		
@@ -80,7 +80,7 @@ public class Main {
 			println(Arrays.toString(network.getOutput(inputs[a])));
 			println(Arrays.toString(outputs[a]));
 		}
-		println(Arrays.toString(network.getOutput(new double[] {1,1,1,0,1,1,0,1,1,1,1,0,0,0,0,0,0,0,1,1,0})));
+		//println(Arrays.toString(network.getOutput(inputs[1])));
 		
 	}
 }
