@@ -57,28 +57,41 @@ public class NeuralNetwork {
 
 	public void fit(double[][] inputs, double[][] expected, int trainAmount, double learningRate) throws UnsupportedMethodException {
 		this.inputSize = inputs.length;
+		if(this.size == 1) {
+			for(int a = 0; a < trainAmount; a++) {
+				for(int b = 0; b < inputs.length; b++) {
+					//double[][] allOutputs = this.getAllOutputs(inputs[b]);
+					double[] cInput = inputs[b];
+					double[] currentExpectedOutput = expected[b];
+					double[] rawOut = this.firstLayer.getRawOutput(cInput);
+					double[] activatedOut = this.firstLayer.getActivatedOutput(cInput);
+					this.firstLayer.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, cInput);
+				}
+				this.firstLayer.setNewWeight();	
+			}
+			return;
+		}
+
+		
 		if(trainAmount == 0) {
 			return;
 		}
 		for(int i = 0; i < trainAmount; i++) {
-		Stack<Layer> s = new Stack<Layer>();
-		Layer current = firstLayer;
-		while(current!= null) {
-			s.push(current);
-			current = current.nextLayer;
-		}
-		while(s.size() > 1) {
-			current = s.pop();
-			//for(int a = 0; a < trainAmount; a++) {
+			Stack<Layer> s = new Stack<Layer>();
+			Layer current = firstLayer;
+			while(current!= null) {
+				s.push(current);
+				current = current.nextLayer;
+			}
+			while(s.size() > 1) {
+				current = s.pop();
+				//for(int a = 0; a < trainAmount; a++) {
 				for(int b = 0; b < inputs.length; b++) {
-					if(s.size() == this.size - 1) {
-						System.out.println();
-					}
 					double[][] allOutputs = this.getAllOutputs(inputs[b]);
 					int index = s.size() - 1;
 					double[] cInput = allOutputs[index];
 					double[] currentExpectedOutput = allOutputs[index + 1];
-					System.out.println(Arrays.toString(allOutputs[index]));
+
 					if(index == allOutputs.length - 2) {
 						currentExpectedOutput = expected[b];
 					}
@@ -88,10 +101,10 @@ public class NeuralNetwork {
 					//System.out.println(Arrays.deepToString(current.nextSteps));
 				}
 				current.setNewWeight();
-			//}
-		}
-		current = s.pop();
-		//for(int a = 0; a < trainAmount; a++) {
+				//}
+			}
+			current = s.pop();
+			//for(int a = 0; a < trainAmount; a++) {
 			for(int b = 0; b < inputs.length; b++) {
 				double[][] allOutputs = this.getAllOutputs(inputs[b]);
 				double[] cInput = inputs[b];
@@ -101,7 +114,7 @@ public class NeuralNetwork {
 				current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, cInput);
 			}
 			current.setNewWeight();
-		//}
+			//}
 		}
 	}
 
