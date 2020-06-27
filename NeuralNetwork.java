@@ -82,6 +82,7 @@ public class NeuralNetwork {
 					for(int c = 0; c < inputs[b].length; c++) {
 						current.getPreAverageSteps(activatedOut, currentExpectedOutput, learningRate, rawOut, inputs[b][c]);
 					}
+					System.out.println(Arrays.deepToString(current.nextSteps));
 				}
 				current.setNewWeight();
 			}
