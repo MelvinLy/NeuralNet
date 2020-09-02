@@ -45,5 +45,6 @@ public abstract class Layer {
 	//Each output value has a different value that will be used for the weight that has an affect on it.
 	public abstract double dCostByDRaw(double expectedValue, double rawValue);
 	
+	//The derivative of the non-linear function.
 	public abstract double applyDerivedNonLinearFunction(double rawOutputValue);
 }
