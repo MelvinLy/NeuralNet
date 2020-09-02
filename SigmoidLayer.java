@@ -5,57 +5,40 @@ public class SigmoidLayer extends Layer {
 		super(inputSize, outputSize);
 	}
 
-	private static double sigmoidDerivative(double x) {
-		double numerator = Math.exp(x);
-		double denominator = Math.pow((numerator + 1), 2);
-		return numerator / denominator;
+	private double sigmoidFunction(double x) {
+		return (Math.exp(x) / (Math.exp(x) + 1));
 	}
 	
-	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate, double rawExpectedOutput) {
-		double slope = partialDerivative(predictedValue, expectedValue, rawExpectedOutput);
-		double step = stepSize(slope, learningRate);
-		return currentWeight - step;
+	private double derivedSigmoidFunction(double x) {
+		return (Math.exp(x) / Math.pow((Math.exp(x) + 1), 2));
 	}
 	
-	//May need this again
-	/*
-	public double getNewWeight(double predictedValue, double expectedValue, double currentWeight, double learningRate) throws UnsupportedMethodException {
-		throw new UnsupportedMethodException("This method is not available for this layer.");
-	}
-	*/
-	
-	/*
-	 public double stepSize(double slopeFromDerivative, double learningRate) {
-		return slopeFromDerivative * learningRate;
-	}
-	
-	public double getNewWeight(double weight, double stepSize) {
-		return weight - stepSize;
-	}
-	*/
-	
-	private static double sigmoid(double x) {
-		double numerator = Math.exp(x);
-		double denominator = numerator + 1;
-		return numerator / denominator;
-	}
-	
-	public double partialDerivative(double predictedValue, double expectedValue) throws UnsupportedMethodException {
-		throw new UnsupportedMethodException("This method is not available for this layer.");
-	}
-	
-	//Predicted and expected values are value of node after applying the activation function.
-	//Raw output is the value before applying the activation function. 
-	public double partialDerivative(double predictedValue, double expectedValue, double rawExpectedOutput) {
-		return -(expectedValue - predictedValue) * sigmoidDerivative(rawExpectedOutput) * (predictedValue);
-	}
-	
-	public double[] getActivatedOutput(double[] input) {
-		double[] out = getRawOutput(input);
-		for(int a = 0; a < out.length; a++) {
-			out[a] = sigmoid(out[a]);
+	@Override
+	public double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException {
+		if(rawOutputVector.length != this.outputSize) {
+			throw new InputSizeMismatchException("Input size give is not equal to the expected output size.");
+		}
+		//Create a vector for the output.
+		double[] out = new double[this.outputSize];
+		for(int a = 0; a < this.outputSize; a++) {
+			out[a] = sigmoidFunction(rawOutputVector[a]);
 		}
 		return out;
 	}
-	
+
+	@Override
+	public double dCostByDRaw(double expectedValue, double rawValue) {
+		return 2 * (sigmoidFunction(rawValue) - expectedValue) * derivedSigmoidFunction(rawValue);
+	}
+
+	@Override
+	public double applyNonLinearFunction(double rawOutputValue) {
+		return sigmoidFunction(rawOutputValue);
+	}
+
+	@Override
+	public double applyDerivedNonLinearFunction(double rawOutputValue) {
+		return derivedSigmoidFunction(rawOutputValue);
+	}
+
 }

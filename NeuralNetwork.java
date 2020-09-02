@@ -1,86 +1,190 @@
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NeuralNetwork {
-
-	public Layer firstLayer;
-	private Layer lastLayer;
-	int size;
-
-	//Network can have a single layer as input can be omitted;
-	//The output layer is just the output of the last layer;
-	public NeuralNetwork(Layer firstLayer) {
-		this.firstLayer = firstLayer;
-		this.lastLayer = firstLayer;
-		this.size = 1;
+	//private ArrayList<Layer> allLayers;
+	public ArrayList<Layer> allLayers;
+	
+	//Creates a new network with a single compute layer.
+	public NeuralNetwork(Layer layer) {
+		this.allLayers = new ArrayList<Layer>();
+		//Add the layer to the List of all ordered layers.
+		allLayers.add(layer);
 	}
 	
-	public void fit(double[][] inputs, double[][] outputs, int trainAmount, double learningRate) throws UnsupportedMethodException {
-		for(int a = 0; a < trainAmount; a++) {
-			for(int b = 0; b < inputs.length; b++) {
-				fit(inputs[b], outputs[b], 1, learningRate);
-			}
+	//Add a new compute layer to the network.
+	public void addLayer(Layer layer) throws LayerSizeMismatchException {
+		//Check if the last layers output is equal to the input size of the given layer.
+		if(allLayers.get(allLayers.size() - 1).outputSize != layer.inputSize) {
+			throw new LayerSizeMismatchException("The output size of the last layer is not equal to the input size of the layer given.");
 		}
+		allLayers.add(layer);
 	}
 	
-	public void fit(double[] input, double[] output, int trainAmount, double learningRate) throws UnsupportedMethodException {
-		if(trainAmount == 0) {
-			return;
+	public double[] getOutputVector(double[] input) throws InputSizeMismatchException {
+		if(input.length != allLayers.get(0).inputSize) {
+			throw new InputSizeMismatchException("Input's size given is not equal to the expected layer input size.");
 		}
-		double[][] allOutputs = getAllOutputs(input);
-		Stack<Layer> s = new Stack<Layer>();
-		Layer current = firstLayer;
-		while(current!= null) {
-			s.push(current);
-			current = current.nextLayer;
-		}
-		while(s.size() > 1) {
-			current = s.pop();
-			int index = s.size() - 1;
-			double[] cInput = allOutputs[index];
-			double[] currentExpectedOutput = allOutputs[index];
-			if(index == allOutputs.length - 2) {
-				currentExpectedOutput = output;
-			}
-			for(int a = 0; a < trainAmount; a++) {
-				double[] rawOut = current.getRawOutput(cInput);
-				double[] activatedOut = current.getActivatedOutput(cInput);
-				current.trainLayer(activatedOut, currentExpectedOutput, learningRate, rawOut);
-				activatedOut = current.getActivatedOutput(cInput);
-				allOutputs[index + 1] = activatedOut;
-			}
-		}
-	}
-
-
-	public double[] getOutput(double[] input) {
 		double[] out = input;
-		Layer currentLayer = firstLayer;
-		for(int a = 0; a < size; a++) {
-			out = currentLayer.getActivatedOutput(out);
-			currentLayer = currentLayer.nextLayer;
+		for(int a = 0; a < allLayers.size(); a++) {
+			//Fetch current layer.
+			Layer currentLayer = allLayers.get(a);
+			//Computer the raw output for the current layer.
+			double[] rawOutput = currentLayer.getRawOutput(out);
+			//Apply the activation function.
+			out = currentLayer.applyNonLinearFunction(rawOutput);
 		}
 		return out;
 	}
-
-	//Returns output at each layer
-	public double[][] getAllOutputs(double[] input) {
-		double[] out = input;
-		double[][] toReturn = new double[size][];
-		Layer currentLayer = firstLayer;
-		for(int a = 0; a < size; a++) {
-			out = currentLayer.getActivatedOutput(out);
-			currentLayer = currentLayer.nextLayer;
-			toReturn[a] = out;
+	
+	//Calculate cost based on predicted output and expected output.
+	public double getCost(double[] predictedOutput, double[] expectedOutput) throws InputSizeMismatchException {
+		//Checks if both arrays are equal length.
+		if(predictedOutput.length != expectedOutput.length) {
+			throw new InputSizeMismatchException("The size of the two given arrays are not equal.");
 		}
-		return toReturn;
+		double out = 0;
+		//Compute the total cost between the predicted output and expected output.
+		for(int a = 0; a < predictedOutput.length; a++) {
+			out = out + Math.pow(predictedOutput[a] - expectedOutput[a], 2);
+		}
+		return out;
 	}
-
-	public void addLayer(Layer layer) throws LayerSizeMismatchException {
-		if(layer.inputSize != lastLayer.outputSize) {
-			throw new LayerSizeMismatchException("The current last layer's output size is not equal to the given layer's input size.");
+	
+	//Base case for back propagation. Goes from cost right to raw. dCost/dActivation * dActivation/dRawOutput
+	public double dCostByDRaw() {
+		return 0;
+	}
+	
+	//Create a neural network model.
+	public void fit(double[][] inputs, double[][] expectedOutputs, int trainCycles, double learningRate) throws InputSizeMismatchException, OutputSizeMismatchException {
+		for(int a = 0; a < trainCycles; a++) {
+			//Collection of all weight adjustments averaged. Positive gradient at the moment.
+			double[][][] adjustmentMatrices = new double[allLayers.size()][][];
+			//Loop through to create appropriate size of the weight adjustment for each layer.
+			//Create the 3D adjustment matrix.
+			for(int c = allLayers.size() - 1; c >= 0; c--) {
+				//Fetch the current layer.
+				Layer currentLayer = allLayers.get(c);
+				//Create the gradient adjustment matrix at the current layer.
+				adjustmentMatrices[c] = new double[currentLayer.weightMatrix.length][currentLayer.weightMatrix[0].length];
+			}
+			//Looping through all given inputs as training data.
+			for(int b = 0; b < inputs.length; b++) {
+				//Check that the corresponding output has the expected network output size.
+				if(expectedOutputs[b].length != this.allLayers.get(allLayers.size() - 1).outputSize) {
+					throw new OutputSizeMismatchException("The expected output and the network's output are not equal in size.");
+				}
+				//The current training data.
+				double[] currentInput = inputs[b];
+				//Create an array of the raw outputs at each layer.
+				double[][] allRawOutputs = new double[allLayers.size()][];
+				//The previous running product computed at each layer.
+				double[] prev = currentInput;
+				//The derivative bases that will be used in backpropagation. Stores up to the raw values.
+				double[][] derivatives = new double[allLayers.size()][];
+				//Compute all raw values.
+				for(int c = 0; c < allLayers.size(); c++) {
+					//Current layer handling the computation.
+					Layer currentLayer = allLayers.get(c);
+					//Current raw output being calculated.
+					double[] currentRawOutput = currentLayer.getRawOutput(prev);
+					//Save the raw output for the current layer.
+					allRawOutputs[c] = currentRawOutput;
+					//Activate the raw output for the next iteration.
+					prev = currentLayer.applyNonLinearFunction(currentRawOutput);
+				}
+				//Predicted output is the last computation in the above loop.
+				double[] predictedOutput = prev;
+				//Create the array to store the derivatives in the last layer. Each output will have a corresponding derivative.
+				derivatives[allLayers.size() - 1] = new double[predictedOutput.length];
+				//Get the final layer.
+				Layer lastLayer = allLayers.get(allLayers.size() - 1);
+				//Calculate each base case and store it. Operation uses the last layer. dCost/dActivation * dActivation/dRaw is stored. Also the derivative for just the bias.
+				for(int c = 0; c < predictedOutput.length; c++) {
+					derivatives[allLayers.size() - 1][c] = lastLayer.dCostByDRaw(expectedOutputs[b][c], allRawOutputs[allLayers.size() - 1][c]);
+				}
+				//For each row in the weight matrix, the column corresponds with the previous activation row, when in vertical vector form.
+				//To finish off with dRaw/dWeight, multiply by previous activation.
+				//Loop to calculate weight adjustments.
+				for(int c = allLayers.size() - 1; c >= 0; c--) {
+					//Fetch current layer.
+					Layer currentLayer = allLayers.get(c);
+					//Fetching current weight matrix.
+					double[][] currentWeightMatrix = currentLayer.weightMatrix;
+					//Current adjustment matrix.\
+					double[][] currentAdjustmentMatrix = adjustmentMatrices[c];
+					//The array of required derivatives.
+					double[] currentDerivatives = derivatives[c];
+					//Previous raw values.
+					double[] previousRawValues = null;
+					//Previous layer to calculate the activation.
+					Layer previousLayer = null;
+					if(c > 0) {
+						previousRawValues = allRawOutputs[c - 1];
+						previousLayer = allLayers.get(c - 1);
+					}
+					else {
+						//Special case where if we are at the first layer the previous raw values are the input values.
+						previousRawValues = currentInput;
+					}
+					//Nested for loop to go through all the weights in the layer.
+					for(int d = 0; d < currentWeightMatrix.length; d++) {
+						//Current row of the matrix.
+						double[] currentRow = currentWeightMatrix[d];
+						//Loop through current row of matrix.
+						for(int e = 0; e < currentRow.length; e++) {
+							//Derivative of cost with respect to current weight is multiply the previous tracked derivative by the previous activation.
+							if(previousLayer != null) {
+								currentAdjustmentMatrix[d][e] = currentAdjustmentMatrix[d][e] + currentDerivatives[d] * previousLayer.applyNonLinearFunction(previousRawValues[e]);
+							}
+							else {
+								//If we are at the first layer.
+								currentAdjustmentMatrix[d][e] = currentAdjustmentMatrix[d][e] + currentDerivatives[d] * previousRawValues[e];
+							}
+						}
+					}
+					if(previousLayer != null) {
+						//Construct the derivative bases for the previous layer.
+						//The size of the previous layer's derivative vector is the current layers input size.
+						derivatives[c - 1] = new double[currentLayer.inputSize];
+						//previous derivative vector to be populated.
+						double[] previousDerivatives = derivatives[c - 1];
+						//Array of previous raw values.
+						previousRawValues = allRawOutputs[c - 1];
+						//Loop to populate the derivative vector.
+						for(int d = 0; d < previousDerivatives.length; d++) {
+							//Derivative of dCost/dPreviousActivation
+							double previousDerivative = 0;
+							//Summation of current weights multiplied by respective current dCost/dRawValues.
+							for(int e = 0; e < currentWeightMatrix.length; e++) {
+								//Entries of the derivative vector corresponds to the column value of the weight matrix in terms of the weight that needs to be multiplied.
+								//This is also the index of the current corresponding derivative.
+								int colVal = d;
+								//Summate the products.
+								previousDerivative = previousDerivative + currentDerivatives[e] * currentWeightMatrix[e][colVal];
+							}
+							previousDerivatives[d] = previousDerivative * previousLayer.applyDerivedNonLinearFunction(previousRawValues[d]);
+						}
+					}
+				}
+			}
+			for(int b = 0; b < allLayers.size(); b++) {
+				//Fetch current layer.
+				Layer currentLayer = allLayers.get(b);
+				//Current weight matrix.
+				double[][] currentWeightMatrix = currentLayer.weightMatrix;
+				//Loop through the weight matrix.
+				for(int c = 0; c < currentWeightMatrix.length; c++) {
+					//Current matrix row.
+					double[] currentWeightRow = currentWeightMatrix[c];
+					//Loop through the row.
+					for(int d = 0; d < currentWeightRow.length; d++) {
+						//Adjust the weight based on the average of all designed nudges multiplied by the learning rate.
+						currentWeightRow[d] = currentWeightRow[d] - adjustmentMatrices[b][c][d] * learningRate / inputs.length;
+					}
+				}
+			}
 		}
-		this.lastLayer.nextLayer = layer;
-		this.lastLayer = lastLayer.nextLayer;
-		this.size = this.size + 1;
 	}
 }

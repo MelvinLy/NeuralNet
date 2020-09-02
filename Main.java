@@ -1,29 +1,51 @@
-import java.util.*;
+import java.util.Arrays;
 
 public class Main {
-	
-	public static void println(Object a) {
-		System.out.println(a);
-	}
-	
-	public static void main(String[] args) throws LayerSizeMismatchException, UnsupportedMethodException {
-		Layer test = new SigmoidLayer(2, 16);
-		NeuralNetwork network = new NeuralNetwork(test);
-		for(int a = 0; a < 100; a++) {
-			Layer tmp = new SigmoidLayer(16, 16);
-			network.addLayer(tmp);
-		}
-		Layer tmp = new SigmoidLayer(16, 3);
-		network.addLayer(tmp);
 
-		double[][] inputs = new double[][] {new double[] {10, 0}, new double[] {0, 10}};
-		double[][] outputs = new double[][] {new double[] {1, 0, 0}, {0, 0, 1}};
-		//network.fit(new double[] {1, 3, 4, 0, 0}, new double[] {1, 0, 0}, 100000, 0.001);
-		//network.fit(new double[] {0, 0, 0, 1, 1}, new double[] {0, 0, 1}, 100000, 0.001);
-		network.fit(inputs, outputs, 10000, 0.01);
-		println(Arrays.toString(network.getOutput(new double[] {10, 0})));
-		//println(Arrays.deepToString(network.firstLayer.nextLayer.nextLayer.weights));
-		println(Arrays.toString(network.getOutput(new double[] {0, 10})));
+	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException {
+		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 20));
+		network.addLayer(new SigmoidLayer(20, 3));
+		network.addLayer(new SigmoidLayer(3, 2));
+		double[] input = new double[] {1,1,1,1,1,0,0,0,0,0};
+		double[] expectedOutput = new double[] {1, 0};
+		double[] predictedOutput = network.getOutputVector(input);
+		System.out.println("Predicted: " + Arrays.toString(predictedOutput));
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.println(network.getCost(predictedOutput, expectedOutput) + "\n");
+		System.out.println("Training...\n");
+		network.fit(
+			new double[][] {
+				{0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+				{1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+				{1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+				{1, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+				{1, 1, 1, 1 ,1 ,1, 0, 0, 0, 0},
+			}, 
+			new double[][] {
+				{0, 1},
+				{1, 0},
+				{1, 0},
+				{1, 0},
+				{1, 0},
+			}, 
+			1000000, 0.1);
+		predictedOutput = network.getOutputVector(input);
+		System.out.println("Predicted: " + Arrays.toString(predictedOutput));
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.println(network.getCost(predictedOutput, expectedOutput) + "\n");
 		
+		input = new double[] {1,0,0,0,1,1,1,1,0,1};
+		expectedOutput = new double[] {0, 1};
+		predictedOutput = network.getOutputVector(input);
+		System.out.println("Predicted: " + Arrays.toString(predictedOutput));
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.println(network.getCost(predictedOutput, expectedOutput) + "\n");
+		
+		input = new double[] {1,1,0,1,1,0,0,0,0,1};
+		expectedOutput = new double[] {1, 0};
+		predictedOutput = network.getOutputVector(input);
+		System.out.println("Predicted: " + Arrays.toString(predictedOutput));
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.println(network.getCost(predictedOutput, expectedOutput) + "\n");
 	}
 }
