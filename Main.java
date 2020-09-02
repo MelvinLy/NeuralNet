@@ -3,8 +3,8 @@ import java.util.Arrays;
 public class Main {
 
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException {
-		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 20));
-		network.addLayer(new SigmoidLayer(20, 3));
+		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
+		network.addLayer(new SigmoidLayer(5, 3));
 		network.addLayer(new SigmoidLayer(3, 2));
 		double[] input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		double[] expectedOutput = new double[] {1, 0};
@@ -32,7 +32,7 @@ public class Main {
 				{0, 1},
 				{0, 0}
 			}, 
-			1000000, 0.1);
+			100000, 0.1);
 		predictedOutput = network.getOutputVector(input);
 		System.out.println("Predicted: " + Arrays.toString(predictedOutput));
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
