@@ -163,6 +163,7 @@ public class NeuralNetwork {
 								//Summate the products.
 								previousDerivative = previousDerivative + currentDerivatives[e] * currentWeightMatrix[e][colVal];
 							}
+							//Perform a final calculation of the derivative sing the raw value and derived non linear fucntion, then store.
 							previousDerivatives[d] = previousDerivative * previousLayer.applyDerivedNonLinearFunction(previousRawValues[d]);
 						}
 					}
