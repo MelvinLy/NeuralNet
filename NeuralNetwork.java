@@ -98,7 +98,7 @@ public class NeuralNetwork {
 				derivatives[allLayers.size() - 1] = new double[predictedOutput.length];
 				//Get the final layer.
 				Layer lastLayer = allLayers.get(allLayers.size() - 1);
-				//Calculate each base case and store it. Operation uses the last layer. dCost/dActivation * dActivation/dRaw is stored. Also the derivative for just the bias.
+				//Calculate each base case and store it. Operation uses the last layer. dCost/dActivation * dActivation/dRaw is stored.
 				for(int c = 0; c < predictedOutput.length; c++) {
 					derivatives[allLayers.size() - 1][c] = lastLayer.dCostByDRaw(expectedOutputs[b][c], allRawOutputs[allLayers.size() - 1][c]);
 				}
