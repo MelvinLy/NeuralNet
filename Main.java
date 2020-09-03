@@ -34,6 +34,13 @@ public class Main {
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 		
+		input = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		expectedOutput = new double[] {1, 1};
+		predictedOutput = network.getOutputVector(input);
+		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
+		
 		System.out.println("Training...\n");
 		network.fit(
 			new double[][] {
@@ -44,6 +51,7 @@ public class Main {
 				{1, 1, 1, 1 ,1 ,1, 0, 0, 0, 0},
 				{0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
 				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+				{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 			}, 
 			new double[][] {
 				{0, 1},
@@ -53,6 +61,7 @@ public class Main {
 				{1, 0},
 				{0, 1},
 				{0, 0},
+				{1, 1},
 			}, 
 			1000000, 0.1);
 		
@@ -79,6 +88,13 @@ public class Main {
 		
 		input = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		expectedOutput = new double[] {0, 0};
+		predictedOutput = network.getOutputVector(input);
+		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
+		
+		input = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		expectedOutput = new double[] {1, 1};
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
