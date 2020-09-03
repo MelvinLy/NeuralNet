@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
 public class NeuralNetwork {
-	//private ArrayList<Layer> allLayers;
-	public ArrayList<Layer> allLayers;
+	private ArrayList<Layer> allLayers;
 	
 	//Creates a new network with a single compute layer.
 	public NeuralNetwork(Layer layer) {
