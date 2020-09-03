@@ -4,6 +4,8 @@ public abstract class Layer {
 	protected int inputSize;
 	protected int outputSize;
 	
+	//Please note the cost function used is (predicted - expected)^2.
+	
 	public Layer(int inputSize, int outputSize) {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
