@@ -3,6 +3,9 @@ import java.util.Arrays;
 public class Main {
 
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException {
+		final int LEARNING_CYCLES = 1000000;
+		final double LEARNING_RATE = 0.1;
+		
 		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
 		network.addLayer(new SigmoidLayer(5, 3));
 		network.addLayer(new SigmoidLayer(3, 2));
@@ -65,7 +68,7 @@ public class Main {
 				{0, 0},
 				{1, 1},
 			}, 
-			1000000, 0.1);
+			LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
 		System.out.println("--------------------------\n");
