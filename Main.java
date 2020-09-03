@@ -41,7 +41,8 @@ public class Main {
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 		
-		System.out.println("Training...\n");
+		System.out.println("Training...");
+		long start = System.currentTimeMillis();
 		network.fit(
 			new double[][] {
 				{0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
@@ -64,6 +65,8 @@ public class Main {
 				{1, 1},
 			}, 
 			1000000, 0.1);
+		long end = System.currentTimeMillis();
+		System.out.printf("Training took: %.2f s\n\n", (float) (end - start) / 1000);
 		
 		input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		expectedOutput = new double[] {1, 0};
