@@ -46,6 +46,7 @@ public class Main {
 		
 		System.out.println("--------------------------");
 		System.out.println("Training...");
+		System.out.println("--------------------------\n");
 		long start = System.currentTimeMillis();
 		network.fit(
 			new double[][] {
@@ -70,9 +71,7 @@ public class Main {
 			}, 
 			LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
-		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
-		System.out.println("--------------------------\n");
-		
+	
 		input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		expectedOutput = new double[] {1, 0};
 		predictedOutput = network.getOutputVector(input);
@@ -107,5 +106,9 @@ public class Main {
 		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
+		
+		System.out.println("--------------------------");
+		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
+		System.out.println("--------------------------");
 	}
 }
