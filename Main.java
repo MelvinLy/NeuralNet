@@ -55,6 +55,7 @@ public class Main {
 				{0, 0},
 			}, 
 			1000000, 0.1);
+		
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
