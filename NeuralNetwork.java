@@ -102,6 +102,7 @@ public class NeuralNetwork {
 				for(int c = 0; c < predictedOutput.length; c++) {
 					derivatives[allLayers.size() - 1][c] = lastLayer.dCostByDRaw(expectedOutputs[b][c], allRawOutputs[allLayers.size() - 1][c]);
 				}
+				//We can also create the derivatives for a Generative Adversarial Network here by changing the expected output value to what was not expected. The value that the generator would want to fool the classifier.
 				//For each row in the weight matrix, the column corresponds with the previous activation row, when in vertical vector form.
 				//To finish off with dRaw/dWeight, multiply by previous activation.
 				//Loop to calculate weight adjustments.
