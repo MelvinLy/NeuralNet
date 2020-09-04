@@ -5,6 +5,10 @@ public class SigmoidLayer extends Layer {
 	public SigmoidLayer(int inputSize, int outputSize) {
 		super(inputSize, outputSize);
 	}
+	
+	public SigmoidLayer(int inputSize, int outputSize, int weightFactor) {
+		super(inputSize, outputSize, weightFactor);
+	}
 
 	private double sigmoidFunction(double x) {
 		return (Math.exp(x) / (Math.exp(x) + 1));
