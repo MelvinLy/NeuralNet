@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Main {
 
 	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException {
-		final int LEARNING_CYCLES = 100000;
+		final int LEARNING_CYCLES = 1000000;
 		final double LEARNING_RATE = 0.1;
 		
 		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));

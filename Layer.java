@@ -21,7 +21,7 @@ public abstract class Layer implements Serializable {
 		}
 	}
 
-	//Creates a new layer. Try increasing the weight factor if the outputs are consistently all zeroes or ones.
+	//Creates a new layer. Try increasing the weight factor if the outputs are consistently all zeroes, ones or all same. This will help with training.
 	public Layer(int inputSize, int outputSize, int weightFactor) {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
