@@ -17,7 +17,7 @@ public class Main {
 		
 		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
 		network.addLayer(new SigmoidLayer(5, 3));
-		network.addLayer(new ReLULayer(3, 2));
+		network.addLayer(new SigmoidLayer(3, 2));
 		double[] input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		double[] expectedOutput = new double[] {1, 0};
 		double[] predictedOutput = network.getOutputVector(input);
