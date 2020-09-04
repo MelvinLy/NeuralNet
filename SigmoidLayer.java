@@ -1,5 +1,6 @@
 
 public class SigmoidLayer extends Layer {
+	private static final long serialVersionUID = 1L;
 
 	public SigmoidLayer(int inputSize, int outputSize) {
 		super(inputSize, outputSize);

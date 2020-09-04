@@ -1,13 +1,17 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
 
-	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException {
+	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException {
 		final int LEARNING_CYCLES = 1000000;
 		final double LEARNING_RATE = 0.1;
 		
@@ -118,7 +122,7 @@ public class Main {
 	}
 	
 	public static void runMNIST() throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException {
-		final int LEARNING_CYCLES = 100;
+		final int LEARNING_CYCLES = 10000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
@@ -194,8 +198,23 @@ public class Main {
 		
 	}
 	
-	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException {
-		runSimpleCase();
+	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
+		//runSimpleCase();
 		//runMNIST();
+		double[] input = null;
+		double[] expectedOutput = null;
+		double[] predictedOutput = null;
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream("simple.txt"));
+		NeuralNetwork network = (NeuralNetwork) in.readObject();
+		
+		input = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+		expectedOutput = new double[] {1, 1};
+		predictedOutput = network.getOutputVector(input);
+		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
+		
+		
+		
 	}
 }

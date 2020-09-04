@@ -1,5 +1,7 @@
+import java.io.Serializable;
 
-public abstract class Layer {
+public abstract class Layer implements Serializable {
+	private static final long serialVersionUID = 1L;
 	protected double[][] weightMatrix;
 	protected int inputSize;
 	protected int outputSize;

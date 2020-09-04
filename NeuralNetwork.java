@@ -1,6 +1,11 @@
 import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Layer> allLayers;
 	
 	//Creates a new network with a single compute layer.
@@ -8,6 +13,12 @@ public class NeuralNetwork {
 		this.allLayers = new ArrayList<Layer>();
 		//Add the layer to the List of all ordered layers.
 		allLayers.add(layer);
+	}
+	
+	public void saveNeuralNetwork(String fileName) throws IOException {
+		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
+		out.writeObject(this);
+		out.close();
 	}
 	
 	//Add a new compute layer to the network.
