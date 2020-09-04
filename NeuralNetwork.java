@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -136,7 +137,7 @@ public class NeuralNetwork implements Serializable {
 					Layer currentLayer = allLayers.get(c);
 					//Fetching current weight matrix.
 					double[][] currentWeightMatrix = currentLayer.weightMatrix;
-					//Current adjustment matrix.\
+					//Current adjustment matrix.
 					double[][] currentAdjustmentMatrix = adjustmentMatrices[c];
 					//The array of required derivatives.
 					double[] currentDerivatives = derivatives[c];

@@ -204,6 +204,7 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
-		runSimpleCase();
+		//runSimpleCase();
+		runMNIST();
 	}
 }
