@@ -28,10 +28,15 @@ public class NeuralNetwork implements Serializable {
 		out.close();
 	}
 	
+	//Method to load to a saved network.
 	public static NeuralNetwork loadNeuralNetwork(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+		//Create the output stream.
 		ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
+		//Read and cast object.
 		NeuralNetwork network = (NeuralNetwork) in.readObject();
+		//Close stream.
 		in.close();
+		//Return network.
 		return network;
 	}
 	
@@ -72,11 +77,6 @@ public class NeuralNetwork implements Serializable {
 			out = out + Math.pow(predictedOutput[a] - expectedOutput[a], 2);
 		}
 		return out;
-	}
-	
-	//Base case for back propagation. Goes from cost right to raw. dCost/dActivation * dActivation/dRawOutput
-	public double dCostByDRaw() {
-		return 0;
 	}
 	
 	//Create a neural network model.
