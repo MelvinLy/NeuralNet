@@ -148,7 +148,7 @@ public class Main {
 			double[] label = new double[OUTPUT_SIZE];
 			double[] values = new double[IMAGE_SIZE];
 			int index = Integer.parseInt(data[0]);
-			label[index] = (double) index;
+			label[index] = 1;
 			trainingLabel[a] = label;
 			for(int b = 1; b < IMAGE_SIZE + 1; b++) {
 				values[b - 1] = Double.parseDouble(data[b]);
@@ -198,10 +198,13 @@ public class Main {
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 		
+		//Save that network for further training if needed.
+		network.saveNeuralNetwork("MNIST");
 	}
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
-		runSimpleCase();
+		//runSimpleCase();
+		runMNIST();
 		/*
 		double[] input = null;
 		double[] expectedOutput = null;
