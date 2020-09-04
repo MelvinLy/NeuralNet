@@ -119,6 +119,8 @@ public class Main {
 		System.out.println("--------------------------");
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
 		System.out.println("--------------------------");
+		
+		network.saveNeuralNetwork("simple.txt");
 	}
 	
 	public static void runMNIST() throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException {
@@ -156,8 +158,8 @@ public class Main {
 		}
 		csvReader.close();
 
-		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS/ 3), TRAINING_ROWS);
-		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS/ 3), TRAINING_ROWS);
+		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
+		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		
 		//trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
 		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
@@ -170,8 +172,8 @@ public class Main {
 		network.addLayer(new SigmoidLayer(100, 10));
 		
 		//Before
-		input = trainingData[0];
-		expectedOutput = trainingLabel[0];
+		input = testingData[0];
+		expectedOutput = testingLabel[0];
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
@@ -189,8 +191,8 @@ public class Main {
 		System.out.println("--------------------------");
 		
 		//After
-		input = trainingData[0];
-		expectedOutput = trainingLabel[0];
+		input = testingData[0];
+		expectedOutput = testingLabel[0];
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
@@ -199,22 +201,18 @@ public class Main {
 	}
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
-		//runSimpleCase();
-		//runMNIST();
+		runSimpleCase();
+		/*
 		double[] input = null;
 		double[] expectedOutput = null;
 		double[] predictedOutput = null;
-		ObjectInputStream in = new ObjectInputStream(new FileInputStream("simple.txt"));
-		NeuralNetwork network = (NeuralNetwork) in.readObject();
-		
-		input = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-		expectedOutput = new double[] {1, 1};
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("simple.txt");
+		input = new double[] {0, 0, 0, 0, 0, 1, 1, 1, 1, 1};
+		expectedOutput = new double[] {0, 1};
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-		
-		
-		
+		*/
 	}
 }

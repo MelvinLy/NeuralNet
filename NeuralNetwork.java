@@ -1,6 +1,9 @@
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -15,10 +18,21 @@ public class NeuralNetwork implements Serializable {
 		allLayers.add(layer);
 	}
 	
+	//Method to save the network.
 	public void saveNeuralNetwork(String fileName) throws IOException {
+		//Create the output stream.
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
+		//Write to file.
 		out.writeObject(this);
+		//Close stream.
 		out.close();
+	}
+	
+	public static NeuralNetwork loadNeuralNetwork(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException {
+		ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
+		NeuralNetwork network = (NeuralNetwork) in.readObject();
+		in.close();
+		return network;
 	}
 	
 	//Add a new compute layer to the network.
