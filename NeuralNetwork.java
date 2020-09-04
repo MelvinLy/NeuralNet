@@ -136,7 +136,7 @@ public class NeuralNetwork implements Serializable {
 					Layer currentLayer = allLayers.get(c);
 					//Fetching current weight matrix.
 					double[][] currentWeightMatrix = currentLayer.weightMatrix;
-					//Current adjustment matrix.\
+					//Current adjustment matrix.
 					double[][] currentAdjustmentMatrix = adjustmentMatrices[c];
 					//The array of required derivatives.
 					double[] currentDerivatives = derivatives[c];
