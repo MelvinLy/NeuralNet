@@ -13,7 +13,7 @@ public abstract class Layer {
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
 			for(int b = 0; b < inputSize; b++) {
-				weightMatrix[a][b] = Math.random();
+				weightMatrix[a][b] = Math.random() / 100;
 			}
 		}
 	}
