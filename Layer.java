@@ -5,9 +5,10 @@ public abstract class Layer implements Serializable {
 	protected double[][] weightMatrix;
 	protected int inputSize;
 	protected int outputSize;
-	
+
 	//Please note the cost function used is (predicted - expected)^2.
-	
+
+	//Creates a new layer.
 	public Layer(int inputSize, int outputSize) {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
@@ -19,7 +20,20 @@ public abstract class Layer implements Serializable {
 			}
 		}
 	}
-	
+
+	//Creates a new layer. Try increasing the weight factor if the outputs are consistently all zeroes or ones.
+	public Layer(int inputSize, int outputSize, int weightFactor) {
+		this.inputSize = inputSize;
+		this.outputSize = outputSize;
+		this.weightMatrix = new double[this.outputSize][this.inputSize];
+		//Populate weightMatrix with random variables.
+		for(int a = 0; a < outputSize; a++) {
+			for(int b = 0; b < inputSize; b++) {
+				weightMatrix[a][b] = Math.random() / weightFactor;
+			}
+		}
+	}
+
 	//Returns the output vector before applying the non-linear function.
 	public double[] getRawOutput(double[] input) throws InputSizeMismatchException {
 		if(input.length != this.inputSize) {
@@ -38,17 +52,17 @@ public abstract class Layer implements Serializable {
 		}
 		return out;
 	}
-	
+
 	//Applies the non-linear function when given the raw output vector. In other words activate.
 	public abstract double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException;
-	
+
 	//Applies the non-linear function when given the raw output vector. In other words activate.
 	public abstract double applyNonLinearFunction(double rawOutputValue);
-	
+
 	//Base case for back propagation. Goes from cost right to raw. dCost/dActivation * dActivation/dRawOutput.
 	//Each output value has a different value that will be used for the weight that has an affect on it.
 	public abstract double dCostByDRaw(double expectedValue, double rawValue);
-	
+
 	//The derivative of the non-linear function.
 	public abstract double applyDerivedNonLinearFunction(double rawOutputValue);
 }
