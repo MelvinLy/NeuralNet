@@ -187,7 +187,7 @@ public class Main {
 		long start = System.currentTimeMillis();
 		network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
-		System.out.println("\n\n--------------------------");
+		System.out.println("--------------------------");
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
 		System.out.println("--------------------------");
 		
@@ -206,7 +206,7 @@ public class Main {
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
 		//runSimpleCase();
 		
-		final int LEARNING_CYCLES = 10000;
+		final int LEARNING_CYCLES = 1000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
@@ -217,6 +217,6 @@ public class Main {
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
 		network.saveNeuralNetwork("MNIST");
 		
-		runMNIST(10000, 0.1);
+		runMNIST(LEARNING_CYCLES, LEARNING_RATE);
 	}
 }
