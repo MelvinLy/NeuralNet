@@ -13,11 +13,11 @@ public class Main {
 
 	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException {
 		final int LEARNING_CYCLES = 1000000;
-		final double LEARNING_RATE = 0.1;
+		final double LEARNING_RATE = 0.01;
 		
 		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
 		network.addLayer(new SigmoidLayer(5, 3));
-		network.addLayer(new SigmoidLayer(3, 2));
+		network.addLayer(new ReLULayer(3, 2));
 		double[] input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		double[] expectedOutput = new double[] {1, 0};
 		double[] predictedOutput = network.getOutputVector(input);
@@ -124,13 +124,14 @@ public class Main {
 	}
 	
 
-	public static void runMNIST() throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException {
-		final int LEARNING_CYCLES = 10000;
-		final double LEARNING_RATE = 0.1;
+	public static void runMNIST(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException {
+		//final int LEARNING_CYCLES = 10000;
+		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST");
 		
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -152,7 +153,7 @@ public class Main {
 			label[index] = 1;
 			trainingLabel[a] = label;
 			for(int b = 1; b < IMAGE_SIZE + 1; b++) {
-				values[b - 1] = Double.parseDouble(data[b]);
+				values[b - 1] = Double.parseDouble(data[b]) / 255;
 			}
 			trainingData[a] = values;
 		    a++;
@@ -168,13 +169,12 @@ public class Main {
 		trainingData = Arrays.copyOfRange(trainingData, 0, 200);
 		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
 		
-		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, 500));
-		network.addLayer(new SigmoidLayer(500, 100));
-		network.addLayer(new SigmoidLayer(100, 10));
+		int testValue = 2;
+		
 		
 		//Before
-		input = testingData[0];
-		expectedOutput = testingLabel[0];
+		input = trainingData[testValue];
+		expectedOutput = trainingLabel[testValue];
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
@@ -187,13 +187,13 @@ public class Main {
 		long start = System.currentTimeMillis();
 		network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
-		System.out.println("--------------------------");
+		System.out.println("\n\n--------------------------");
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
 		System.out.println("--------------------------");
 		
 		//After
-		input = testingData[0];
-		expectedOutput = testingLabel[0];
+		input = trainingData[testValue];
+		expectedOutput = trainingLabel[testValue];
 		predictedOutput = network.getOutputVector(input);
 		System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
 		System.out.println("Expected: " + Arrays.toString(expectedOutput));
@@ -205,6 +205,18 @@ public class Main {
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
 		//runSimpleCase();
-		runMNIST();
+		
+		final int LEARNING_CYCLES = 10000;
+		final double LEARNING_RATE = 0.1;
+		final int TRAINING_ROWS = 42000;
+		final int IMAGE_SIZE = 784;
+		final int OUTPUT_SIZE = 10;
+		final int TESTING_ROWS = 0;
+		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, 10));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, IMAGE_SIZE / 2 / 2));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
+		network.saveNeuralNetwork("MNIST");
+		
+		runMNIST(10000, 0.1);
 	}
 }

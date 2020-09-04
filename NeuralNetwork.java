@@ -83,6 +83,7 @@ public class NeuralNetwork implements Serializable {
 	//Create a neural network model.
 	public void fit(double[][] inputs, double[][] expectedOutputs, int trainCycles, double learningRate) throws InputSizeMismatchException, OutputSizeMismatchException {
 		for(int a = 0; a < trainCycles; a++) {
+			System.out.print(a + " ");
 			//Collection of all weight adjustments averaged. Positive gradient at the moment.
 			double[][][] adjustmentMatrices = new double[allLayers.size()][][];
 			//Loop through to create appropriate size of the weight adjustment for each layer.
@@ -144,6 +145,9 @@ public class NeuralNetwork implements Serializable {
 					//Previous raw values.
 					double[] previousRawValues = null;
 					//Previous layer to calculate the activation.
+					
+					
+					
 					Layer previousLayer = null;
 					if(c > 0) {
 						previousRawValues = allRawOutputs[c - 1];
