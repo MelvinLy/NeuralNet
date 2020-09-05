@@ -5,7 +5,7 @@ public class SigmoidLayer extends Layer {
 	public SigmoidLayer(int inputSize, int outputSize) {
 		super(inputSize, outputSize);
 	}
-	
+
 	public SigmoidLayer(int inputSize, int outputSize, int weightFactor) {
 		super(inputSize, outputSize, weightFactor);
 	}
@@ -13,11 +13,11 @@ public class SigmoidLayer extends Layer {
 	private double sigmoidFunction(double x) {
 		return (Math.exp(x) / (Math.exp(x) + 1));
 	}
-	
+
 	private double derivedSigmoidFunction(double x) {
 		return (Math.exp(x) / Math.pow((Math.exp(x) + 1), 2));
 	}
-	
+
 	@Override
 	public double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException {
 		if(rawOutputVector.length != this.outputSize) {
@@ -29,11 +29,6 @@ public class SigmoidLayer extends Layer {
 			out[a] = sigmoidFunction(rawOutputVector[a]);
 		}
 		return out;
-	}
-
-	@Override
-	public double dCostByDRaw(double expectedValue, double rawValue) {
-		return 2 * (sigmoidFunction(rawValue) - expectedValue) * derivedSigmoidFunction(rawValue);
 	}
 
 	@Override
