@@ -212,7 +212,7 @@ public class Main {
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
 		//network.saveNeuralNetwork("MNIST");
 		
-		runMNIST(LEARNING_CYCLES, LEARNING_RATE);
+		//runMNIST(LEARNING_CYCLES, LEARNING_RATE);
 		
 		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST");
 		
@@ -280,10 +280,12 @@ public class Main {
 				}
 			}
 			cost = cost + network.getCost(out, expectedOutput);
+			
 			if(network.getCost(out, expectedOutput) > 0) {
-				System.out.printf("Test Case: %d\nExpected: %d\nGot: %d\n\n", b, maxIndex, maxIndex2);
+				//System.out.printf("Test Case: %d\nExpected: %d\nGot: %d\n\n", b, maxIndex, maxIndex2);
 				wrong++;
 			}
+			
 		}
 		System.out.println("Average Cost: " + cost / trainingData.length);
 		System.out.println("Correct: " + (trainingData.length - wrong) + " / " + trainingData.length);
