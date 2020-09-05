@@ -165,7 +165,7 @@ public class Main {
 		//trainingData = Arrays.copyOfRange(trainingData, 0, 200);
 		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
 		
-		int testValue = 946;
+		int testValue = 96;
 		
 		//Before
 		input = testingData[testValue];
@@ -200,7 +200,7 @@ public class Main {
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 10000;
+		final int LEARNING_CYCLES = 1000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
@@ -212,7 +212,7 @@ public class Main {
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
 		//network.saveNeuralNetwork("MNIST");
 		
-		//runMNIST(LEARNING_CYCLES, LEARNING_RATE);
+		runMNIST(LEARNING_CYCLES, LEARNING_RATE);
 		
 		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST");
 		
@@ -295,10 +295,10 @@ public class Main {
 		}
 		System.out.println("Average Cost: " + cost / testingData.length);
 		System.out.println("Correct: " + (testingData.length - wrong) + " / " + testingData.length);
-		//Correct: 25934 / 28000
+		//Correct: 25835 / 28000
 		
 		/*
-		int testValue = 153;
+		int testValue = 1856;
 		input = trainingData[testValue];
 		expectedOutput = trainingLabel[testValue];
 		predictedOutput = network.getOutputVector(input);
