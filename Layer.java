@@ -15,6 +15,7 @@ public abstract class Layer implements Serializable {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
 		this.weightMatrix = new double[this.outputSize][this.inputSize];
+		this.biases = new double[this.outputSize];
 		Random ran = new Random();
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
@@ -71,7 +72,8 @@ public abstract class Layer implements Serializable {
 			for(int b = 0; b < this.inputSize; b++) {
 				currentProduct = currentProduct + weightRow[b] * input[b];
 			}
-			out[a] = currentProduct;
+			//Comment out bias if the layer should not have biases.
+			out[a] = currentProduct + biases[a];
 		}
 		return out;
 	}

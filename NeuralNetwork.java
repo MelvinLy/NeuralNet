@@ -84,13 +84,17 @@ public class NeuralNetwork implements Serializable {
 		for(int a = 0; a < trainCycles; a++) {
 			//Collection of all weight adjustments averaged. Positive gradient at the moment.
 			double[][][] adjustmentMatrices = new double[allLayers.size()][][];
-			//Loop through to create appropriate size of the weight adjustment for each layer.
+			//Create the bias adjustment matrix.
+			double[][] biasAdjustmentMatrix =  new double[allLayers.size()][];
+			//Loop through to create appropriate size of the weight adjustment and bias adjustment for each layer.
 			//Create the 3D adjustment matrix.
 			for(int c = allLayers.size() - 1; c >= 0; c--) {
 				//Fetch the current layer.
 				Layer currentLayer = allLayers.get(c);
 				//Create the gradient adjustment matrix at the current layer.
 				adjustmentMatrices[c] = new double[currentLayer.weightMatrix.length][currentLayer.weightMatrix[0].length];
+				//The bias adjustment array in respect to the current layer is the output size.
+				biasAdjustmentMatrix[c] = new double[currentLayer.outputSize];
 			}
 			//Looping through all given inputs as training data.
 			for(int b = 0; b < inputs.length; b++) {
@@ -152,7 +156,9 @@ public class NeuralNetwork implements Serializable {
 						//Special case where if we are at the first layer the previous raw values are the input values.
 						previousRawValues = currentInput;
 					}
-					//Nested for loop to go through all the weights in the layer.
+					//Current layer's bias adjustments.
+					double[] currentBiasAdjustments = biasAdjustmentMatrix[c];
+					//Nested for loop to go through all the weights in the layer. The amount of rows is equal to the output size and the amount of biases there are in the layer.
 					for(int d = 0; d < currentWeightMatrix.length; d++) {
 						//Current row of the matrix.
 						double[] currentRow = currentWeightMatrix[d];
@@ -167,8 +173,8 @@ public class NeuralNetwork implements Serializable {
 								currentAdjustmentMatrix[d][e] = currentAdjustmentMatrix[d][e] + currentDerivatives[d] * previousRawValues[e];
 							}
 						}
+						currentBiasAdjustments[d] = currentBiasAdjustments[d] + currentDerivatives[d];
 					}
-					
 					if(previousLayer != null) {
 						//Construct the derivative bases for the previous layer.
 						//The size of the previous layer's derivative vector is the current layers input size.
@@ -195,12 +201,13 @@ public class NeuralNetwork implements Serializable {
 					}
 				}
 			}
+			//Loop to apply the needed adjustments to the weight values.
 			for(int b = 0; b < allLayers.size(); b++) {
 				//Fetch current layer.
 				Layer currentLayer = allLayers.get(b);
 				//Current weight matrix.
 				double[][] currentWeightMatrix = currentLayer.weightMatrix;
-				//Loop through the weight matrix.
+				//Loop through the weight matrix. The amount of rows is equal to the output size and the amount of biases there are in the layer.
 				for(int c = 0; c < currentWeightMatrix.length; c++) {
 					//Current matrix row.
 					double[] currentWeightRow = currentWeightMatrix[c];
@@ -210,7 +217,7 @@ public class NeuralNetwork implements Serializable {
 						currentWeightRow[d] = currentWeightRow[d] - adjustmentMatrices[b][c][d] * learningRate / inputs.length;
 					}
 				}
-
+				
 			}
 		}
 	}
