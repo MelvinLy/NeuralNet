@@ -159,13 +159,13 @@ public class Main {
 		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		
-		//trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
-		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
 		
-		trainingData = Arrays.copyOfRange(trainingData, 0, 200);
-		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
+		//trainingData = Arrays.copyOfRange(trainingData, 0, 200);
+		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
 		
-		int testValue = 26;
+		int testValue = 946;
 		
 		//Before
 		input = testingData[testValue];
@@ -180,7 +180,7 @@ public class Main {
 		System.out.println("Training...");
 		System.out.println("--------------------------\n");
 		long start = System.currentTimeMillis();
-		//network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
+		network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
 		System.out.println("--------------------------");
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
@@ -213,5 +213,90 @@ public class Main {
 		//network.saveNeuralNetwork("MNIST");
 		
 		runMNIST(LEARNING_CYCLES, LEARNING_RATE);
+		
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST");
+		
+		//network = NeuralNetwork.loadNeuralNetwork("MNIST");
+		
+		double[] input = null;
+		double[] expectedOutput = null;
+		double[] predictedOutput = null;
+		
+		double[][] trainingData = new double[TRAINING_ROWS][IMAGE_SIZE];
+		double[][] trainingLabel = new double[TRAINING_ROWS][];
+		double[][] testingData = new double[TESTING_ROWS][IMAGE_SIZE];
+		double[][] testingLabel = new double[TESTING_ROWS][];
+		String row = "";
+		BufferedReader csvReader = new BufferedReader(new FileReader("train.csv"));
+		int a = 0;
+		row = csvReader.readLine();
+		while ((row = csvReader.readLine()) != null) {
+		    String[] data = row.split(",");
+			double[] label = new double[OUTPUT_SIZE];
+			double[] values = new double[IMAGE_SIZE];
+			int index = Integer.parseInt(data[0]);
+			label[index] = 1;
+			trainingLabel[a] = label;
+			for(int b = 1; b < IMAGE_SIZE + 1; b++) {
+				//Normalize data.
+				values[b - 1] = Double.parseDouble(data[b]) / 255;
+			}
+			trainingData[a] = values;
+		    a++;
+		}
+		csvReader.close();
+
+		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
+		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
+		
+		trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		
+		//trainingData = Arrays.copyOfRange(trainingData, 0, 200);
+		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
+		
+		double cost = 0;
+		int wrong = 0;
+		for(int b = 0; b < testingData.length; b++) {
+			input = testingData[b];
+			expectedOutput = testingLabel[b];
+			predictedOutput = network.getOutputVector(input);
+			double[] out = new double[10];
+			int maxIndex = 0;
+			double max = 0;
+			for(int i = 0; i < out.length; i++) {
+				if(max < predictedOutput[i]) {
+					max = predictedOutput[i];
+					maxIndex = i;
+				}
+			}
+			out[maxIndex] = 1;
+			int maxIndex2 = 0;
+			double max2 = 0;
+			for(int i = 0; i < out.length; i++) {
+				if(max2 < expectedOutput[i]) {
+					max2 = expectedOutput[i];
+					maxIndex2 = i;
+				}
+			}
+			cost = cost + network.getCost(out, expectedOutput);
+			if(network.getCost(out, expectedOutput) > 0) {
+				System.out.printf("Test Case: %d\nExpected: %d\nGot: %d\n\n", b, maxIndex, maxIndex2);
+				wrong++;
+			}
+		}
+		System.out.println("Average Cost: " + cost / trainingData.length);
+		System.out.println("Correct: " + (trainingData.length - wrong) + " / " + trainingData.length);
+		//Correct: 25934 / 28000
+		
+		/*
+		int testValue = 153;
+		input = trainingData[testValue];
+		expectedOutput = trainingLabel[testValue];
+		predictedOutput = network.getOutputVector(input);
+		System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
+		System.out.println("Expected: " + Arrays.toString(expectedOutput));
+		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
+		*/
 	}
 }
