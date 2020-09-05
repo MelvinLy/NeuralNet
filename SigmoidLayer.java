@@ -1,32 +1,49 @@
+
 public class SigmoidLayer extends Layer {
+	private static final long serialVersionUID = 1L;
 
-	public SigmoidLayer(int size, int outputSize) {
-		super(size, outputSize);
+	public SigmoidLayer(int inputSize, int outputSize) {
+		super(inputSize, outputSize);
 	}
 	
-	//Take the input before activation.
-	public double[] activate(double[] input) {
-		double[] toReturn = new double[input.length];
-		for(int a = 0; a < input.length; a++) {
-			toReturn[a] = sigmoid(input[a]);
-		}
-		return toReturn;
-	}
-	
-	//Take input before activation.
-	//Edge defines the output node also.
-	public double dCostbyDWeight(int node, int edge, double[] input, double[] expected) throws NullNodeException {
-		double toReturn = 0;
-		double[] outBeforeAct = this.getOutputBeforeAct(input);
-		double[] out = this.activate(outBeforeAct);
-		for(int a = 0; a < out.length; a++) {
-				toReturn = toReturn - (expected[a] - out[a]) * Math.pow(Math.E, outBeforeAct[edge]) * input[node] / Math.pow(Math.pow(Math.E, outBeforeAct[edge]) + 1, 2);
-		}
-		return toReturn;
+	public SigmoidLayer(int inputSize, int outputSize, int weightFactor) {
+		super(inputSize, outputSize, weightFactor);
 	}
 
-	//Squash function.
-	public double sigmoid(double x) {
-		return Math.pow(Math.E, x) / (Math.pow(Math.E, x) + 1);
+	private double sigmoidFunction(double x) {
+		return (Math.exp(x) / (Math.exp(x) + 1));
 	}
+	
+	private double derivedSigmoidFunction(double x) {
+		return (Math.exp(x) / Math.pow((Math.exp(x) + 1), 2));
+	}
+	
+	@Override
+	public double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException {
+		if(rawOutputVector.length != this.outputSize) {
+			throw new InputSizeMismatchException("Input size give is not equal to the expected output size.");
+		}
+		//Create a vector for the output.
+		double[] out = new double[this.outputSize];
+		for(int a = 0; a < this.outputSize; a++) {
+			out[a] = sigmoidFunction(rawOutputVector[a]);
+		}
+		return out;
+	}
+
+	@Override
+	public double dCostByDRaw(double expectedValue, double rawValue) {
+		return 2 * (sigmoidFunction(rawValue) - expectedValue) * derivedSigmoidFunction(rawValue);
+	}
+
+	@Override
+	public double applyNonLinearFunction(double rawOutputValue) {
+		return sigmoidFunction(rawOutputValue);
+	}
+
+	@Override
+	public double applyDerivedNonLinearFunction(double rawOutputValue) {
+		return derivedSigmoidFunction(rawOutputValue);
+	}
+
 }
