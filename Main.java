@@ -249,11 +249,17 @@ public class Main {
 		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		
-		trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS / 3));
 		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
 		
 		//trainingData = Arrays.copyOfRange(trainingData, 0, 200);
 		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
+		//testingData = trainingData;
+		//testingLabel = trainingLabel;
+		System.out.println(trainingData.length);
+		System.out.println(testingData.length);
+		testingData = trainingData;
+		testingLabel= trainingLabel;
 		
 		double cost = 0;
 		int wrong = 0;
@@ -287,8 +293,8 @@ public class Main {
 			}
 			
 		}
-		System.out.println("Average Cost: " + cost / trainingData.length);
-		System.out.println("Correct: " + (trainingData.length - wrong) + " / " + trainingData.length);
+		System.out.println("Average Cost: " + cost / testingData.length);
+		System.out.println("Correct: " + (testingData.length - wrong) + " / " + testingData.length);
 		//Correct: 25934 / 28000
 		
 		/*
