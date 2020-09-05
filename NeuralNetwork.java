@@ -207,6 +207,8 @@ public class NeuralNetwork implements Serializable {
 				Layer currentLayer = allLayers.get(b);
 				//Current weight matrix.
 				double[][] currentWeightMatrix = currentLayer.weightMatrix;
+				//Current biases for the layer.
+				double[] currentBiases = currentLayer.biases;
 				//Loop through the weight matrix. The amount of rows is equal to the output size and the amount of biases there are in the layer.
 				for(int c = 0; c < currentWeightMatrix.length; c++) {
 					//Current matrix row.
@@ -216,8 +218,9 @@ public class NeuralNetwork implements Serializable {
 						//Adjust the weight based on the average of all designed nudges multiplied by the learning rate.
 						currentWeightRow[d] = currentWeightRow[d] - adjustmentMatrices[b][c][d] * learningRate / inputs.length;
 					}
+					//Update the currentBiases.
+					currentBiases[c] = currentBiases[c] - biasAdjustmentMatrix[b][c];
 				}
-				
 			}
 		}
 	}
