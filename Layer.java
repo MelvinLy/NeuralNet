@@ -77,13 +77,15 @@ public abstract class Layer implements Serializable {
 		}
 		return out;
 	}
-
+	
 	//Base case for back propagation. Goes from cost right to raw. dCost/dActivation * dActivation/dRawOutput.
 	//Each output value has a different value that will be used for the weight that has an affect on it.
 	public double dCostByDRaw(double expectedValue, double rawValue) {
 		return 2 * (applyNonLinearFunction(rawValue) - expectedValue) * applyDerivedNonLinearFunction(rawValue);
 	}
 
+	public abstract Layer clone();
+	
 	//Applies the non-linear function when given the raw output vector. In other words activate.
 	public abstract double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException;
 

@@ -14,10 +14,22 @@ public class NeuralNetwork implements Serializable {
 	//Creates a new network with a single compute layer.
 	public NeuralNetwork(Layer layer) {
 		this.allLayers = new ArrayList<Layer>();
-		//Add the layer to the List of all ordered layers.
-		allLayers.add(layer);
+		//Add the layer to the List of all ordered layers. This uses only a clone of the given layer.
+		allLayers.add(layer.clone());
 	}
 
+	public NeuralNetwork() {
+		this.allLayers = new ArrayList<Layer>();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public NeuralNetwork clone() {
+		//Create a new network.
+		NeuralNetwork out = new NeuralNetwork();
+		out.allLayers = (ArrayList<Layer>) this.allLayers.clone();
+		return out;
+	}
+	
 	//Method to save the network.
 	public void saveNeuralNetwork(String fileName) throws IOException {
 		//Create the output stream.

@@ -30,6 +30,18 @@ public class SigmoidLayer extends Layer {
 		}
 		return out;
 	}
+	
+	@Override
+	public Layer clone() {
+		//Create new layer.
+		Layer out = new SigmoidLayer(this.inputSize, this.outputSize);
+		//Copy the weight matrix.
+		out.weightMatrix = this.weightMatrix.clone();
+		//Copy the bias matrix.
+		out.biases = this.biases.clone();
+		//Return out.
+		return out;
+	}
 
 	@Override
 	public double applyNonLinearFunction(double rawOutputValue) {
