@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -219,7 +220,7 @@ public class NeuralNetwork implements Serializable {
 						currentWeightRow[d] = currentWeightRow[d] - adjustmentMatrices[b][c][d] * learningRate / inputs.length;
 					}
 					//Update the currentBiases.
-					currentBiases[c] = currentBiases[c] - biasAdjustmentMatrix[b][c];
+					currentBiases[c] = currentBiases[c] - biasAdjustmentMatrix[b][c] * learningRate / inputs.length;
 				}
 			}
 		}
