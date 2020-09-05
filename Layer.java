@@ -20,24 +20,31 @@ public abstract class Layer implements Serializable {
 			for(int b = 0; b < inputSize; b++) {
 				boolean isNegative = ran.nextBoolean();
 				if(isNegative) {
-					weightMatrix[a][b] = - Math.random();
+					weightMatrix[a][b] = - Math.random() * (double) Math.sqrt(1.0 / inputSize);
 				}
 				else {
-					weightMatrix[a][b] = Math.random();
+					weightMatrix[a][b] = Math.random() * Math.sqrt(1.0 / inputSize);
 				}
 			}
 		}
 	}
 	
-	//Creates a new layer. Try increasing the weight factor if the outputs are consistently all zeroes, ones or all same. This will help with training.
+	//Creates a new layer. Try increasing the weight factor to avoid the vanishing graident. This is defaulted to (1 / inputSize). Set to 1 if this is the first layer.
 	public Layer(int inputSize, int outputSize, int weightFactor) {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
 		this.weightMatrix = new double[this.outputSize][this.inputSize];
+		Random ran = new Random();
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
 			for(int b = 0; b < inputSize; b++) {
-				weightMatrix[a][b] = Math.random() / weightFactor;
+				boolean isNegative = ran.nextBoolean();
+				if(isNegative) {
+					weightMatrix[a][b] = - Math.random() * weightFactor;
+				}
+				else {
+					weightMatrix[a][b] = Math.random() * weightFactor;
+				}
 			}
 		}
 	}

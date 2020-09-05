@@ -6,11 +6,11 @@ public class Main {
 
 	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException {
 		final int LEARNING_CYCLES = 1000000;
-		final double LEARNING_RATE = 0.1;
+		final double LEARNING_RATE = 0.01;
 		
-		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5, 1));
-		network.addLayer(new SigmoidLayer(5, 3, 1));
-		network.addLayer(new SigmoidLayer(3, 2, 1));
+		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
+		network.addLayer(new SigmoidLayer(5, 3));
+		network.addLayer(new SigmoidLayer(3, 2));
 		double[] input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		double[] expectedOutput = new double[] {1, 0};
 		double[] predictedOutput = network.getOutputVector(input);
