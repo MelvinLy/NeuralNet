@@ -41,4 +41,10 @@ public class SigmoidLayer extends Layer {
 		return derivedSigmoidFunction(rawOutputValue);
 	}
 
+	@Override
+	public Layer clone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

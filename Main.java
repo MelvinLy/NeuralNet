@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Main {
 
-	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException {
+	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException, NoLayersException {
 		final int LEARNING_CYCLES = 1000000;
 		final double LEARNING_RATE = 0.01;
 		
@@ -119,7 +119,7 @@ public class Main {
 	}
 	
 
-	public static void runMNIST(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException {
+	public static void runMNIST(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
 		//final int LEARNING_CYCLES = 10000;
 		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
@@ -182,7 +182,7 @@ public class Main {
 		long start = System.currentTimeMillis();
 		network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
-		System.out.println("--------------------------");
+		System.out.println("\n\n--------------------------");
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
 		System.out.println("--------------------------");
 		
@@ -198,9 +198,9 @@ public class Main {
 		network.saveNeuralNetwork("MNIST");
 	}
 	
-	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
+	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 1000;
+		final int LEARNING_CYCLES = 10;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;

@@ -80,8 +80,9 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	//Create a neural network model.
-	public void fit(double[][] inputs, double[][] expectedOutputs, int trainCycles, double learningRate) throws InputSizeMismatchException, OutputSizeMismatchException {
+	public void fit(double[][] inputs, double[][] expectedOutputs, int trainCycles, double learningRate) throws InputSizeMismatchException, OutputSizeMismatchException, FileNotFoundException {
 		for(int a = 0; a < trainCycles; a++) {
+			System.out.printf("%d ", a);
 			//Collection of all weight adjustments averaged. Positive gradient at the moment.
 			double[][][] adjustmentMatrices = new double[allLayers.size()][][];
 			//Create the bias adjustment matrix.
