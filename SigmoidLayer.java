@@ -32,11 +32,6 @@ public class SigmoidLayer extends Layer {
 	}
 
 	@Override
-	public double dCostByDRaw(double expectedValue, double rawValue) {
-		return 2 * (sigmoidFunction(rawValue) - expectedValue) * derivedSigmoidFunction(rawValue);
-	}
-
-	@Override
 	public double applyNonLinearFunction(double rawOutputValue) {
 		return sigmoidFunction(rawOutputValue);
 	}
