@@ -6,6 +6,7 @@ public abstract class Layer implements Serializable {
 	protected double[][] weightMatrix;
 	protected int inputSize;
 	protected int outputSize;
+	protected double bias;
 
 	//Please note the cost function used is (predicted - expected) ^ 2.
 
@@ -15,6 +16,7 @@ public abstract class Layer implements Serializable {
 		this.outputSize = outputSize;
 		this.weightMatrix = new double[this.outputSize][this.inputSize];
 		Random ran = new Random();
+		this.bias = Math.random();
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
 			for(int b = 0; b < inputSize; b++) {
@@ -35,6 +37,7 @@ public abstract class Layer implements Serializable {
 		this.outputSize = outputSize;
 		this.weightMatrix = new double[this.outputSize][this.inputSize];
 		Random ran = new Random();
+		this.bias = Math.random();
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
 			for(int b = 0; b < inputSize; b++) {
@@ -63,7 +66,7 @@ public abstract class Layer implements Serializable {
 			for(int b = 0; b < this.inputSize; b++) {
 				currentProduct = currentProduct + weightRow[b] * input[b];
 			}
-			out[a] = currentProduct;
+			out[a] = currentProduct;// + bias;
 		}
 		return out;
 	}
