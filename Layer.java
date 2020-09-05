@@ -15,7 +15,7 @@ public abstract class Layer implements Serializable {
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
 			for(int b = 0; b < inputSize; b++) {
-				weightMatrix[a][b] = Math.random() / 1000000;
+				weightMatrix[a][b] = Math.random() / Math.sqrt(1.0 / inputSize);
 			}
 		}
 	}
