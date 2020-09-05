@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -85,8 +84,6 @@ public class NeuralNetwork implements Serializable {
 		for(int a = 0; a < trainCycles; a++) {
 			//Collection of all weight adjustments averaged. Positive gradient at the moment.
 			double[][][] adjustmentMatrices = new double[allLayers.size()][][];
-			//Bias adjustment vector.
-			double[] biasAdjustment = new double[allLayers.size()];
 			//Loop through to create appropriate size of the weight adjustment for each layer.
 			//Create the 3D adjustment matrix.
 			for(int c = allLayers.size() - 1; c >= 0; c--) {
@@ -109,8 +106,6 @@ public class NeuralNetwork implements Serializable {
 				double[] prev = currentInput;
 				//The derivative bases that will be used in backpropagation. Stores up to the raw values.
 				double[][] derivatives = new double[allLayers.size()][];
-				//The derivatives for the bias.
-				double[] biasDerivatives = new double[allLayers.size()];
 				//Compute all raw values.
 				for(int c = 0; c < allLayers.size(); c++) {
 					//Current layer handling the computation.
@@ -128,13 +123,9 @@ public class NeuralNetwork implements Serializable {
 				derivatives[allLayers.size() - 1] = new double[predictedOutput.length];
 				//Get the final layer.
 				Layer lastLayer = allLayers.get(allLayers.size() - 1);
-				//Get the base bias derivative.
-				biasAdjustment[allLayers.size() - 1] = 0;
 				//Calculate each base case and store it. Operation uses the last layer. dCost/dActivation * dActivation/dRaw is stored.
 				for(int c = 0; c < predictedOutput.length; c++) {
 					derivatives[allLayers.size() - 1][c] = lastLayer.dCostByDRaw(expectedOutputs[b][c], allRawOutputs[allLayers.size() - 1][c]);
-					//Compute the bias derivative.
-					biasDerivatives[allLayers.size() - 1] = biasDerivatives[allLayers.size() - 1] + derivatives[allLayers.size() - 1][c];
 				}
 				//We can also create the derivatives for a Generative Adversarial Network here by changing the expected output value to what was not expected. The value that the generator would want to fool the classifier.
 				//For each row in the weight matrix, the column corresponds with the previous activation row, when in vertical vector form.
@@ -175,8 +166,6 @@ public class NeuralNetwork implements Serializable {
 								//If we are at the first layer.
 								currentAdjustmentMatrix[d][e] = currentAdjustmentMatrix[d][e] + currentDerivatives[d] * previousRawValues[e];
 							}
-							//Bias adjustment.
-							biasAdjustment[c] = biasAdjustment[c] + currentDerivatives[d];
 						}
 					}
 					
@@ -186,8 +175,6 @@ public class NeuralNetwork implements Serializable {
 						derivatives[c - 1] = new double[currentLayer.inputSize];
 						//previous derivative vector to be populated.
 						double[] previousDerivatives = derivatives[c - 1];
-						//The derivative of the bias in the previous layer.
-						double previousBiasDerivative = 0;
 						//Array of previous raw values.
 						previousRawValues = allRawOutputs[c - 1];
 						//Loop to populate the derivative vector.
@@ -202,12 +189,8 @@ public class NeuralNetwork implements Serializable {
 								//Summate the products.
 								previousDerivative = previousDerivative + currentDerivatives[e] * currentWeightMatrix[e][colVal];
 							}
-							//Compute the previous bias derivative by adding the regular derivative.
-							previousBiasDerivative = previousBiasDerivative + previousDerivative;
 							//Perform a final calculation of the derivation by applying the derived function on the raw value and storing it.
 							previousDerivatives[d] = previousDerivative * previousLayer.applyDerivedNonLinearFunction(previousRawValues[d]);
-							//Update the derivative.
-							biasDerivatives[c - 1] = previousBiasDerivative;
 						}
 					}
 				}
@@ -227,8 +210,7 @@ public class NeuralNetwork implements Serializable {
 						currentWeightRow[d] = currentWeightRow[d] - adjustmentMatrices[b][c][d] * learningRate / inputs.length;
 					}
 				}
-				//Adjust the bias based on the average of all designed nudges multiplied by the learning rate.
-				currentLayer.bias = currentLayer.bias - biasAdjustment[b] * learningRate / inputs.length;
+
 			}
 		}
 	}
