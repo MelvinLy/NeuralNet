@@ -159,13 +159,13 @@ public class Main {
 		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		
-		trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
-		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		//trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
 		
-		//trainingData = Arrays.copyOfRange(trainingData, 0, 200);
-		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
+		trainingData = Arrays.copyOfRange(trainingData, 0, 200);
+		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
 		
-		int testValue = 236;
+		int testValue = 26;
 		
 		//Before
 		input = testingData[testValue];
@@ -180,7 +180,7 @@ public class Main {
 		System.out.println("Training...");
 		System.out.println("--------------------------\n");
 		long start = System.currentTimeMillis();
-		network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
+		//network.fit(trainingData, trainingLabel, LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
 		System.out.println("--------------------------");
 		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
@@ -200,16 +200,18 @@ public class Main {
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 100;
+		final int LEARNING_CYCLES = 10000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-		/*
-		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, 10));
-		network.saveNeuralNetwork("MNIST");
-		*/
+		
+		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, 10));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, IMAGE_SIZE / 2 / 2));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
+		//network.saveNeuralNetwork("MNIST");
+		
 		runMNIST(LEARNING_CYCLES, LEARNING_RATE);
 	}
 }
