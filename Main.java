@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Main {
 
-	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException {
+	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException, NoLayersException {
 		final int LEARNING_CYCLES = 1000000;
 		final double LEARNING_RATE = 0.1;
 		
@@ -73,7 +73,7 @@ public class Main {
 			}, 
 			LEARNING_CYCLES, LEARNING_RATE);
 		long end = System.currentTimeMillis();
-	
+		
 		input = new double[] {1,1,1,1,1,0,0,0,0,0};
 		expectedOutput = new double[] {1, 0};
 		predictedOutput = network.getOutputVector(input);
@@ -116,7 +116,7 @@ public class Main {
 		//network.saveNeuralNetwork("simple.txt");
 	}
 	
-	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException {
+	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		runSimpleCase();
 	}
 }

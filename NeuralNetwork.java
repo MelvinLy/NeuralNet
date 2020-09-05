@@ -21,7 +21,7 @@ public class NeuralNetwork implements Serializable {
 	public NeuralNetwork() {
 		this.allLayers = new ArrayList<Layer>();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public NeuralNetwork clone() {
 		//Create a new network.
@@ -29,7 +29,7 @@ public class NeuralNetwork implements Serializable {
 		out.allLayers = (ArrayList<Layer>) this.allLayers.clone();
 		return out;
 	}
-	
+
 	//Method to save the network.
 	public void saveNeuralNetwork(String fileName) throws IOException {
 		//Create the output stream.
@@ -61,7 +61,11 @@ public class NeuralNetwork implements Serializable {
 		allLayers.add(layer);
 	}
 
-	public double[] getOutputVector(double[] input) throws InputSizeMismatchException {
+	public double[] getOutputVector(double[] input) throws InputSizeMismatchException, NoLayersException {
+		//Check that there are layers in the network.
+		if(this.allLayers.size() == 0) {
+			throw new NoLayersException("There are no layers in the network.");
+		}
 		if(input.length != allLayers.get(0).inputSize) {
 			throw new InputSizeMismatchException("Input's size given is not equal to the expected layer input size.");
 		}
@@ -92,7 +96,11 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	//Create a neural network model.
-	public void fit(double[][] inputs, double[][] expectedOutputs, int trainCycles, double learningRate) throws InputSizeMismatchException, OutputSizeMismatchException {
+	public void fit(double[][] inputs, double[][] expectedOutputs, int trainCycles, double learningRate) throws InputSizeMismatchException, OutputSizeMismatchException, NoLayersException {
+		//Check that there are layers in the network.
+		if(this.allLayers.size() == 0) {
+			throw new NoLayersException("There are no layers in the network.");
+		}
 		for(int a = 0; a < trainCycles; a++) {
 			//Collection of all weight adjustments averaged. Positive gradient at the moment.
 			double[][][] adjustmentMatrices = new double[allLayers.size()][][];
