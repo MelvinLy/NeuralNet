@@ -7,7 +7,7 @@ public abstract class Layer implements Serializable {
 	protected int inputSize;
 	protected int outputSize;
 
-	//Please note the cost function used is (predicted - expected)^2.
+	//Please note the cost function used is (predicted - expected) ^ 2.
 
 	//Creates a new layer.
 	public Layer(int inputSize, int outputSize) {
