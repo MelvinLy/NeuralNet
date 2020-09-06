@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class NeuralNetwork implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Layer> allLayers;
+	public ArrayList<Layer> allLayers;
 
 	//Creates a new network with a single compute layer.
 	public NeuralNetwork(Layer layer) {

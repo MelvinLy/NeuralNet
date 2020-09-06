@@ -119,14 +119,14 @@ public class Main {
 	}
 	
 
-	public static void runMNIST(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
+	public static void runMNIST2(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
 		//final int LEARNING_CYCLES = 10000;
 		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST2");
 		
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -159,13 +159,23 @@ public class Main {
 		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		
-		trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
-		trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		//trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
+		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
 		
-		//trainingData = Arrays.copyOfRange(trainingData, 0, 200);
-		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, 200);
 		
-		int testValue = 96;
+		
+		
+		
+		trainingData = Arrays.copyOfRange(trainingData, 11000, 11200);
+		trainingLabel = Arrays.copyOfRange(trainingLabel, 11000, 11200);
+		int testValue = 823;
+		
+		
+		
+		
+		
+		
+		
 		
 		//Before
 		input = testingData[testValue];
@@ -195,28 +205,32 @@ public class Main {
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 		
 		//Save that network for further training if needed.
-		network.saveNeuralNetwork("MNIST");
+		network.saveNeuralNetwork("MNIST2");
 	}
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 1000;
+		final int LEARNING_CYCLES = 200;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
 		
-		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, 10));
-		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, IMAGE_SIZE / 2 / 2));
+		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, IMAGE_SIZE / 2));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, 10));
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
-		//network.saveNeuralNetwork("MNIST");
+		//network.saveNeuralNetwork("MNIST2");
 		
-		runMNIST(LEARNING_CYCLES, LEARNING_RATE);
+		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST2");
+		//network = NeuralNetwork.loadNeuralNetwork("MNIST2");
 		
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST");
+		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 		
-		//network = NeuralNetwork.loadNeuralNetwork("MNIST");
+		runMNIST2(LEARNING_CYCLES, LEARNING_RATE);
+		
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST2");
+		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 		
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -295,7 +309,9 @@ public class Main {
 		}
 		System.out.println("Average Cost: " + cost / testingData.length);
 		System.out.println("Correct: " + (testingData.length - wrong) + " / " + testingData.length);
-		//Correct: 25841 / 28000
+		//Correct: 23860 / 28000
+		
+		//24902
 		
 		/*
 		int testValue = 1856;
