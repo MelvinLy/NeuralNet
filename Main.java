@@ -200,7 +200,7 @@ public class Main {
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 10;
+		final int LEARNING_CYCLES = 10000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
