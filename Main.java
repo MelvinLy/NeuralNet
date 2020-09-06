@@ -295,7 +295,7 @@ public class Main {
 		}
 		System.out.println("Average Cost: " + cost / testingData.length);
 		System.out.println("Correct: " + (testingData.length - wrong) + " / " + testingData.length);
-		//Correct: 25837 / 28000
+		//Correct: 25841 / 28000
 		
 		/*
 		int testValue = 1856;
