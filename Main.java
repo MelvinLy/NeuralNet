@@ -119,14 +119,14 @@ public class Main {
 	}
 	
 
-	public static void runMNIST2(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
+	public static void runMNIST3(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
 		//final int LEARNING_CYCLES = 10000;
 		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST2");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST3");
 		
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -166,11 +166,10 @@ public class Main {
 		
 		
 		
-		trainingData = Arrays.copyOfRange(trainingData, 11000, 11200);
-		trainingLabel = Arrays.copyOfRange(trainingLabel, 11000, 11200);
+		trainingData = Arrays.copyOfRange(trainingData, 1400, 1600);
+		trainingLabel = Arrays.copyOfRange(trainingLabel, 1400, 1600);
 		int testValue = 823;
-		
-		
+		//23710 / 28000
 		
 		
 		
@@ -205,12 +204,12 @@ public class Main {
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 		
 		//Save that network for further training if needed.
-		network.saveNeuralNetwork("MNIST2");
+		network.saveNeuralNetwork("MNIST3");
 	}
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 200;
+		final int LEARNING_CYCLES = 2000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
@@ -218,18 +217,20 @@ public class Main {
 		final int TESTING_ROWS = 0;
 		
 		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, IMAGE_SIZE / 2));
-		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, 10));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, IMAGE_SIZE / 2 / 2));
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2, 10));
-		//network.saveNeuralNetwork("MNIST2");
+		//network.saveNeuralNetwork("MNIST3");
 		
-		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST2");
-		//network = NeuralNetwork.loadNeuralNetwork("MNIST2");
+		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST3");
+		//network = NeuralNetwork.loadNeuralNetwork("MNIST3");
 		
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 		
-		runMNIST2(LEARNING_CYCLES, LEARNING_RATE);
+		//23710
 		
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST2");
+		runMNIST3(LEARNING_CYCLES, LEARNING_RATE);
+		
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST3");
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 		
 		double[] input = null;
