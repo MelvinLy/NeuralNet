@@ -166,10 +166,10 @@ public class Main {
 		
 		
 		
-		trainingData = Arrays.copyOfRange(trainingData, 1400, 1600);
-		trainingLabel = Arrays.copyOfRange(trainingLabel, 1400, 1600);
+		trainingData = Arrays.copyOfRange(trainingData, 1900, 2000);
+		trainingLabel = Arrays.copyOfRange(trainingLabel, 1900, 2000);
 		int testValue = 823;
-		//23710 / 28000
+		//24242 / 28000
 		
 		
 		
@@ -226,7 +226,7 @@ public class Main {
 		
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 		
-		//23710
+		//23810
 		
 		runMNIST3(LEARNING_CYCLES, LEARNING_RATE);
 		
