@@ -165,11 +165,11 @@ public class Main {
 		
 		
 		
-		
-		trainingData = Arrays.copyOfRange(trainingData, 1900, 2000);
-		trainingLabel = Arrays.copyOfRange(trainingLabel, 1900, 2000);
+		int set = 5200;
+		trainingData = Arrays.copyOfRange(trainingData, set, set + 100);
+		trainingLabel = Arrays.copyOfRange(trainingLabel, set, set + 100);
 		int testValue = 823;
-		//24242 / 28000
+		//24414 / 28000
 		
 		
 		
@@ -209,7 +209,7 @@ public class Main {
 	
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 2000;
+		final int LEARNING_CYCLES = 1000;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
@@ -226,7 +226,7 @@ public class Main {
 		
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 		
-		//23810
+		//23990
 		
 		runMNIST3(LEARNING_CYCLES, LEARNING_RATE);
 		
