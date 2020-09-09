@@ -6,127 +6,14 @@ import java.util.Arrays;
 
 public class Main {
 
-	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException, NoLayersException {
-		final int LEARNING_CYCLES = 1000000;
-		final double LEARNING_RATE = 0.01;
-
-		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
-		network.addLayer(new SigmoidLayer(5, 3));
-		network.addLayer(new SigmoidLayer(3, 2));
-		double[] input = new double[] {1,1,1,1,1,0,0,0,0,0};
-		double[] expectedOutput = new double[] {1, 0};
-		double[] predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {1,0,0,0,0,1,1,1,0,1};
-		expectedOutput = new double[] {0, 1};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {1,1,0,1,1,0,0,0,0,1};
-		expectedOutput = new double[] {1, 0};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		expectedOutput = new double[] {0, 0};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-		expectedOutput = new double[] {1, 1};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		System.out.println("--------------------------");
-		System.out.println("Training...");
-		System.out.println("--------------------------\n");
-		long start = System.currentTimeMillis();
-		network.fit(
-				new double[][] {
-					{0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-					{1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-					{1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-					{1, 0, 1, 1, 1, 0, 0, 0, 0, 0},
-					{1, 1, 1, 1 ,1 ,1, 0, 0, 0, 0},
-					{0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
-					{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-					{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-				}, 
-				new double[][] {
-					{0, 1},
-					{1, 0},
-					{1, 0},
-					{1, 0},
-					{1, 0},
-					{0, 1},
-					{0, 0},
-					{1, 1},
-				}, 
-				LEARNING_CYCLES, LEARNING_RATE);
-		long end = System.currentTimeMillis();
-
-		input = new double[] {1,1,1,1,1,0,0,0,0,0};
-		expectedOutput = new double[] {1, 0};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {1,0,0,0,0,1,1,1,0,1};
-		expectedOutput = new double[] {0, 1};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {1,1,0,1,1,0,0,0,0,1};
-		expectedOutput = new double[] {1, 0};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		expectedOutput = new double[] {0, 0};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		input = new double[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-		expectedOutput = new double[] {1, 1};
-		predictedOutput = network.getOutputVector(input);
-		System.out.printf("Predicted: [%f, %f]\n", predictedOutput[0], predictedOutput[1]);
-		System.out.println("Expected: " + Arrays.toString(expectedOutput));
-		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-
-		System.out.println("--------------------------");
-		System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
-		System.out.println("--------------------------");
-
-		//network.saveNeuralNetwork("simple.txt");
-	}
-
-
-	public static void runMNST4(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
+	public static void runMNIST5(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
 		//final int LEARNING_CYCLES = 10000;
 		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNST4");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST5");
 
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -164,7 +51,7 @@ public class Main {
 
 
 		int offset = 100;
-		for(int b = 30100; b < trainingData.length * 3 / 4 - offset; b = b + offset) {
+		for(int b = 15400; b < trainingData.length * 3 / 4 - offset; b = b + offset) {
 			//int set = 0;
 			System.out.println("Batch Starter: " + b);
 			double[][] miniBatchData = Arrays.copyOfRange(trainingData, b, b + offset);
@@ -204,13 +91,13 @@ public class Main {
 			System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 
 			//Save that network for further training if needed.
-			network.saveNeuralNetwork("MNST4");
+			network.saveNeuralNetwork("MNIST5");
 		}
 	}
 
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 500;
+		final int LEARNING_CYCLES = 100;
 		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
@@ -221,18 +108,18 @@ public class Main {
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, 16));
 		//network.addLayer(new SigmoidLayer(16, 10));
 		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2 / 2, 10));
-		//network.saveNeuralNetwork("MNST4");
+		//network.saveNeuralNetwork("MNIST5");
 
-		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNST4");
-		//network = NeuralNetwork.loadNeuralNetwork("MNST4");
+		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST5");
+		//network = NeuralNetwork.loadNeuralNetwork("MNIST5");
 
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 
 		//23990
+		//38997 / 42000
+		runMNIST5(LEARNING_CYCLES, LEARNING_RATE);
 
-		runMNST4(LEARNING_CYCLES, LEARNING_RATE);
-
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNST4");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST5");
 
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -275,8 +162,11 @@ public class Main {
 		//System.out.println(trainingData.length);
 		//System.out.println(testingData.length);
 		testingData = trainingData;
-		testingLabel= trainingLabel;
+		testingLabel = trainingLabel;
 
+		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 4), TRAINING_ROWS);
+		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 4), TRAINING_ROWS);
+		
 		double cost = 0;
 		int wrong = 0;
 		for(int b = 0; b < testingData.length; b++) {
