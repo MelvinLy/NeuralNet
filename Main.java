@@ -2,18 +2,22 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class Main {
 
-	public static void runMNIST5(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
+	public static void runMNIST8(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
 		//final int LEARNING_CYCLES = 10000;
 		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST5");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST8");
 
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -46,12 +50,21 @@ public class Main {
 		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 3), TRAINING_ROWS);
 
-		//trainingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
-		//trainingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS - (TRAINING_ROWS/ 3));
-
+		trainingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS / 4, TRAINING_ROWS);
+		trainingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS / 4, TRAINING_ROWS);
+		
+		ArrayList<double[]> tmp = new ArrayList<>(Arrays.asList(trainingData));
+		ArrayList<double[]> tmp2 = new ArrayList<>(Arrays.asList(trainingLabel));
+		
+		long seed = System.currentTimeMillis();
+		Collections.shuffle(tmp, new Random(seed));
+		Collections.shuffle(tmp2, new Random(seed));
+		
+		trainingData = tmp.toArray(trainingData);
+		trainingLabel = tmp2.toArray(trainingLabel);
 
 		int offset = 100;
-		for(int b = 15400; b < trainingData.length * 3 / 4 - offset; b = b + offset) {
+		for(int b = 0; b < trainingData.length - offset; b = b + offset) {
 			//int set = 0;
 			System.out.println("Batch Starter: " + b);
 			double[][] miniBatchData = Arrays.copyOfRange(trainingData, b, b + offset);
@@ -64,13 +77,14 @@ public class Main {
 
 
 			//Before
+			/*
 			input = testingData[testValue];
 			expectedOutput = testingLabel[testValue];
 			predictedOutput = network.getOutputVector(input);
 			System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
 			System.out.println("Expected: " + Arrays.toString(expectedOutput));
 			System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
-			//-----------------
+			*/
 
 			System.out.println("--------------------------");
 			System.out.println("Training...");
@@ -83,43 +97,44 @@ public class Main {
 			System.out.println("--------------------------");
 
 			//After
+			/*
 			input = testingData[testValue];
 			expectedOutput = testingLabel[testValue];
 			predictedOutput = network.getOutputVector(input);
 			System.out.printf("Predicted: [%f, %f, %f, %f, %f, %f, %f, %f, %f, %f]\n", predictedOutput[0], predictedOutput[1],predictedOutput[2], predictedOutput[3], predictedOutput[4], predictedOutput[5],predictedOutput[6], predictedOutput[7],predictedOutput[8], predictedOutput[9]);
 			System.out.println("Expected: " + Arrays.toString(expectedOutput));
 			System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
+			*/
 
 			//Save that network for further training if needed.
-			network.saveNeuralNetwork("MNIST5");
+			network.saveNeuralNetwork("MNIST8");
 		}
 	}
 
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
-		final int LEARNING_CYCLES = 100;
-		final double LEARNING_RATE = 0.1;
+		final int LEARNING_CYCLES = 30;
+		final double LEARNING_RATE = 0.01;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
 
-		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, IMAGE_SIZE / 2));
-		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2, 16));
+		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, IMAGE_SIZE / 4));
+		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 4, 16));
+		//network.addLayer(new SigmoidLayer(16, 16));
 		//network.addLayer(new SigmoidLayer(16, 10));
-		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 2 / 2 / 2, 10));
-		//network.saveNeuralNetwork("MNIST5");
+		//network.saveNeuralNetwork("MNIST8");
 
-		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST5");
-		//network = NeuralNetwork.loadNeuralNetwork("MNIST5");
+		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST8");
+		//network = NeuralNetwork.loadNeuralNetwork("MNIST8");
 
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 
-		//23990
-		//38997 / 42000
-		runMNIST5(LEARNING_CYCLES, LEARNING_RATE);
+		//10112 / 10500
+		//runMNIST8(LEARNING_CYCLES, LEARNING_RATE);
 
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST5");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST8");
 
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -164,8 +179,12 @@ public class Main {
 		testingData = trainingData;
 		testingLabel = trainingLabel;
 
-		testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 4), TRAINING_ROWS);
-		testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 4), TRAINING_ROWS);
+		//testingData = Arrays.copyOfRange(trainingData, TRAINING_ROWS - (TRAINING_ROWS / 4), TRAINING_ROWS);
+		//testingLabel = Arrays.copyOfRange(trainingLabel, TRAINING_ROWS - (TRAINING_ROWS / 4), TRAINING_ROWS);
+		
+		testingData = Arrays.copyOfRange(trainingData, 0, TRAINING_ROWS / 4);
+		testingLabel = Arrays.copyOfRange(trainingLabel, 0, TRAINING_ROWS / 4);
+
 		
 		double cost = 0;
 		int wrong = 0;
