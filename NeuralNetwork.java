@@ -17,9 +17,25 @@ public class NeuralNetwork implements Serializable {
 		//Add the layer to the List of all ordered layers. This uses only a clone of the given layer.
 		allLayers.add(layer.clone());
 	}
-
+	
+	//Creates an empty network.
 	public NeuralNetwork() {
 		this.allLayers = new ArrayList<Layer>();
+	}
+	
+	//Method that clones the input layer up to the desired layer.
+	public NeuralNetwork clone(int numberOfLayers) {
+		//Create the new network.
+		NeuralNetwork out = new NeuralNetwork();
+		//Layer 
+		for(int a = 0; a < numberOfLayers; a++) {
+			//Current layer to be cloned.
+			Layer currentLayer = this.allLayers.get(a);
+			//Cloning the layer.
+			out.allLayers.add(currentLayer.clone());
+		}
+		//Return the new network.
+		return out;
 	}
 
 	@SuppressWarnings("unchecked")
