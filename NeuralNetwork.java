@@ -27,21 +27,6 @@ public class NeuralNetwork implements Serializable {
 		this.totalLayers = 0;
 	}
 	
-	//Method that clones the input layer up to the desired layer.
-	public NeuralNetwork clone(int numberOfLayers) throws LayerSizeMismatchException {
-		//Create the new network.
-		NeuralNetwork out = new NeuralNetwork();
-		//Loop through layer.
-		for(int a = 0; a < numberOfLayers; a++) {
-			//Current layer to be cloned.
-			Layer currentLayer = this.allLayers.get(a);
-			//Cloning the layer.
-			out.addLayer(currentLayer.clone());
-		}
-		//Return the new network.
-		return out;
-	}
-	
 	//Method that clones from a desired inclusive starting layer to a desired exclusive final layer.
 	public NeuralNetwork clone(int start, int end) throws LayerSizeMismatchException {
 		//Create the new network.
