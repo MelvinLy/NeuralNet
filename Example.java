@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -33,7 +32,7 @@ public class Example {
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 	}
 	
-	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException, NoLayersException {
+	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, IOException, NoLayersException {
 		final int LEARNING_CYCLES = 100000;
 		final double LEARNING_RATE = 0.1;
 		
