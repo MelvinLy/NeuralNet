@@ -34,17 +34,20 @@ public class Example {
 	}
 	
 	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, FileNotFoundException, IOException, NoLayersException {
-		final int LEARNING_CYCLES = 1000000;
+		final int LEARNING_CYCLES = 100000;
 		final double LEARNING_RATE = 0.1;
 		
 		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(10, 5));
 		network.addLayer(new SigmoidLayer(5, 3));
 		network.addLayer(new SigmoidLayer(3, 2));
+		System.out.println("--------------------------");
+		System.out.println("Initial Output");
+		System.out.println("--------------------------\n");
 		testTenToTwoNetwork(network);
 		
 		System.out.println("--------------------------");
 		System.out.println("Training...");
-		System.out.println("--------------------------");
+		System.out.println("--------------------------\n");
 		long start = System.currentTimeMillis();
 		network.fit(
 			new double[][] {
@@ -72,5 +75,13 @@ public class Example {
 		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
 
 		testTenToTwoNetwork(network);
+		
+		System.out.println("--------------------------");
+		System.out.println("Clone testing");
+		System.out.println("--------------------------\n");
+		NeuralNetwork partial = network.clone(1, network.getTotalLayers());
+		System.out.println("Old Network Size: " + network.getTotalLayers());
+		System.out.println("New Network Size: " + partial.getTotalLayers());
+		System.out.println("New Network Output: " + Arrays.toString(partial.getOutputVector(new double[] {1, 1, 1, 1, 1})));
 	}
 }

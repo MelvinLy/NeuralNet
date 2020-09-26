@@ -10,29 +10,55 @@ import java.io.Serializable;
 public class NeuralNetwork implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Layer> allLayers;
+	private int totalLayers;
 
 	//Creates a new network with a single compute layer.
 	public NeuralNetwork(Layer layer) {
 		this.allLayers = new ArrayList<Layer>();
 		//Add the layer to the List of all ordered layers. This uses only a clone of the given layer.
 		allLayers.add(layer.clone());
+		//Setting the amount of total layers.
+		this.totalLayers = 1;
 	}
 	
 	//Creates an empty network.
 	public NeuralNetwork() {
 		this.allLayers = new ArrayList<Layer>();
+		this.totalLayers = 0;
 	}
 	
 	//Method that clones the input layer up to the desired layer.
-	public NeuralNetwork clone(int numberOfLayers) {
+	public NeuralNetwork clone(int numberOfLayers) throws LayerSizeMismatchException {
 		//Create the new network.
 		NeuralNetwork out = new NeuralNetwork();
-		//Layer 
+		//Loop through layer.
 		for(int a = 0; a < numberOfLayers; a++) {
 			//Current layer to be cloned.
 			Layer currentLayer = this.allLayers.get(a);
 			//Cloning the layer.
-			out.allLayers.add(currentLayer.clone());
+			out.addLayer(currentLayer.clone());
+		}
+		//Return the new network.
+		return out;
+	}
+	
+	//Method that clones from a desired inclusive starting layer to a desired exclusive final layer.
+	public NeuralNetwork clone(int start, int end) throws LayerSizeMismatchException {
+		//Create the new network.
+		NeuralNetwork out = new NeuralNetwork();
+		//Return empty network if there are invalid inputs.
+		if(start < 0) {
+			return out;
+		}
+		else if(end > this.allLayers.size()) {
+			return out;
+		}
+		//Loop through layers.
+		for(int a = start; a < end; a++) {
+			//Current layer to be cloned.
+			Layer currentLayer = this.allLayers.get(a);
+			//Cloning the layers.
+			out.addLayer(currentLayer.clone());
 		}
 		//Return the new network.
 		return out;
@@ -43,6 +69,7 @@ public class NeuralNetwork implements Serializable {
 		//Create a new network.
 		NeuralNetwork out = new NeuralNetwork();
 		out.allLayers = (ArrayList<Layer>) this.allLayers.clone();
+		out.totalLayers = this.totalLayers;
 		return out;
 	}
 
@@ -70,11 +97,18 @@ public class NeuralNetwork implements Serializable {
 
 	//Add a new compute layer to the network.
 	public void addLayer(Layer layer) throws LayerSizeMismatchException {
+		//Check if the network has any layers.
+		if(allLayers.size() == 0) {
+			allLayers.add(layer);
+			this.totalLayers++;
+			return;
+		}
 		//Check if the last layers output is equal to the input size of the given layer.
 		if(allLayers.get(allLayers.size() - 1).outputSize != layer.inputSize) {
 			throw new LayerSizeMismatchException("The output size of the last layer is not equal to the input size of the layer given.");
 		}
 		allLayers.add(layer);
+		this.totalLayers++;
 	}
 
 	public double[] getOutputVector(double[] input) throws InputSizeMismatchException, NoLayersException {
@@ -109,6 +143,11 @@ public class NeuralNetwork implements Serializable {
 			out = out + Math.pow(predictedOutput[a] - expectedOutput[a], 2);
 		}
 		return out;
+	}
+	
+	//Get the total amount of layers.
+	public int getTotalLayers() {
+		return this.totalLayers;
 	}
 
 	//Create a neural network model.
