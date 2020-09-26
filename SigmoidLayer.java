@@ -6,7 +6,7 @@ public class SigmoidLayer extends Layer {
 		super(inputSize, outputSize);
 	}
 
-	public SigmoidLayer(int inputSize, int outputSize, int weightFactor) {
+	public SigmoidLayer(int inputSize, int outputSize, double weightFactor) {
 		super(inputSize, outputSize, weightFactor);
 	}
 

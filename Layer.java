@@ -43,10 +43,11 @@ public abstract class Layer implements Serializable {
 	}
 
 	//Creates a new layer. Try increasing the weight factor to avoid the vanishing graident. This is defaulted to (1 / inputSize). Set to 1 if this is the first layer.
-	public Layer(int inputSize, int outputSize, int weightFactor) {
+	public Layer(int inputSize, int outputSize, double weightFactor) {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
 		this.weightMatrix = new double[this.outputSize][this.inputSize];
+		this.biases = new double[this.outputSize];
 		Random ran = new Random();
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
