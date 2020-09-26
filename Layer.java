@@ -18,8 +18,11 @@ public abstract class Layer implements Serializable {
 		this.biases = new double[this.outputSize];
 		Random ran = new Random();
 		//Populate weightMatrix with random variables.
+		//Loop through the rows.
 		for(int a = 0; a < outputSize; a++) {
+			//Loop through the columns.
 			for(int b = 0; b < inputSize; b++) {
+				//Assigning random positive and negative values.
 				boolean isNegative = ran.nextBoolean();
 				if(isNegative) {
 					weightMatrix[a][b] = - Math.random() * (double) Math.sqrt(1.0 / inputSize);
@@ -28,6 +31,7 @@ public abstract class Layer implements Serializable {
 					weightMatrix[a][b] = Math.random() * Math.sqrt(1.0 / inputSize);
 				}
 			}
+			//Assigning random bias value.
 			boolean isNegative = ran.nextBoolean();
 			if(isNegative) {
 				biases[a] = - Math.random() * (double) Math.sqrt(1.0 / inputSize);
@@ -47,6 +51,7 @@ public abstract class Layer implements Serializable {
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
 			for(int b = 0; b < inputSize; b++) {
+				//Assigning random positive and negative values.
 				boolean isNegative = ran.nextBoolean();
 				if(isNegative) {
 					weightMatrix[a][b] = - Math.random() * weightFactor;
@@ -54,6 +59,14 @@ public abstract class Layer implements Serializable {
 				else {
 					weightMatrix[a][b] = Math.random() * weightFactor;
 				}
+			}
+			//Assigning random bias value.
+			boolean isNegative = ran.nextBoolean();
+			if(isNegative) {
+				biases[a] = - Math.random() * weightFactor;
+			}
+			else {
+				biases[a] = Math.random() * weightFactor;
 			}
 		}
 	}
