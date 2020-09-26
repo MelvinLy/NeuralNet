@@ -10,14 +10,14 @@ import java.util.Random;
 
 public class Main {
 
-	public static void runMNIST8(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
+	public static void runAutoEncoder(int LEARNING_CYCLES, double LEARNING_RATE) throws IOException, LayerSizeMismatchException, InputSizeMismatchException, OutputSizeMismatchException, ClassNotFoundException, NoLayersException {
 		//final int LEARNING_CYCLES = 10000;
 		//final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST8");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("AutoEncoder");
 
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -90,7 +90,7 @@ public class Main {
 			System.out.println("Training...");
 			System.out.println("--------------------------\n");
 			long start = System.currentTimeMillis();
-			network.fit(miniBatchData, miniBatchLabel, LEARNING_CYCLES, LEARNING_RATE);
+			network.fit(miniBatchData, miniBatchData, LEARNING_CYCLES, LEARNING_RATE);
 			long end = System.currentTimeMillis();
 			System.out.println("\n\n--------------------------");
 			System.out.printf("Training took: %.2f s\n", (float) (end - start) / 1000);
@@ -107,34 +107,40 @@ public class Main {
 			*/
 
 			//Save that network for further training if needed.
-			network.saveNeuralNetwork("MNIST8");
+			network.saveNeuralNetwork("AutoEncoder");
 		}
 	}
 
 	public static void main(String[] args) throws InputSizeMismatchException, LayerSizeMismatchException, OutputSizeMismatchException, IOException, ClassNotFoundException, NoLayersException {
 		//runSimpleCase();
 		final int LEARNING_CYCLES = 30;
-		final double LEARNING_RATE = 0.01;
+		final double LEARNING_RATE = 0.1;
 		final int TRAINING_ROWS = 42000;
 		final int IMAGE_SIZE = 784;
 		final int OUTPUT_SIZE = 10;
 		final int TESTING_ROWS = 0;
-
-		//NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, IMAGE_SIZE / 4));
-		//network.addLayer(new SigmoidLayer(IMAGE_SIZE / 4, 16));
-		//network.addLayer(new SigmoidLayer(16, 16));
-		//network.addLayer(new SigmoidLayer(16, 10));
-		//network.saveNeuralNetwork("MNIST8");
-
-		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST8");
-		//network = NeuralNetwork.loadNeuralNetwork("MNIST8");
+		
+		/*
+		NeuralNetwork network = new NeuralNetwork(new SigmoidLayer(IMAGE_SIZE, IMAGE_SIZE / 4));
+		network.addLayer(new SigmoidLayer(IMAGE_SIZE / 4, 16));
+		network.addLayer(new SigmoidLayer(16, 10));
+		
+		network.addLayer(new SigmoidLayer(10, 16));
+		network.addLayer(new SigmoidLayer(16, IMAGE_SIZE / 4));
+		network.addLayer(new SigmoidLayer(IMAGE_SIZE / 4, IMAGE_SIZE));
+		
+		network.saveNeuralNetwork("AutoEncoder");
+		*/
+	
+		//NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("AutoEncoder");
+		//network = NeuralNetwork.loadNeuralNetwork("AutoEncoder");
 
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 
-		//10112 / 10500
-		//runMNIST8(LEARNING_CYCLES, LEARNING_RATE);
+		//104.45179193848718
+		runAutoEncoder(LEARNING_CYCLES, LEARNING_RATE);
 
-		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("MNIST8");
+		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("AutoEncoder");
 
 		double[] input = null;
 		double[] expectedOutput = null;
@@ -190,11 +196,12 @@ public class Main {
 		int wrong = 0;
 		for(int b = 0; b < testingData.length; b++) {
 			input = testingData[b];
-			expectedOutput = testingLabel[b];
+			expectedOutput = testingData[b];
 			predictedOutput = network.getOutputVector(input);
-			double[] out = new double[10];
+			//double[] out = new double[10];
 			int maxIndex = 0;
 			double max = 0;
+			/*
 			for(int i = 0; i < out.length; i++) {
 				if(max < predictedOutput[i]) {
 					max = predictedOutput[i];
@@ -210,13 +217,14 @@ public class Main {
 					maxIndex2 = i;
 				}
 			}
-			cost = cost + network.getCost(out, expectedOutput);
-
+			*/
+			cost = cost + network.getCost(predictedOutput, expectedOutput);
+			/*
 			if(network.getCost(out, expectedOutput) > 0) {
 				//System.out.printf("Test Case: %d\nExpected: %d\nGot: %d\n\n", b, maxIndex, maxIndex2);
 				wrong++;
 			}
-
+			 */
 		}
 		System.out.println("Average Cost: " + cost / testingData.length);
 		System.out.println("Correct: " + (testingData.length - wrong) + " / " + testingData.length);
