@@ -137,8 +137,8 @@ public class Main {
 
 		//System.out.println(Arrays.deepToString(network.allLayers.get(0).weightMatrix));
 
-		//104.45179193848718
-		runAutoEncoder(LEARNING_CYCLES, LEARNING_RATE);
+		//63.948822618258056
+		//runAutoEncoder(LEARNING_CYCLES, LEARNING_RATE);
 
 		NeuralNetwork network = NeuralNetwork.loadNeuralNetwork("AutoEncoder");
 
