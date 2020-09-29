@@ -81,6 +81,7 @@ public class Example {
 		NeuralNetwork partial = network.clone(1, network.getTotalLayers());
 		System.out.println("Old Network Size: " + network.getTotalLayers());
 		System.out.println("New Network Size: " + partial.getTotalLayers());
-		System.out.println("New Network Output: " + Arrays.toString(partial.getOutputVector(new double[] {1, 1, 1, 1, 1})));
+		double[] out = partial.getOutputVector(new double[] {1, 1, 1, 1, 1});
+		System.out.printf("New Network Output: [%f, %f]\n", out[0], out[1]);
 	}
 }
