@@ -78,7 +78,9 @@ public class Example {
 		System.out.println("--------------------------");
 		System.out.println("Clone testing");
 		System.out.println("--------------------------\n");
-		NeuralNetwork partial = network.clone(1, network.getTotalLayers());
+		NeuralNetwork partial = network.clone();
+		testTenToTwoNetwork(network);
+		partial = network.clone(1, network.getTotalLayers());
 		System.out.println("Old Network Size: " + network.getTotalLayers());
 		System.out.println("New Network Size: " + partial.getTotalLayers());
 		double[] out = partial.getOutputVector(new double[] {1, 1, 1, 1, 1});
