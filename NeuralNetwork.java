@@ -10,27 +10,23 @@ import java.io.Serializable;
 public class NeuralNetwork implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Layer> allLayers;
-	private int totalLayers;
 
 	//Creates a new network with a single compute layer.
 	public NeuralNetwork(Layer layer) {
 		this.allLayers = new ArrayList<Layer>();
 		//Add the layer to the List of all ordered layers. This uses only a clone of the given layer.
 		allLayers.add(layer.clone());
-		//Setting the amount of total layers.
-		this.totalLayers = 1;
 	}
 	
 	//Creates an empty network.
 	public NeuralNetwork() {
 		this.allLayers = new ArrayList<Layer>();
-		this.totalLayers = 0;
 	}
 	
 	//Returns a clone of the desire layer.
 	public Layer getLayer(int layerNumber) {
 		//Return null if the layer number is out of range.
-		if(layerNumber < 0 || layerNumber >= totalLayers) {
+		if(layerNumber < 0 || layerNumber >= allLayers.size()) {
 			return null;
 		}
 		//Return the copy of the layer.
@@ -64,7 +60,6 @@ public class NeuralNetwork implements Serializable {
 		//Create a new network.
 		NeuralNetwork out = new NeuralNetwork();
 		out.allLayers = (ArrayList<Layer>) this.allLayers.clone();
-		out.totalLayers = this.totalLayers;
 		return out;
 	}
 
@@ -95,7 +90,6 @@ public class NeuralNetwork implements Serializable {
 		//Check if the network has any layers.
 		if(allLayers.size() == 0) {
 			allLayers.add(layer);
-			this.totalLayers++;
 			return;
 		}
 		//Check if the last layers output is equal to the input size of the given layer.
@@ -103,7 +97,6 @@ public class NeuralNetwork implements Serializable {
 			throw new LayerSizeMismatchException("The output size of the last layer is not equal to the input size of the layer given.");
 		}
 		allLayers.add(layer);
-		this.totalLayers++;
 	}
 
 	public double[] getOutputVector(double[] input) throws InputSizeMismatchException, NoLayersException {
@@ -142,7 +135,7 @@ public class NeuralNetwork implements Serializable {
 	
 	//Get the total amount of layers.
 	public int getTotalLayers() {
-		return this.totalLayers;
+		return this.allLayers.size();
 	}
 
 	//Create a neural network model.
