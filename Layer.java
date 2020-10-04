@@ -104,7 +104,7 @@ public abstract class Layer implements Serializable {
 	//Applies the non-linear function when given the raw output vector. In other words activate.
 	public abstract double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException;
 
-	//Applies the non-linear function when given the raw output vector. In other words activate.
+	//Applies the non-linear function when given the raw output. In other words activate.
 	public abstract double applyNonLinearFunction(double rawOutputValue);
 
 	//The derivative of the non-linear function.
