@@ -98,6 +98,7 @@ public abstract class Layer implements Serializable {
 		return 2 * (applyNonLinearFunction(rawValue) - expectedValue) * applyDerivedNonLinearFunction(rawValue);
 	}
 
+	//Clone function to copy the layer.
 	public abstract Layer clone();
 	
 	//Applies the non-linear function when given the raw output vector. In other words activate.
