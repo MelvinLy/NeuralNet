@@ -85,5 +85,10 @@ public class Example {
 		System.out.println("New Network Size: " + partial.getTotalLayers());
 		double[] out = partial.getOutputVector(new double[] {1, 1, 1, 1, 1});
 		System.out.printf("New Network Output: [%f, %f]\n", out[0], out[1]);
+		System.out.println("\n--------------------------");
+		System.out.println("Layer Clone Testing");
+		System.out.println("--------------------------\n");
+		Layer clonedLayer = partial.getLayer(0);
+		System.out.println(Arrays.deepToString(clonedLayer.weightMatrix));
 	}
 }
