@@ -42,7 +42,7 @@ public abstract class Layer implements Serializable {
 		}
 	}
 
-	//Creates a new layer. Try increasing the weight factor to avoid the vanishing graident. This is defaulted to (1 / inputSize). Set to 1 if this is the first layer.
+	//Creates a new layer. Try changing the weight factor to avoid the vanishing graident. This is defaulted to (1 / inputSize). Set to 1 if this is the first layer.
 	public Layer(int inputSize, int outputSize, double weightFactor) {
 		this.inputSize = inputSize;
 		this.outputSize = outputSize;
