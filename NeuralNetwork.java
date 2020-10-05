@@ -152,6 +152,31 @@ public class NeuralNetwork implements Serializable {
 		return this.allLayers.size();
 	}
 
+	//Manually fit the network with a given gradient set.
+	public void manualFit(double[][][] weightGradients, double[][] biasGradients, double learningRate) {
+		//Loop to apply the needed adjustments to the weight values.
+		for(int a = 0; a < allLayers.size(); a++) {
+			//Fetch current layer.
+			Layer currentLayer = allLayers.get(a);
+			//Current weight matrix.
+			double[][] currentWeightMatrix = currentLayer.weightMatrix;
+			//Current biases for the layer.
+			double[] currentBiases = currentLayer.biases;
+			//Loop through the weight matrix. The amount of rows is equal to the output size and the amount of biases there are in the layer.
+			for(int b = 0; b < currentWeightMatrix.length; b++) {
+				//Current matrix row.
+				double[] currentWeightRow = currentWeightMatrix[b];
+				//Loop through the row.
+				for(int c = 0; c < currentWeightRow.length; c++) {
+					//Adjust the weight based on the average of all designed nudges multiplied by the learning rate.
+					currentWeightRow[c] = currentWeightRow[c] - weightGradients[a][b][c] * learningRate;
+				}
+				//Update the currentBiases.
+				currentBiases[b] = currentBiases[b] - biasGradients[a][b] * learningRate;
+			}
+		}
+	}
+	
 	//Similar to fit, but does not apply the adjustments but returns the positive gradient vector.
 	//The index "0" are the gradients of the weight.
 	//The index "1" are the gradients for the bias.
