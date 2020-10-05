@@ -20,12 +20,12 @@ public class SigmoidLayer extends Layer {
 
 	@Override
 	public double[] applyNonLinearFunction(double[] rawOutputVector) throws InputSizeMismatchException {
-		if(rawOutputVector.length != this.outputSize) {
+		if(rawOutputVector.length != this.getOutputSize()) {
 			throw new InputSizeMismatchException("Input size give is not equal to the expected output size.");
 		}
 		//Create a vector for the output.
-		double[] out = new double[this.outputSize];
-		for(int a = 0; a < this.outputSize; a++) {
+		double[] out = new double[this.getOutputSize()];
+		for(int a = 0; a < this.getOutputSize(); a++) {
 			out[a] = sigmoidFunction(rawOutputVector[a]);
 		}
 		return out;
@@ -34,7 +34,7 @@ public class SigmoidLayer extends Layer {
 	@Override
 	public Layer clone() {
 		//Create new layer.
-		Layer out = new SigmoidLayer(this.inputSize, this.outputSize);
+		Layer out = new SigmoidLayer(this.getInputSize(), this.getOutputSize());
 		//Copy the weight matrix.
 		out.weightMatrix = this.weightMatrix.clone();
 		//Copy the bias matrix.

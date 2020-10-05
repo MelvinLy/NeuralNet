@@ -5,17 +5,13 @@ public abstract class Layer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected double[][] weightMatrix;
 	protected double[] biases;
-	protected int inputSize;
-	protected int outputSize;
 
 	//Please note the cost function used is (predicted - expected) ^ 2.
 
 	//Creates a new layer.
 	public Layer(int inputSize, int outputSize) {
-		this.inputSize = inputSize;
-		this.outputSize = outputSize;
-		this.weightMatrix = new double[this.outputSize][this.inputSize];
-		this.biases = new double[this.outputSize];
+		this.weightMatrix = new double[outputSize][inputSize];
+		this.biases = new double[outputSize];
 		Random ran = new Random();
 		//Populate weightMatrix with random variables.
 		//Loop through the rows.
@@ -42,12 +38,19 @@ public abstract class Layer implements Serializable {
 		}
 	}
 
+	//Get input size.
+	public int getInputSize() {
+		return this.weightMatrix[0].length;
+	}
+	
+	public int getOutputSize() {
+		return this.weightMatrix.length;
+	}
+	
 	//Creates a new layer. Try changing the weight factor to avoid the vanishing graident. This is defaulted to (1 / inputSize). Set to 1 if this is the first layer.
 	public Layer(int inputSize, int outputSize, double weightFactor) {
-		this.inputSize = inputSize;
-		this.outputSize = outputSize;
-		this.weightMatrix = new double[this.outputSize][this.inputSize];
-		this.biases = new double[this.outputSize];
+		this.weightMatrix = new double[outputSize][inputSize];
+		this.biases = new double[outputSize];
 		Random ran = new Random();
 		//Populate weightMatrix with random variables.
 		for(int a = 0; a < outputSize; a++) {
@@ -74,16 +77,16 @@ public abstract class Layer implements Serializable {
 
 	//Returns the output vector before applying the non-linear function.
 	public double[] getRawOutput(double[] input) throws InputSizeMismatchException {
-		if(input.length != this.inputSize) {
+		if(input.length != this.getInputSize()) {
 			throw new InputSizeMismatchException("Input's size given is not equal to the expected layer input size.");
 		}
 		//Create an output vector that has the size of the output.
-		double[] out = new double[this.outputSize];
-		for(int a = 0; a < this.outputSize; a++) {
+		double[] out = new double[this.getOutputSize()];
+		for(int a = 0; a < this.getOutputSize(); a++) {
 			//Compute product of each row.
 			double[] weightRow = weightMatrix[a];
 			double currentProduct = 0;
-			for(int b = 0; b < this.inputSize; b++) {
+			for(int b = 0; b < this.getInputSize(); b++) {
 				currentProduct = currentProduct + weightRow[b] * input[b];
 			}
 			//Comment out bias if the layer should not have biases.
