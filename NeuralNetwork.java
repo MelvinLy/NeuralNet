@@ -153,6 +153,8 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	//Similar to fit, but does not apply the adjustments but returns the positive gradient vector.
+	//The index "0" are the gradients of the weight.
+	//The index "1" are the gradients for the bias.
 	public Object[] getGradients(double[][] inputs, double[][] expectedOutputs) throws NoLayersException, OutputSizeMismatchException, InputSizeMismatchException {
 		//Check that there are layers in the network.
 		if(this.allLayers.size() == 0) {

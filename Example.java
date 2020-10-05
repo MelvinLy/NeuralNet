@@ -48,29 +48,27 @@ public class Example {
 		System.out.println("Training...");
 		System.out.println("--------------------------\n");
 		long start = System.currentTimeMillis();
-		network.fit(
-			new double[][] {
-				{0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-				{1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-				{1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-				{1, 0, 1, 1, 1, 0, 0, 0, 0, 0},
-				{1, 1, 1, 1 ,1 ,1, 0, 0, 0, 0},
-				{0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
-				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-				{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			}, 
-			new double[][] {
-				{0, 1},
-				{1, 0},
-				{1, 0},
-				{1, 0},
-				{1, 0},
-				{0, 1},
-				{0, 0},
-				{1, 1},
-			}, 
-			LEARNING_CYCLES, LEARNING_RATE
-		);
+		double[][] inputs = new double[][] {
+			{0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
+			{1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+			{1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+			{1, 0, 1, 1, 1, 0, 0, 0, 0, 0},
+			{1, 1, 1, 1 ,1 ,1, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 1, 1, 1, 0, 1},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		};
+		double[][] expectedOutputs = new double[][] {
+			{0, 1},
+			{1, 0},
+			{1, 0},
+			{1, 0},
+			{1, 0},
+			{0, 1},
+			{0, 0},
+			{1, 1},
+		};
+		network.fit(inputs, expectedOutputs, LEARNING_CYCLES, LEARNING_RATE);
 		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
 
 		testTenToTwoNetwork(network);
@@ -89,6 +87,18 @@ public class Example {
 		System.out.println("Layer Clone Testing");
 		System.out.println("--------------------------\n");
 		Layer clonedLayer = partial.getLayer(0);
-		System.out.println(Arrays.deepToString(clonedLayer.weightMatrix));
+		System.out.println("Cloned Layer Weight Matrix: " + Arrays.deepToString(clonedLayer.weightMatrix));
+		
+		System.out.println("\n--------------------------");
+		System.out.println("Get Gradient Test");
+		System.out.println("--------------------------\n");
+		network = new NeuralNetwork(new SigmoidLayer(10, 5));
+		network.addLayer(new SigmoidLayer(5, 3));
+		network.addLayer(new SigmoidLayer(3, 2));
+		Object[] gradients = network.getGradients(inputs, expectedOutputs);
+		double[][][] weightGradient = (double[][][]) gradients[0];
+		double[][] biasGradient = (double[][]) gradients[1];
+		System.out.println("Weight Gradients: " + Arrays.deepToString(weightGradient));
+		System.out.println("Bias Gradients: " + Arrays.deepToString(biasGradient));
 	}
 }
