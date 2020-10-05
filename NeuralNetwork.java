@@ -345,6 +345,7 @@ public class NeuralNetwork implements Serializable {
 				biasAdjustmentMatrix[i][c] = biasAdjustmentMatrix[i][c] / inputs.length;
 			}
 		}
+		//First index contains the adjustment matrix for the weights. Second index contains the adjustment matrix for the biases.
 		Object[] out = new Object[2];
 		out[0] = adjustmentMatrices;
 		out[1] = biasAdjustmentMatrix;
