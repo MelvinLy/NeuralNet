@@ -113,7 +113,7 @@ public class Example {
 			gradients = network.getGradients(inputs, expectedOutputs);
 			weightGradient = (double[][][]) gradients[0];
 			biasGradient = (double[][]) gradients[1];
-			network.manualFit(weightGradient, biasGradient, LEARNING_RATE);
+			network.manualFit(weightGradient, biasGradient, LEARNING_RATE, 0, network.getTotalLayers() - 1);
 		}
 		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
 		testTenToTwoNetwork(network);

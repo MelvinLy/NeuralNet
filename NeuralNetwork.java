@@ -153,15 +153,28 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	//Manually fit the network with a given gradient set.
-	public void manualFit(double[][][] weightGradients, double[][] biasGradients, double learningRate) {
+	//Applies the changes from the starting layer inclusive and stops at ending layer exclusive.
+	public void manualFit(double[][][] weightGradients, double[][] biasGradients, double learningRate, int startingLayer, int endingLayer) throws LayerSizeMismatchException {
+		//Index of weightGradients and biasGradients.
+		int i = 0;
+		if(endingLayer - startingLayer > weightGradients.length || endingLayer - startingLayer > biasGradients.length) {
+			throw new LayerSizeMismatchException("There are not enough gradients to match the amount of layer.");
+		}
 		//Loop to apply the needed adjustments to the weight values.
-		for(int a = 0; a < allLayers.size(); a++) {
+		for(int a = startingLayer; a < endingLayer; a++, i++) {
 			//Fetch current layer.
 			Layer currentLayer = allLayers.get(a);
 			//Current weight matrix.
 			double[][] currentWeightMatrix = currentLayer.weightMatrix;
 			//Current biases for the layer.
 			double[] currentBiases = currentLayer.biases;
+			//Check if the current layer and weight matrix match in size.
+			if(currentLayer.getInputSize() != weightGradients[a][0].length || currentLayer.getOutputSize() != weightGradients[i].length) {
+				throw new LayerSizeMismatchException("Layer number "  + a + "'s size does not match with the current gradient matrix size.");
+			}
+			else if(biasGradients[i].length != currentLayer.biases.length) {
+				throw new LayerSizeMismatchException("Layer number " + a + "'s size does not match with the current bias vectpr size.");
+			}
 			//Loop through the weight matrix. The amount of rows is equal to the output size and the amount of biases there are in the layer.
 			for(int b = 0; b < currentWeightMatrix.length; b++) {
 				//Current matrix row.
