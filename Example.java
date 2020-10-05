@@ -95,7 +95,7 @@ public class Example {
 		network = new NeuralNetwork(new SigmoidLayer(10, 5));
 		network.addLayer(new SigmoidLayer(5, 3));
 		network.addLayer(new SigmoidLayer(3, 2));
-		Object[] gradients = network.getGradients(inputs, expectedOutputs);
+		Object[] gradients = network.getGradients(inputs, expectedOutputs, 0);
 		double[][][] weightGradient = (double[][][]) gradients[0];
 		double[][] biasGradient = (double[][]) gradients[1];
 		System.out.println("Weight Gradients: " + Arrays.deepToString(weightGradient));
@@ -110,12 +110,28 @@ public class Example {
 		System.out.println("--------------------------\n");
 		start = System.currentTimeMillis();
 		for(int a = 0; a < LEARNING_CYCLES; a++) {
-			gradients = network.getGradients(inputs, expectedOutputs);
+			gradients = network.getGradients(inputs, expectedOutputs, 0);
 			weightGradient = (double[][][]) gradients[0];
 			biasGradient = (double[][]) gradients[1];
-			network.manualFit(weightGradient, biasGradient, LEARNING_RATE, 0, network.getTotalLayers() - 1);
+			network.manualFit(weightGradient, biasGradient, LEARNING_RATE, 0, network.getTotalLayers() - 2);
 		}
 		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
 		testTenToTwoNetwork(network);
+		
+		System.out.println("Weight Gradients: " + Arrays.deepToString((double[][][]) network.getGradients(inputs, expectedOutputs, 0)[0]) + "\n");
+		
+		System.out.println("--------------------------");
+		System.out.println("Training Part 2...");
+		System.out.println("--------------------------\n");
+		start = System.currentTimeMillis();
+		for(int a = 0; a < LEARNING_CYCLES; a++) {
+			gradients = network.getGradients(inputs, expectedOutputs, network.getTotalLayers() - 2);
+			weightGradient = (double[][][]) gradients[0];
+			biasGradient = (double[][]) gradients[1];
+			network.manualFit(weightGradient, biasGradient, LEARNING_RATE, network.getTotalLayers() - 2, network.getTotalLayers());
+		}
+		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
+		testTenToTwoNetwork(network);
+		System.out.println("Weight Gradients: " + Arrays.deepToString((double[][][]) network.getGradients(inputs, expectedOutputs, 0)[0]));
 	}
 }
