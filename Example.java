@@ -147,5 +147,19 @@ public class Example {
 		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
 		testTenToTwoNetwork(network);
 		System.out.println("Weight Gradients: " + Arrays.deepToString((double[][][]) network.getGradients(inputs, expectedOutputs, 0)[0]));
+		
+		System.out.println("--------------------------");
+		System.out.println("Training Part 4...");
+		System.out.println("--------------------------\n");
+		start = System.currentTimeMillis();
+		for(int a = 0; a < LEARNING_CYCLES; a++) {
+			gradients = network.getGradients(inputs, expectedOutputs, 0);
+			weightGradient = (double[][][]) gradients[0];
+			biasGradient = (double[][]) gradients[1];
+			network.manualFit(weightGradient, biasGradient, LEARNING_RATE, 0, network.getTotalLayers());
+		}
+		System.out.printf("Training took: %.2fs\n\n" , (System.currentTimeMillis() - start) / 1000.0);
+		testTenToTwoNetwork(network);
+		System.out.println("Weight Gradients: " + Arrays.deepToString((double[][][]) network.getGradients(inputs, expectedOutputs, 0)[0]));
 	}
 }
