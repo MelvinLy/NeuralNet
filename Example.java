@@ -32,7 +32,7 @@ public class Example {
 		System.out.printf("Cost: %f\n\n", network.getCost(predictedOutput, expectedOutput));
 	}
 	
-	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, IOException, NoLayersException {
+	public static void runSimpleCase() throws InputSizeMismatchException, OutputSizeMismatchException, LayerSizeMismatchException, IOException, NoLayersException, LayerDoesNotExistException {
 		final int LEARNING_CYCLES = 100000;
 		final double LEARNING_RATE = 0.1;
 		
