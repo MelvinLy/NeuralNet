@@ -191,7 +191,7 @@ public class NeuralNetwork implements Serializable {
 	}
 	
 	//Similar to fit, but does not apply the adjustments but returns the positive gradient vector.
-	//The end index is inclusive.
+	//The end index is inclusive right to left.
 	public Object[] getGradients(double[][] inputs, double[][] expectedOutputs, int end) throws NoLayersException, OutputSizeMismatchException, InputSizeMismatchException, LayerDoesNotExistException {
 		//Check that there are layers in the network.
 		if(this.allLayers.size() == 0) {
