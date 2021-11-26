@@ -205,7 +205,7 @@ public class NeuralNetwork implements Serializable {
 		double[][][] adjustmentMatrices = new double[this.getTotalLayers() - end][][];
 		//Create the bias adjustment matrix.
 		double[][] biasAdjustmentMatrix =  new double[this.getTotalLayers() - end][];
-		//The index for adjustmenMatrices and biasAdjustmustmentMatrix.
+		//The index for adjustmentMatrices and biasAdjustmustmentMatrix.
 		int i = adjustmentMatrices.length - 1;
 		//Loop through to create appropriate size of the weight adjustment and bias adjustment for each layer.
 		//Create the 3D adjustment matrix.
@@ -252,7 +252,7 @@ public class NeuralNetwork implements Serializable {
 			for(int c = 0; c < predictedOutput.length; c++) {
 				derivatives[allLayers.size() - 1][c] = lastLayer.dCostByDRaw(expectedOutputs[b][c], allRawOutputs[allLayers.size() - 1][c]);
 			}
-			//The index for adjustmenMatrices and biasAdjustmustmentMatrix.
+			//The index for adjustmentMatrices and biasAdjustmustmentMatrix.
 			i = adjustmentMatrices.length - 1;
 			//We can also create the derivatives for a Generative Adversarial Network here by changing the expected output value to what was not expected. The value that the generator would want to fool the classifier.
 			//For each row in the weight matrix, the column corresponds with the previous activation row, when in vertical vector form.
